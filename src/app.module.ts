@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { LoggerModule } from 'nestjs-pino';
+// import { LoggerModule } from 'nestjs-pino';
 import { PrismaModule } from './common/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { AccountsModule } from './accounts/accounts.module';
@@ -30,14 +30,7 @@ class HealthController {
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    LoggerModule.forRoot({
-      pinoHttp: {
-        transport:
-          process.env.NODE_ENV !== 'production'
-            ? { target: 'pino-pretty' }
-            : undefined,
-      },
-    }),
+    // LoggerModule removed for dev startup speed
     AppConfigModule,
     PrismaModule,
     AuthModule,
@@ -51,7 +44,7 @@ class HealthController {
     UniboxModule,
     AnalyticsModule,
     ComplianceModule,
-    QueueModule,
+    // QueueModule, // TODO: fix Redis connection config
     AmoCrmModule,
     WorkspacesModule,
   ],

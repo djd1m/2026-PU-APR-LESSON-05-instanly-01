@@ -1,7 +1,7 @@
 import { Processor, WorkerHost } from '@nestjs/bullmq';
 import { Injectable, Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../common/prisma.service';
 import { QUEUES, CONCURRENCY } from '../queues/queue.constants';
 import { ConfigService } from '@nestjs/config';
 import { createDecipheriv } from 'crypto';

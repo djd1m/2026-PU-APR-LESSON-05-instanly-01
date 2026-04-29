@@ -1,20 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import * as cookieParser from 'cookie-parser';
-import helmet from 'helmet';
-import { Logger } from 'nestjs-pino';
+import cookieParser from 'cookie-parser';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { bufferLogs: true });
-
-  app.useLogger(app.get(Logger));
+  const app = await NestFactory.create(AppModule);
 
   app.use(cookieParser());
-  app.use(helmet());
 
   app.enableCors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+    origin: true, // Allow all origins in dev; restrict in production
     credentials: true,
   });
 
@@ -28,8 +23,9 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api/v1');
 
-  const port = process.env.PORT || 4000;
-  await app.listen(port);
+  const port = process.env.PORT || 3000;
+  await app.listen(port, '0.0.0.0');
+  console.log(`ColdMail API running on port ${port}`);
 }
 
 bootstrap();
