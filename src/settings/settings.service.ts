@@ -1,6 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../common/prisma.service';
 import { EncryptionService } from '../common/encryption.service';
+import { ResendService } from '../email/resend.service';
 import { UpdateSettingsDto } from './dto';
 import * as net from 'net';
 
@@ -9,6 +10,7 @@ export class SettingsService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly encryption: EncryptionService,
+    private readonly resendService: ResendService,
   ) {}
 
   async getSettings(userId: string) {
@@ -28,6 +30,9 @@ export class SettingsService {
       openai_api_key: settings.openai_api_key
         ? this.maskApiKey(this.encryption.decrypt(settings.openai_api_key))
         : null,
+      resend_api_key: settings.resend_api_key
+        ? this.maskApiKey(this.encryption.decrypt(settings.resend_api_key))
+        : null,
     };
   }
 
@@ -39,7 +44,7 @@ export class SettingsService {
 
     const data: Record<string, unknown> = { ...dto };
 
-    // Encrypt sensitive fields
+    // Encrypt sensitive fields — openai_api_key
     if (dto.openai_api_key !== undefined) {
       if (dto.openai_api_key === '') {
         data.openai_api_key = null;
@@ -49,6 +54,19 @@ export class SettingsService {
       } else {
         // Masked value sent back — don't update
         delete data.openai_api_key;
+      }
+    }
+
+    // Encrypt sensitive fields — resend_api_key
+    if (dto.resend_api_key !== undefined) {
+      if (dto.resend_api_key === '') {
+        data.resend_api_key = null;
+      } else if (!dto.resend_api_key.startsWith('re_***')) {
+        // Only update if not masked value
+        data.resend_api_key = this.encryption.encrypt(dto.resend_api_key);
+      } else {
+        // Masked value sent back — don't update
+        delete data.resend_api_key;
       }
     }
 
@@ -117,6 +135,10 @@ export class SettingsService {
     }
   }
 
+  async testResend(apiKey: string): Promise<{ success: boolean; message: string }> {
+    return this.resendService.testApiKey(apiKey);
+  }
+
   private maskApiKey(key: string): string {
     if (key.length <= 8) return '***';
     return key.slice(0, 5) + '***' + key.slice(-4);
@@ -127,6 +149,9 @@ export class SettingsService {
       ...settings,
       openai_api_key: settings.openai_api_key
         ? this.maskApiKey(this.encryption.decrypt(settings.openai_api_key))
+        : null,
+      resend_api_key: settings.resend_api_key
+        ? this.maskApiKey(this.encryption.decrypt(settings.resend_api_key))
         : null,
     };
   }

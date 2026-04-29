@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://212.192.0.33:4000';
 
 type TabId = 'profile' | 'system' | 'integrations' | 'billing';
 
@@ -17,6 +17,9 @@ interface UserSettings {
   daily_limit_per_account: number;
   default_smtp_host: string | null;
   default_smtp_port: number;
+  email_provider: string;
+  resend_api_key: string | null;
+  resend_from_email: string | null;
   tracking_domain: string | null;
   auto_unsubscribe_link: boolean;
   sender_company_name: string | null;
@@ -158,6 +161,44 @@ function StatusMessage({ message, type }: { message: string; type: 'success' | '
   );
 }
 
+function RadioOption({
+  value,
+  selected,
+  onChange,
+  label,
+  description,
+}: {
+  value: string;
+  selected: boolean;
+  onChange: (v: string) => void;
+  label: string;
+  description?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => onChange(value)}
+      className={`flex items-start gap-3 p-4 rounded-xl border transition cursor-pointer ${
+        selected
+          ? 'border-blue-500 bg-blue-500/10'
+          : 'border-[#2a2d34] bg-[#111318] hover:border-[#3a3d44]'
+      }`}
+    >
+      <div
+        className={`mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
+          selected ? 'border-blue-500' : 'border-[#4a4d54]'
+        }`}
+      >
+        {selected && <div className="w-2 h-2 rounded-full bg-blue-500" />}
+      </div>
+      <div className="text-left">
+        <div className="text-sm text-white font-medium">{label}</div>
+        {description && <div className="text-xs text-gray-500 mt-0.5">{description}</div>}
+      </div>
+    </button>
+  );
+}
+
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<TabId>('profile');
   const [settings, setSettings] = useState<UserSettings | null>(null);
@@ -169,10 +210,12 @@ export default function SettingsPage() {
   const [savingSmtp, setSavingSmtp] = useState(false);
   const [savingTracking, setSavingTracking] = useState(false);
   const [savingCompliance, setSavingCompliance] = useState(false);
+  const [savingProvider, setSavingProvider] = useState(false);
 
   // Test states
   const [testingOpenai, setTestingOpenai] = useState(false);
   const [testingSmtp, setTestingSmtp] = useState(false);
+  const [testingResend, setTestingResend] = useState(false);
 
   // Status messages
   const [statusMessage, setStatusMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
@@ -192,6 +235,11 @@ export default function SettingsPage() {
   const [autoUnsubscribe, setAutoUnsubscribe] = useState(true);
   const [companyName, setCompanyName] = useState('');
   const [contactInfo, setContactInfo] = useState('');
+
+  // Email provider state
+  const [emailProvider, setEmailProvider] = useState('smtp');
+  const [resendApiKey, setResendApiKey] = useState('');
+  const [resendFromEmail, setResendFromEmail] = useState('');
 
   // SMTP test fields
   const [testSmtpHost, setTestSmtpHost] = useState('');
@@ -225,6 +273,9 @@ export default function SettingsPage() {
       setAutoUnsubscribe(data.auto_unsubscribe_link);
       setCompanyName(data.sender_company_name || '');
       setContactInfo(data.sender_contact_info || '');
+      setEmailProvider(data.email_provider || 'smtp');
+      setResendApiKey(data.resend_api_key || '');
+      setResendFromEmail(data.resend_from_email || '');
     } catch {
       // Settings not loaded — user might not be logged in
     } finally {
@@ -307,6 +358,28 @@ export default function SettingsPage() {
       showStatus('Ошибка проверки SMTP', 'error');
     } finally {
       setTestingSmtp(false);
+    }
+  };
+
+  const handleTestResend = async () => {
+    if (!resendApiKey || resendApiKey.includes('***')) {
+      showStatus('Введите Resend API ключ для проверки', 'error');
+      return;
+    }
+    setTestingResend(true);
+    try {
+      const res = await fetch(`${API_URL}/api/v1/settings/test-resend`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ api_key: resendApiKey }),
+      });
+      const data = await res.json();
+      showStatus(data.message, data.success ? 'success' : 'error');
+    } catch {
+      showStatus('Ошибка проверки Resend API ключа', 'error');
+    } finally {
+      setTestingResend(false);
     }
   };
 
@@ -537,53 +610,116 @@ export default function SettingsPage() {
                 />
               </SectionCard>
 
-              {/* SMTP Defaults */}
-              <SectionCard title="SMTP по умолчанию" description="Настройки SMTP для новых аккаунтов">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <FieldLabel label="SMTP хост" />
-                    <TextInput value={smtpHost} onChange={setSmtpHost} placeholder="smtp.yandex.ru" />
-                  </div>
-                  <div>
-                    <FieldLabel label="Порт" />
-                    <TextInput
-                      value={String(smtpPort)}
-                      onChange={(v) => setSmtpPort(Number(v) || 587)}
-                      type="number"
-                    />
-                  </div>
+              {/* Email Provider */}
+              <SectionCard title="Email провайдер" description="Выберите способ отправки писем">
+                <div className="grid grid-cols-2 gap-3">
+                  <RadioOption
+                    value="smtp"
+                    selected={emailProvider === 'smtp'}
+                    onChange={setEmailProvider}
+                    label="SMTP"
+                    description="Стандартная отправка через SMTP сервер"
+                  />
+                  <RadioOption
+                    value="resend"
+                    selected={emailProvider === 'resend'}
+                    onChange={setEmailProvider}
+                    label="Resend"
+                    description="Отправка через Resend API (resend.com)"
+                  />
                 </div>
+
+                {emailProvider === 'resend' && (
+                  <div className="space-y-4 pt-2">
+                    <div>
+                      <FieldLabel label="Resend API Key" description="Ваш API ключ из resend.com/api-keys" />
+                      <div className="flex gap-2">
+                        <div className="flex-1">
+                          <TextInput
+                            value={resendApiKey}
+                            onChange={setResendApiKey}
+                            placeholder="re_..."
+                            type="password"
+                          />
+                        </div>
+                        <TestButton onClick={handleTestResend} loading={testingResend} label="Проверить" />
+                      </div>
+                    </div>
+                    <div>
+                      <FieldLabel label="From Email" description="Верифицированный email отправителя в Resend" />
+                      <TextInput
+                        value={resendFromEmail}
+                        onChange={setResendFromEmail}
+                        placeholder="noreply@yourdomain.com"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <SaveButton
                   onClick={() =>
                     saveSection(
                       {
-                        default_smtp_host: smtpHost || null,
-                        default_smtp_port: smtpPort,
+                        email_provider: emailProvider,
+                        resend_api_key: resendApiKey || null,
+                        resend_from_email: resendFromEmail || null,
                       } as Partial<UserSettings>,
-                      setSavingSmtp,
+                      setSavingProvider,
                     )
                   }
-                  loading={savingSmtp}
+                  loading={savingProvider}
                 />
-                {/* SMTP Test */}
-                <div className="border-t border-[#2a2d34] pt-4 mt-2">
-                  <h4 className="text-sm text-gray-400 mb-3">Проверить SMTP подключение</h4>
-                  <div className="grid grid-cols-2 gap-4 mb-3">
-                    <TextInput value={testSmtpHost} onChange={setTestSmtpHost} placeholder="smtp.yandex.ru" />
-                    <TextInput
-                      value={String(testSmtpPort)}
-                      onChange={(v) => setTestSmtpPort(Number(v) || 587)}
-                      type="number"
-                      placeholder="587"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4 mb-3">
-                    <TextInput value={testSmtpUser} onChange={setTestSmtpUser} placeholder="user@domain.ru" />
-                    <TextInput value={testSmtpPass} onChange={setTestSmtpPass} placeholder="Пароль" type="password" />
-                  </div>
-                  <TestButton onClick={handleTestSmtp} loading={testingSmtp} label="Проверить подключение" />
-                </div>
               </SectionCard>
+
+              {/* SMTP Defaults — shown when SMTP provider selected */}
+              {emailProvider === 'smtp' && (
+                <SectionCard title="SMTP по умолчанию" description="Настройки SMTP для новых аккаунтов">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <FieldLabel label="SMTP хост" />
+                      <TextInput value={smtpHost} onChange={setSmtpHost} placeholder="smtp.yandex.ru" />
+                    </div>
+                    <div>
+                      <FieldLabel label="Порт" />
+                      <TextInput
+                        value={String(smtpPort)}
+                        onChange={(v) => setSmtpPort(Number(v) || 587)}
+                        type="number"
+                      />
+                    </div>
+                  </div>
+                  <SaveButton
+                    onClick={() =>
+                      saveSection(
+                        {
+                          default_smtp_host: smtpHost || null,
+                          default_smtp_port: smtpPort,
+                        } as Partial<UserSettings>,
+                        setSavingSmtp,
+                      )
+                    }
+                    loading={savingSmtp}
+                  />
+                  {/* SMTP Test */}
+                  <div className="border-t border-[#2a2d34] pt-4 mt-2">
+                    <h4 className="text-sm text-gray-400 mb-3">Проверить SMTP подключение</h4>
+                    <div className="grid grid-cols-2 gap-4 mb-3">
+                      <TextInput value={testSmtpHost} onChange={setTestSmtpHost} placeholder="smtp.yandex.ru" />
+                      <TextInput
+                        value={String(testSmtpPort)}
+                        onChange={(v) => setTestSmtpPort(Number(v) || 587)}
+                        type="number"
+                        placeholder="587"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 mb-3">
+                      <TextInput value={testSmtpUser} onChange={setTestSmtpUser} placeholder="user@domain.ru" />
+                      <TextInput value={testSmtpPass} onChange={setTestSmtpPass} placeholder="Пароль" type="password" />
+                    </div>
+                    <TestButton onClick={handleTestSmtp} loading={testingSmtp} label="Проверить подключение" />
+                  </div>
+                </SectionCard>
+              )}
 
               {/* Tracking */}
               <SectionCard title="Трекинг" description="Домен для отслеживания открытий и кликов">

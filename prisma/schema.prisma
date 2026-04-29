@@ -117,6 +117,11 @@ model UserSettings {
   default_smtp_host     String?
   default_smtp_port     Int      @default(587)
 
+  // Email provider
+  email_provider        String   @default("smtp") // "smtp" | "resend"
+  resend_api_key        String?  // encrypted
+  resend_from_email     String?  // verified sender in Resend
+
   // Tracking
   tracking_domain       String?
 

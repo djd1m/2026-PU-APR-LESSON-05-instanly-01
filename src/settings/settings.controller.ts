@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SettingsService } from './settings.service';
-import { UpdateSettingsDto, TestSmtpDto, TestOpenaiDto } from './dto';
+import { UpdateSettingsDto, TestSmtpDto, TestOpenaiDto, TestResendDto } from './dto';
 
 @Controller('settings')
 @UseGuards(JwtAuthGuard)
@@ -34,5 +34,10 @@ export class SettingsController {
   @Post('test-openai')
   async testOpenai(@Body() dto: TestOpenaiDto) {
     return this.settingsService.testOpenai(dto.api_key);
+  }
+
+  @Post('test-resend')
+  async testResend(@Body() dto: TestResendDto) {
+    return this.settingsService.testResend(dto.api_key);
   }
 }

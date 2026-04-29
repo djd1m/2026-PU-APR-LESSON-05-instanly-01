@@ -4,9 +4,11 @@ import {
   IsInt,
   IsNumber,
   IsBoolean,
+  IsIn,
   Min,
   Max,
   MinLength,
+  IsEmail,
 } from 'class-validator';
 
 export class UpdateSettingsDto {
@@ -65,6 +67,20 @@ export class UpdateSettingsDto {
   @Max(65535)
   default_smtp_port?: number;
 
+  // Email provider
+  @IsOptional()
+  @IsString()
+  @IsIn(['smtp', 'resend'])
+  email_provider?: string;
+
+  @IsOptional()
+  @IsString()
+  resend_api_key?: string;
+
+  @IsOptional()
+  @IsString()
+  resend_from_email?: string;
+
   // Tracking
   @IsOptional()
   @IsString()
@@ -104,6 +120,12 @@ export class TestSmtpDto {
 }
 
 export class TestOpenaiDto {
+  @IsString()
+  @MinLength(1)
+  api_key: string;
+}
+
+export class TestResendDto {
   @IsString()
   @MinLength(1)
   api_key: string;

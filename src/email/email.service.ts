@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import { ConfigService } from '@nestjs/config';
 import { EncryptionService } from '../common/encryption.service';
+import { ResendService } from './resend.service';
 
 export interface SendEmailParams {
   account: {
@@ -15,6 +16,10 @@ export interface SendEmailParams {
   subject: string;
   body: string;
   messageId?: string; // internal tracking ID
+  // Resend provider fields (optional)
+  provider?: 'smtp' | 'resend';
+  resendApiKey?: string; // encrypted
+  resendFromEmail?: string;
 }
 
 export interface SendEmailResult {
@@ -29,9 +34,55 @@ export class EmailService {
   constructor(
     private readonly encryption: EncryptionService,
     private readonly configService: ConfigService,
+    private readonly resendService: ResendService,
   ) {}
 
   async sendEmail(params: SendEmailParams): Promise<SendEmailResult> {
+    const { provider, resendApiKey, resendFromEmail } = params;
+
+    // If provider is resend and API key is available, use Resend
+    if (provider === 'resend' && resendApiKey) {
+      return this.sendViaResend(params, resendApiKey, resendFromEmail);
+    }
+
+    // Default: use SMTP
+    return this.sendViaSmtp(params);
+  }
+
+  private async sendViaResend(
+    params: SendEmailParams,
+    encryptedApiKey: string,
+    fromEmail?: string,
+  ): Promise<SendEmailResult> {
+    const { account, to, subject, body, messageId } = params;
+
+    const apiKey = this.encryption.decrypt(encryptedApiKey);
+    const from = fromEmail || account.email;
+
+    // Prepare body with tracking
+    let htmlBody = body;
+    if (messageId) {
+      htmlBody = this.addTrackingPixel(htmlBody, messageId);
+      htmlBody = this.addClickTracking(htmlBody, messageId);
+    }
+
+    const result = await this.resendService.sendEmail({
+      apiKey,
+      from,
+      to,
+      subject,
+      html: htmlBody,
+    });
+
+    this.logger.log(`Email sent via Resend to ${to}, id: ${result.id}`);
+
+    return {
+      messageId: result.id,
+      accepted: [to],
+    };
+  }
+
+  private async sendViaSmtp(params: SendEmailParams): Promise<SendEmailResult> {
     const { account, to, subject, body, messageId } = params;
 
     // Decrypt SMTP credentials
