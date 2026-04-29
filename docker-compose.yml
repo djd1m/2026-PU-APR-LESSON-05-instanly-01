@@ -1,32 +1,39 @@
 version: "3.9"
 
-services:
-  nginx:
-    image: nginx:1.25-alpine
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/certs:/etc/nginx/certs:ro
-    depends_on:
-      - app
-    restart: unless-stopped
+# ColdMail.ru — ports chosen to avoid conflicts with other containers on this VPS
+# App: 4000, Frontend: 4001, Grafana: 4002, PG: 5440, Redis: 6382, Prometheus: 9092
 
+services:
   app:
     build:
       context: .
       dockerfile: Dockerfile
+    ports:
+      - "4000:3000"
     env_file: .env
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
       interval: 30s
       timeout: 10s
       retries: 3
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "4001:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:4000
+    depends_on:
+      - app
+    restart: unless-stopped
 
   worker-email:
     build:
@@ -35,8 +42,10 @@ services:
     command: node dist/workers/email.js
     env_file: .env
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
   worker-warmup:
@@ -46,8 +55,10 @@ services:
     command: node dist/workers/warmup.js
     env_file: .env
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
   worker-imap:
@@ -57,8 +68,10 @@ services:
     command: node dist/workers/imap.js
     env_file: .env
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
   worker-ai:
@@ -68,7 +81,8 @@ services:
     command: node dist/workers/ai.js
     env_file: .env
     depends_on:
-      - redis
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
   postgres:
@@ -76,11 +90,11 @@ services:
     environment:
       POSTGRES_DB: coldmail
       POSTGRES_USER: coldmail
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-coldmail_secret_2026}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - coldmail_postgres_data:/var/lib/postgresql/data
     ports:
-      - "5432:5432"
+      - "5440:5432"
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U coldmail"]
@@ -92,9 +106,9 @@ services:
     image: redis:7-alpine
     command: redis-server --appendonly yes
     volumes:
-      - redis_data:/data
+      - coldmail_redis_data:/data
     ports:
-      - "6379:6379"
+      - "6382:6379"
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -106,9 +120,9 @@ services:
     image: prom/prometheus:v2.51.0
     volumes:
       - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
-      - prometheus_data:/prometheus
+      - coldmail_prometheus_data:/prometheus
     ports:
-      - "9090:9090"
+      - "9092:9090"
     restart: unless-stopped
 
   grafana:
@@ -116,15 +130,15 @@ services:
     environment:
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
     volumes:
-      - grafana_data:/var/lib/grafana
+      - coldmail_grafana_data:/var/lib/grafana
     ports:
-      - "3001:3000"
+      - "4002:3000"
     depends_on:
       - prometheus
     restart: unless-stopped
 
 volumes:
-  postgres_data:
-  redis_data:
-  prometheus_data:
-  grafana_data:
+  coldmail_postgres_data:
+  coldmail_redis_data:
+  coldmail_prometheus_data:
+  coldmail_grafana_data:
