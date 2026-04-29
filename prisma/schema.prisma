@@ -92,8 +92,45 @@ model User {
   amocrm_integration AmoCrmIntegration?
   owned_workspaces   Workspace[]        @relation("owned_workspaces")
   workspace_members  WorkspaceMember[]
+  settings           UserSettings?
 
   @@map("users")
+}
+
+model UserSettings {
+  id                    String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id               String   @unique @db.Uuid
+
+  // AI
+  openai_api_key        String?  // encrypted
+  openai_model          String   @default("gpt-4o-mini")
+  ai_max_tokens         Int      @default(500)
+  ai_temperature        Float    @default(0.7)
+
+  // Sending defaults
+  timezone              String   @default("Europe/Moscow")
+  sending_start_hour    Int      @default(9)
+  sending_end_hour      Int      @default(18)
+  daily_limit_per_account Int    @default(50)
+
+  // SMTP defaults
+  default_smtp_host     String?
+  default_smtp_port     Int      @default(587)
+
+  // Tracking
+  tracking_domain       String?
+
+  // Compliance (38-FZ)
+  auto_unsubscribe_link Boolean  @default(true)
+  sender_company_name   String?
+  sender_contact_info   String?
+
+  created_at            DateTime @default(now())
+  updated_at            DateTime @updatedAt
+
+  user                  User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("user_settings")
 }
 
 model EmailAccount {

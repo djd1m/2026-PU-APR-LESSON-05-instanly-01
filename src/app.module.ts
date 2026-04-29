@@ -17,6 +17,7 @@ import { QueueModule } from './queues/queue.module';
 import { AppConfigModule } from './config/config.module';
 import { AmoCrmModule } from './integrations/amocrm/amocrm.module';
 import { WorkspacesModule } from './workspaces/workspaces.module';
+import { SettingsModule } from './settings/settings.module';
 import { Controller, Get } from '@nestjs/common';
 
 @Controller('health')
@@ -47,6 +48,7 @@ class HealthController {
     // QueueModule, // TODO: fix Redis connection config
     AmoCrmModule,
     WorkspacesModule,
+    SettingsModule,
   ],
   controllers: [HealthController],
 })
