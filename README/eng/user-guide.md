@@ -1,13 +1,20 @@
 # ColdMail.ru -- User Guide
 
+**Version:** 0.2 | **Date:** 2026-04-29
+
+---
+
 ## Getting Started
 
-### Registration
+### Registration and Login
 
-1. Navigate to `https://coldmail.ru/register`
-2. Enter your email address, first name, last name, and password
-3. Confirm your email address via the verification link
-4. You will be logged in automatically and redirected to the Dashboard
+1. Navigate to `https://coldmail.ru/login`
+2. If you do not have an account yet, click **Create Account**
+3. Enter your email address, first name, last name, and password
+4. Confirm your email address via the verification link sent to your inbox
+5. Return to the `/login` page and enter your email and password to sign in
+
+If you already have an account, simply enter your credentials on the login page. The system uses JWT-based authentication with an access token (15 minutes) and a refresh token (7 days). When your session expires, you will be redirected to the login page automatically.
 
 All new accounts start on the **Free** plan (1 email account, 50 emails/day, 20 AI credits/month).
 
@@ -18,6 +25,8 @@ After logging in, you will see the main dashboard with:
 - **KPI cards** -- total emails sent, open rate, reply rate, active campaigns
 - **Recent activity** -- latest campaign actions and replies
 - **Warmup status** -- health indicators for connected email accounts
+
+---
 
 ## Connecting Email Accounts
 
@@ -54,6 +63,19 @@ Connection settings are auto-filled:
 3. Enter IMAP host and port for reply tracking
 4. Test the connection and save
 
+### Resend (Alternative Email Provider)
+
+In addition to traditional SMTP, ColdMail.ru supports sending via **Resend** -- a cloud-based email API service.
+
+1. Navigate to **Settings** -> **System** tab
+2. In the **Email Provider** section, select **Resend**
+3. Enter your **Resend API Key** (obtain it from resend.com)
+4. Enter your **From Email** -- the sender address verified in Resend
+5. Click **Save**
+6. Use the **Test** button to verify the connection to the Resend API
+
+> **When to use Resend:** If you do not need individual SMTP accounts (Yandex, Mail.ru) and prefer sending through a single API with high deliverability. Resend is particularly convenient for technical teams that already use it in other projects.
+
 ### Account Health Score
 
 Each account displays a **health score** (0-100) based on:
@@ -62,6 +84,8 @@ Each account displays a **health score** (0-100) based on:
 - Warmup progress
 - Bounce rate
 - Sending reputation
+
+---
 
 ## Warmup
 
@@ -98,17 +122,77 @@ Monitor per-account warmup metrics:
 - Inbox rate percentage
 - Warmup interaction history
 
+---
+
 ## Campaign Wizard
 
-Creating a campaign follows a 4-step wizard.
+Creating a campaign follows a 4-step wizard. Navigate to **Campaigns** and click **Create Campaign** to begin.
 
 ### Step 1: Campaign Name
 
-Enter a descriptive name for internal reference (e.g., "SaaS founders -- Q2 2026").
+Enter a descriptive name for internal reference (e.g., "SaaS founders -- Q2 2026"). This name is only visible to you and your team; recipients will not see it.
 
-### Step 2: Audience (Leads)
+### Step 2: Sending Accounts
 
-Add leads to the campaign:
+- The system loads all connected email accounts
+- Select the accounts you want to use for this campaign by checking them
+- It is recommended to select 3-5 warmed-up accounts for rotation
+- If no accounts are available, connect at least one in the **Email Accounts** section first
+
+### Step 3: Schedule
+
+- **Timezone** -- defaults to Europe/Moscow
+- **Sending hours** -- start and end of the sending window (e.g., 09:00-18:00)
+- **Days of the week** -- select which days are allowed for sending (default: Mon-Fri)
+- **Daily limit** -- maximum emails per day for this campaign
+
+### Step 4: Review and Create
+
+- Review the summary: campaign name, selected accounts, schedule, limits
+- Click **Create Campaign** to save
+- The campaign is created in `draft` status -- you can add leads and email sequences later on the campaign detail page
+
+---
+
+## Campaign Detail and Edit Page
+
+After creating a campaign, you can open it to view metrics, edit settings, manage leads, and control sending.
+
+### Campaign Metrics
+
+The top of the page displays KPI cards:
+
+| Metric  | Description                        |
+|---------|------------------------------------|
+| Sent    | Total emails successfully sent     |
+| Opens   | Emails opened (tracked via pixel)  |
+| Replies | Leads who responded                |
+| Bounced | Undeliverable emails               |
+
+### Editing Settings
+
+On the campaign page you can modify:
+- **Campaign name**
+- **Sending hours** (start and end)
+- **Days of the week** for sending
+- **Daily limit** per campaign
+
+An "Unsaved changes" indicator appears when you modify any field. Click **Save** to apply changes.
+
+### Status Management
+
+Available actions depend on the current campaign status:
+
+| Action         | Description                                        |
+|----------------|----------------------------------------------------|
+| Start / Resume | Launch or resume email sending                     |
+| Pause          | Temporarily stop sending                           |
+| Reset stats    | Reset statistics (sent, opens, replies, bounced)   |
+| Delete         | Delete the campaign (requires confirmation)        |
+
+### Lead Management
+
+The campaign page includes a leads section:
 
 **CSV Import:**
 1. Click **Import CSV**
@@ -126,7 +210,7 @@ ivan@example.com,Ivan,Petrov,TechCorp,CTO,SaaS
 maria@example.com,Maria,Sidorova,DigitalAgency,CEO,Marketing
 ```
 
-### Step 3: Email Sequence
+### Email Sequence
 
 Build a sequence of up to 5 steps:
 
@@ -146,14 +230,53 @@ Sequences automatically stop for a lead when:
 - The lead's email bounces
 - You manually pause or stop the campaign
 
-### Step 4: Settings
+---
 
-- **Assign email accounts** -- select which accounts send emails for this campaign
-- **Daily sending limit** -- maximum emails per day for this campaign
-- **Schedule** -- set sending hours (e.g., 09:00-18:00 MSK, weekdays only)
-- **Timezone** -- defaults to Moscow (MSK)
+## Settings
 
-Click **Launch Campaign** to activate.
+The **Settings** section is accessible from the sidebar and contains several tabs.
+
+### Profile Tab
+
+Basic user account information.
+
+### System Tab
+
+Manage all system variables through the web UI (no need to edit `.env` files):
+
+**AI (OpenAI):**
+- OpenAI API key
+- Model selection (default: gpt-4o-mini)
+- Maximum tokens per generation
+- Generation temperature (0-1)
+
+**Default Sending Schedule:**
+- Timezone
+- Sending window start and end hours
+- Daily limit per account
+
+**Email Provider:**
+- Provider selection: **SMTP** or **Resend**
+- For SMTP: default host and port, connection testing
+- For Resend: API key, From Email address, API testing
+
+**Tracking:**
+- Tracking domain for open/click monitoring
+
+**Compliance:**
+- Automatic unsubscribe link toggle
+- Sender company name
+- Sender contact information
+
+### Integrations Tab
+
+Configuration for external service integrations (AmoCRM -- planned).
+
+### Billing Tab
+
+Plan management and payment (owner role only).
+
+---
 
 ## AI Email Generation
 
@@ -185,6 +308,8 @@ When creating a sequence step, toggle **AI Personalize**. The system will:
 - Mention the target audience explicitly
 - Keep the initial prompt under 500 words
 
+---
+
 ## Unibox (Unified Inbox)
 
 Unibox aggregates replies from all your email accounts into a single interface.
@@ -215,6 +340,8 @@ Click the status dropdown on any message to update the lead's pipeline stage.
 
 Click **Reply** in the reading pane to respond directly from the email account that received the message. Your reply is sent via the original SMTP connection.
 
+---
+
 ## Analytics
 
 Navigate to **Analytics** in the sidebar.
@@ -239,6 +366,8 @@ Navigate to **Analytics** in the sidebar.
 
 The analytics dashboard displays an area chart showing daily send volume, open rate, and reply rate trends over time.
 
+---
+
 ## Frequently Asked Questions
 
 **Q: How many email accounts can I connect?**
@@ -249,6 +378,12 @@ A: Typically 14-21 days. The system will notify you when the account reaches Rea
 
 **Q: What is the daily sending limit per account?**
 A: Yandex and Mail.ru enforce approximately 500 emails/day per account. ColdMail defaults to 50/day and increases gradually.
+
+**Q: What is the difference between SMTP and Resend?**
+A: SMTP uses credentials from a specific mailbox (Yandex, Mail.ru, etc.) to send emails. Resend is a cloud-based email API service that does not require SMTP server configuration. Use SMTP when sending on behalf of individual team members; use Resend for centralized API-based sending.
+
+**Q: How do I configure system variables?**
+A: All system parameters (AI, schedule, email provider, tracking, compliance) are managed through the web UI at **Settings** -> **System** tab. Editing `.env` files is not required.
 
 **Q: Does ColdMail support English-language emails?**
 A: The AI generator is optimized for Russian B2B emails, but you can write and send emails in any language.

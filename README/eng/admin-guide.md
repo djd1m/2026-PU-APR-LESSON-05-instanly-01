@@ -1,5 +1,9 @@
 # ColdMail.ru -- Administrator Guide
 
+**Version:** 0.2 | **Date:** 2026-04-29
+
+---
+
 ## Roles and Permissions
 
 ColdMail.ru uses a role-based access control model within workspaces.
@@ -19,6 +23,8 @@ Owners can invite members to their workspace. Members can manage campaigns, emai
 | Growth  | 5              | 500        | 200           | Yes    |
 | Pro     | 25             | 2,500      | 1,000         | Yes    |
 | Agency  | Unlimited      | 10,000     | 5,000         | Yes    |
+
+---
 
 ## Configuration Reference (.env)
 
@@ -69,15 +75,65 @@ Owners can invite members to their workspace. Members can manage campaigns, emai
 | `DEFAULT_FROM_NAME`| `ColdMail.ru`    | Default sender display name  |
 | `TRACKING_DOMAIN`  | `track.coldmail.ru`| Open/click tracking domain |
 
-## SMTP Account Management
+### Resend (Optional)
 
-### Supported Providers
+| Variable           | Default | Description                                      |
+|--------------------|---------|--------------------------------------------------|
+| `RESEND_API_KEY`   | --      | Resend API key (required if using Resend provider)|
+| `RESEND_FROM_EMAIL`| --      | Verified sender address for Resend               |
+
+---
+
+## Email Provider Management
+
+### Choosing a Provider: SMTP vs Resend
+
+ColdMail.ru supports two email sending methods:
+
+| Characteristic            | SMTP                                     | Resend                               |
+|---------------------------|------------------------------------------|--------------------------------------|
+| Connection type           | Direct SMTP connection to mail server    | REST API                             |
+| Configuration             | Host, port, username, password per account | Single API key + sender address    |
+| Supported services        | Yandex, Mail.ru, any Custom SMTP         | Resend (resend.com)                  |
+| Warmup                    | Supported                                | Not applicable                       |
+| Sender personalization    | Each account is a separate sender        | Single sender address                |
+| Best for                  | Sending on behalf of individual employees | Centralized API-based sending       |
+
+### Configuring the Provider via UI
+
+Users with the **owner** role can select and configure the email provider through the web interface:
+
+1. Navigate to **Settings** -> **System** tab
+2. In the **Email Provider** section, select **SMTP** or **Resend**
+3. Fill in the corresponding fields:
+   - **SMTP**: default host and port (used when creating new accounts)
+   - **Resend**: API key and From Email address
+4. Use the **Test** button to verify the connection
+5. Click **Save**
+
+> **Note:** Switching the provider to Resend does not disable individual SMTP accounts (Yandex, Mail.ru). They continue to function. Resend serves as an additional sending channel.
+
+### Resend Configuration
+
+To use Resend as a provider:
+
+1. Register at [resend.com](https://resend.com)
+2. Add and verify your domain
+3. Create an API key in the API Keys section
+4. In ColdMail.ru, go to **Settings** -> **System** -> **Email Provider**
+5. Select **Resend**, enter the API key and From Email
+6. Test the connection with the **Test Resend** button
+
+Resend parameters are stored in the `settings` database table and encrypted in the same manner as SMTP credentials.
+
+### Supported SMTP Providers
 
 | Provider      | SMTP Host           | SMTP Port | IMAP Host           | IMAP Port | Daily Limit |
 |---------------|---------------------|:---------:|---------------------|:---------:|:-----------:|
 | Yandex.Mail   | `smtp.yandex.ru`    | 465 (SSL) | `imap.yandex.ru`    | 993       | 500         |
 | Mail.ru       | `smtp.mail.ru`      | 465 (SSL) | `imap.mail.ru`      | 993       | 500         |
 | Custom SMTP   | User-defined        | Varies    | User-defined        | Varies    | Varies      |
+| Resend        | N/A (API-based)     | N/A       | N/A                 | N/A       | Per plan    |
 
 ### Provider-Specific Notes
 
@@ -92,9 +148,44 @@ Owners can invite members to their workspace. Members can manage campaigns, emai
 - Enable IMAP access in Mail.ru settings
 - Similar daily sending limits as Yandex
 
+**Resend:**
+- Requires a verified domain in the Resend dashboard
+- API key must have sending permissions
+- Daily limits depend on the Resend plan (Free: 100/day, Pro: 50,000/day)
+- No warmup needed -- Resend manages deliverability internally
+
 ### Credential Security
 
-All SMTP and IMAP passwords are encrypted at rest using AES-256-GCM. The encryption key is stored in the `ENCRYPTION_KEY` environment variable and must never be committed to version control or logged.
+All SMTP and IMAP passwords, as well as Resend API keys, are encrypted at rest using AES-256-GCM. The encryption key is stored in the `ENCRYPTION_KEY` environment variable and must never be committed to version control or logged.
+
+---
+
+## System Variables Management via UI
+
+Starting with version 0.2, all key system parameters can be configured through the web interface (**Settings** -> **System** tab). This allows workspace owners to manage configuration without server access or editing `.env` files.
+
+### Parameters Available via UI
+
+| Section              | Parameters                                    | Description                            |
+|----------------------|-----------------------------------------------|----------------------------------------|
+| **AI (OpenAI)**      | API key, model, max tokens, temperature       | AI email generation settings           |
+| **Sending Schedule** | Timezone, sending hours, daily limit          | Default values for new campaigns       |
+| **Email Provider**   | Type (SMTP/Resend), host/port or API key      | Sending method selection               |
+| **Tracking**         | Tracking domain                               | For open/click tracking pixel          |
+| **Compliance**       | Unsubscribe link, company name, contact info  | 152-FZ and anti-spam compliance        |
+
+### Configuration Priority
+
+Parameters set via the UI are stored in the `settings` database table and take priority over values from the `.env` file. If a value is not set in the UI, the system falls back to the `.env` value (if present) or the built-in default.
+
+### Connection Testing
+
+The UI provides test buttons for each integration:
+- **Test OpenAI** -- validates the API key and checks model availability
+- **Test SMTP** -- tests the connection to the SMTP server with the specified parameters
+- **Test Resend** -- validates the Resend API key
+
+---
 
 ## Monitoring (Prometheus + Grafana)
 
@@ -137,6 +228,8 @@ Default Grafana credentials: `admin` / value of `GRAFANA_ADMIN_PASSWORD`.
 | Disk Space Low       | Disk usage > 85%                 | Warning  | Email          |
 | Warmup Degradation   | Avg inbox rate < 70%             | Warning  | Email          |
 
+---
+
 ## Backups
 
 ### PostgreSQL Backup Schedule
@@ -164,6 +257,8 @@ Test restore procedures monthly. Verify that:
 - Database restores without errors
 - Application starts successfully against restored data
 - Email account credentials decrypt correctly
+
+---
 
 ## Troubleshooting
 
@@ -207,6 +302,11 @@ docker compose logs worker-ai --tail=50
 docker compose exec postgres psql -U coldmail -c "SELECT count(*) FROM pg_stat_activity;"
 # Consider increasing DATABASE_POOL_SIZE or adding PgBouncer
 ```
+
+**Problem: Resend API errors**
+- **403 Forbidden**: API key is invalid or revoked. Regenerate at resend.com and update in Settings.
+- **422 Unprocessable**: From Email does not match a verified domain. Verify the domain in Resend dashboard.
+- **429 Rate Limited**: Sending volume exceeded Resend plan limits. Upgrade the Resend plan or switch to SMTP.
 
 ### Log Inspection
 
