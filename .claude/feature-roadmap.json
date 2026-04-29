@@ -1,0 +1,171 @@
+{
+  "project": "coldmail-ru",
+  "updated_at": "2026-04-29",
+  "features": [
+    {
+      "id": "F001",
+      "name": "auth-system",
+      "title": "Аутентификация и авторизация",
+      "description": "Регистрация, логин, JWT httpOnly cookies, refresh tokens",
+      "priority": "must",
+      "status": "next",
+      "depends_on": [],
+      "files": ["src/auth/"],
+      "estimated_effort": "M"
+    },
+    {
+      "id": "F002",
+      "name": "email-accounts",
+      "title": "Управление email-аккаунтами",
+      "description": "Подключение Yandex/Mail.ru/SMTP, тестирование соединения, AES-256 шифрование credentials",
+      "priority": "must",
+      "status": "next",
+      "depends_on": ["F001"],
+      "files": ["src/accounts/"],
+      "estimated_effort": "L"
+    },
+    {
+      "id": "F003",
+      "name": "warmup-engine",
+      "title": "Warmup Engine",
+      "description": "Автоматический прогрев email-аккаунтов для Yandex/Mail.ru. Gradual volume increase, peer pool, health monitoring",
+      "priority": "must",
+      "status": "planned",
+      "depends_on": ["F002"],
+      "files": ["src/warmup/"],
+      "estimated_effort": "XL"
+    },
+    {
+      "id": "F004",
+      "name": "lead-management",
+      "title": "Управление лидами",
+      "description": "Импорт CSV, деduplication, статусы лидов, переменные для шаблонов",
+      "priority": "must",
+      "status": "next",
+      "depends_on": ["F001"],
+      "files": ["src/leads/"],
+      "estimated_effort": "M"
+    },
+    {
+      "id": "F005",
+      "name": "ai-email-generation",
+      "title": "AI-генерация писем",
+      "description": "OpenAI GPT-4o-mini интеграция, персонализация per-lead, tone selection, quality guardrails",
+      "priority": "must",
+      "status": "planned",
+      "depends_on": ["F004"],
+      "files": ["src/ai/"],
+      "estimated_effort": "L"
+    },
+    {
+      "id": "F006",
+      "name": "email-sequences",
+      "title": "Email Sequences",
+      "description": "Цепочки 3-5 шагов, delay настройки, авто-стоп при ответе, variable substitution",
+      "priority": "must",
+      "status": "planned",
+      "depends_on": ["F004", "F005"],
+      "files": ["src/sequences/"],
+      "estimated_effort": "L"
+    },
+    {
+      "id": "F007",
+      "name": "campaign-management",
+      "title": "Управление кампаниями",
+      "description": "Campaign wizard (4 steps), запуск/пауза/стоп, email scheduler, daily limits",
+      "priority": "must",
+      "status": "planned",
+      "depends_on": ["F002", "F004", "F006"],
+      "files": ["src/campaigns/"],
+      "estimated_effort": "XL"
+    },
+    {
+      "id": "F008",
+      "name": "email-sending",
+      "title": "Email Sending Engine",
+      "description": "SMTP отправка через BullMQ, tracking pixel, click tracking, retry logic",
+      "priority": "must",
+      "status": "planned",
+      "depends_on": ["F002", "F007"],
+      "files": ["src/email/"],
+      "estimated_effort": "L"
+    },
+    {
+      "id": "F009",
+      "name": "unibox",
+      "title": "Unified Inbox (Unibox)",
+      "description": "IMAP polling, reply detection, bounce detection, OOO handling, unified interface",
+      "priority": "must",
+      "status": "planned",
+      "depends_on": ["F008"],
+      "files": ["src/unibox/"],
+      "estimated_effort": "L"
+    },
+    {
+      "id": "F010",
+      "name": "analytics",
+      "title": "Аналитика",
+      "description": "KPI cards (sent/opened/replied/bounced), area chart, per-campaign/per-account metrics, date filter",
+      "priority": "must",
+      "status": "planned",
+      "depends_on": ["F008"],
+      "files": ["src/analytics/"],
+      "estimated_effort": "M"
+    },
+    {
+      "id": "F011",
+      "name": "compliance-checker",
+      "title": "Compliance Checker (38-ФЗ)",
+      "description": "Проверка текста письма на соответствие 38-ФЗ, предупреждения, opt-out enforcement",
+      "priority": "should",
+      "status": "planned",
+      "depends_on": ["F006"],
+      "files": ["src/compliance/"],
+      "estimated_effort": "S"
+    },
+    {
+      "id": "F012",
+      "name": "dark-ui-shell",
+      "title": "Frontend UI Shell",
+      "description": "Dark theme React SPA, icon sidebar, secondary sidebar, routing, design tokens from Instantly reference",
+      "priority": "must",
+      "status": "next",
+      "depends_on": [],
+      "files": ["src/frontend/"],
+      "estimated_effort": "L"
+    },
+    {
+      "id": "F013",
+      "name": "amocrm-integration",
+      "title": "AmoCRM Integration",
+      "description": "Bidirectional sync leads/deals, webhook receiver, OAuth2 connection",
+      "priority": "should",
+      "status": "planned",
+      "depends_on": ["F004", "F009"],
+      "files": ["src/integrations/"],
+      "estimated_effort": "L"
+    },
+    {
+      "id": "F014",
+      "name": "ab-testing",
+      "title": "A/B Testing",
+      "description": "Split test subject lines and email bodies, winner auto-selection",
+      "priority": "should",
+      "status": "planned",
+      "depends_on": ["F006", "F010"],
+      "files": ["src/campaigns/"],
+      "estimated_effort": "M"
+    },
+    {
+      "id": "F015",
+      "name": "agency-dashboard",
+      "title": "Agency Multi-Client Dashboard",
+      "description": "Workspace/tenant isolation, client-level analytics, team management",
+      "priority": "should",
+      "status": "planned",
+      "depends_on": ["F001", "F007", "F010"],
+      "files": ["src/workspaces/"],
+      "estimated_effort": "XL"
+    }
+  ]
+}
