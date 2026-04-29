@@ -10,3 +10,5 @@
 | INS-006 | NestJS route order matters for param vs static paths | Active | 0 | 2026-04-29 |
 | INS-007 | Telegram banned in RF — never reference as channel | Active | 0 | 2026-04-29 |
 | INS-008 | 152-FZ requires all PII on Russian servers since July 2025 | Active | 0 | 2026-04-29 |
+| INS-009 | Prisma schema must evolve incrementally with features | Active | 0 | 2026-04-29 |
+| INS-010 | AmoCRM OAuth tokens expire — need auto-refresh | Active | 0 | 2026-04-29 |
