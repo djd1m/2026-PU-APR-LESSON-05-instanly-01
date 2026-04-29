@@ -16,3 +16,5 @@
 | INS-012 | Multi-provider email sending (SMTP + Resend) pattern | Active | 0 | 2026-04-29 |
 | INS-013 | Backend must be restarted after code changes (ts-node) | Active | 1 | 2026-04-29 |
 | INS-014 | Logout must clear cookies with SAME options as set | Active | 0 | 2026-04-29 |
+| INS-015 | Deterministic UUIDs must use hex chars only | Active | 1 | 2026-04-29 |
+| INS-016 | BullMQ queue names cannot contain colons | Active | 1 | 2026-04-29 |
