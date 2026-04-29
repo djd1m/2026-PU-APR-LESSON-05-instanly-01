@@ -48,6 +48,9 @@ const VARIANTS = {
     hypothesis: "Агентства выберут за безлимит аккаунтов + warmup Yandex/Mail.ru",
     risk: "Может быть слишком нишевым для массового рынка",
     bestFor: "Сегмент 1: Digital-агентства",
+    expertScore: { impact:4, feasibility:3, speed:5, market:4, defensibility:3, total:19 },
+    expertVerdict: "Сильный стартовый сегмент — агентства платят быстро и приводят клиентов. Но безлимит аккаунтов технически дорогой (инфраструктура warmup). Лучший вариант для быстрого запуска, риск — узкая ниша.",
+    expertAdvice: "Начинайте с агентств как beachhead, но закладывайте архитектуру для расширения на B2B-стартапы. Агентства — ваши евангелисты.",
     landing: {
       hl: "Безлимитный cold email для агентств",
       sub: "Подключите 100+ email-аккаунтов за 1 цену. Warmup для Yandex и Mail.ru из коробки. Серверы в РФ.",
@@ -91,6 +94,9 @@ const VARIANTS = {
     hypothesis: "Предприниматели выберут за AI-персонализацию, заменяющую SDR",
     risk: "AI-качество может разочаровать если русский текст слабый",
     bestFor: "Сегмент 2: B2B-стартапы и предприниматели",
+    expertScore: { impact:5, feasibility:4, speed:4, market:5, defensibility:4, total:22 },
+    expertVerdict: "РЕКОМЕНДУЕМЫЙ. Самый большой сегмент (40%), AI-персонализация — главный тренд 2026. GPT/YandexGPT уже достаточно хороши для русского B2B-текста. Максимальный WOM-потенциал: 'AI написал — клиент ответил'.",
+    expertAdvice: "Это ваш core positioning. AI-first — не фича, а стратегия. Инвестируйте в качество промптов для русского B2B. Aha Moment (AI пишет 10 писем за 30 сек) — самый сильный из трёх вариантов.",
     landing: {
       hl: "AI заменит вашего менеджера по продажам",
       sub: "Нейросеть пишет персональные письма каждому лиду. 50K писем/мес — без SDR-команды. Полный compliance 152-ФЗ.",
@@ -134,6 +140,9 @@ const VARIANTS = {
     hypothesis: "SMB-команды выберут за deliverability + compliance + интеграцию с CRM",
     risk: "Enterprise-позиционирование может отпугнуть мелких клиентов",
     bestFor: "Сегмент 3: Отделы продаж SMB",
+    expertScore: { impact:3, feasibility:2, speed:2, market:3, defensibility:5, total:15 },
+    expertVerdict: "Самый защищённый moat (compliance + CRM-интеграции), но самый медленный старт. Deliverability на 95% — инженерно сложная задача. AmoCRM/Bitrix24 интеграции требуют значительных усилий. Лучше как Phase 2 после PMF.",
+    expertAdvice: "Не начинайте с этого варианта — слишком долго до первого value. Но обязательно добавьте compliance-messaging и CRM-интеграцию в roadmap после запуска.",
     landing: {
       hl: "Cold email с гарантией доставки",
       sub: "95% inbox rate для Yandex и Mail.ru. Интеграция с AmoCRM и Bitrix24. Ваши данные — на серверах в РФ.",
@@ -195,7 +204,7 @@ let state = {
   showCJM: true,
   view: 'explore', // explore | compare | builder | score | locked
   builder: { landing:null, onboarding:null, aha:null, dash:null, pay:null, inv:null },
-  scores: { A:{impact:0,feasibility:0,speed:0}, B:{impact:0,feasibility:0,speed:0}, C:{impact:0,feasibility:0,speed:0} },
+  scores: { A:{impact:4,feasibility:3,speed:5}, B:{impact:5,feasibility:4,speed:4}, C:{impact:3,feasibility:2,speed:2} },
   locked: null
 };
 
@@ -580,46 +589,170 @@ function renderScore() {
     { id:'speed', label:'⚡ Speed to Value', desc:'Как быстро клиент получит первый результат?' }
   ];
 
+  const expertCriteria = [
+    { id:'impact', label:'💥 Impact' },
+    { id:'feasibility', label:'⚙️ Feasibility' },
+    { id:'speed', label:'⚡ Speed to Value' },
+    { id:'market', label:'📈 Market Size' },
+    { id:'defensibility', label:'🛡️ Defensibility' }
+  ];
+
+  // Find winner
+  const sorted = Object.entries(VARIANTS).sort((a,b) => b[1].expertScore.total - a[1].expertScore.total);
+  const winnerKey = sorted[0][0];
+
   return `
     <div class="fade-in">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Expert Recommendation Banner -->
+      <div class="mb-6 p-6 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-emerald-500/5 to-transparent border border-emerald-500/30 glow-emerald">
+        <div class="flex items-start gap-4">
+          <div class="text-4xl">🏆</div>
+          <div class="flex-1">
+            <div class="flex items-center gap-2 mb-1">
+              <h3 class="text-xl font-bold text-emerald-400">Рекомендация: ${winnerKey} — ${VARIANTS[winnerKey].name}</h3>
+              <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-medium">${VARIANTS[winnerKey].expertScore.total}/25</span>
+            </div>
+            <p class="text-gray-300 text-sm mb-3">${VARIANTS[winnerKey].expertVerdict}</p>
+            <div class="p-3 rounded-lg bg-white/5 border border-white/10">
+              <div class="text-xs text-emerald-400 font-medium mb-1">💡 Совет</div>
+              <div class="text-sm text-gray-300">${VARIANTS[winnerKey].expertAdvice}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Expert Score Comparison Table -->
+      <div class="mb-6 rounded-2xl border border-white/10 bg-white/5 p-6">
+        <h3 class="text-lg font-bold mb-4 text-gray-200">📊 Экспертный скоринг (Claude AI)</h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-white/10">
+                <th class="text-left py-2 px-3 text-gray-400 font-medium">Критерий</th>
+                ${Object.entries(VARIANTS).map(([k,v]) => `
+                  <th class="text-center py-2 px-3 ${v.txt} font-semibold">${v.emoji} ${k} ${k===winnerKey?'🏆':''}</th>
+                `).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              ${expertCriteria.map(c => `
+                <tr class="border-b border-white/5">
+                  <td class="py-2.5 px-3 text-gray-300">${c.label}</td>
+                  ${Object.entries(VARIANTS).map(([k,v]) => {
+                    const score = v.expertScore[c.id];
+                    const barColor = k==='A'?'bg-blue-500':k==='B'?'bg-emerald-500':'bg-violet-500';
+                    const maxInRow = Math.max(...Object.values(VARIANTS).map(vv => vv.expertScore[c.id]));
+                    const isMax = score === maxInRow;
+                    return `
+                      <td class="py-2.5 px-3 text-center">
+                        <div class="flex items-center justify-center gap-2">
+                          <div class="flex gap-0.5 flex-1">
+                            ${[1,2,3,4,5].map(n => `
+                              <div class="flex-1 h-2.5 rounded-full ${n <= score ? barColor : 'bg-white/10'}"></div>
+                            `).join('')}
+                          </div>
+                          <span class="text-xs font-bold ${isMax ? (k==='A'?'text-blue-400':k==='B'?'text-emerald-400':'text-violet-400') : 'text-gray-500'} w-6">${score}</span>
+                        </div>
+                      </td>
+                    `;
+                  }).join('')}
+                </tr>
+              `).join('')}
+              <tr class="border-t-2 border-white/20">
+                <td class="py-3 px-3 text-gray-200 font-bold">ИТОГО</td>
+                ${Object.entries(VARIANTS).map(([k,v]) => `
+                  <td class="py-3 px-3 text-center">
+                    <span class="text-xl font-bold ${k===winnerKey ? v.txt : 'text-gray-400'}">${v.expertScore.total}</span>
+                    <span class="text-xs text-gray-500">/25</span>
+                  </td>
+                `).join('')}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Variant Cards with Expert Verdicts -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
         ${Object.entries(VARIANTS).map(([k,v]) => {
           const total = criteria.reduce((sum, c) => sum + (state.scores[k][c.id] || 0), 0);
+          const isWinner = k === winnerKey;
           return `
-            <div class="rounded-2xl border ${v.bdr} ${v.bg} p-6 ${v.glow}">
+            <div class="rounded-2xl border ${v.bdr} ${v.bg} p-6 ${isWinner ? v.glow : ''} ${isWinner ? 'ring-2 '+v.ring : ''}">
+              ${isWinner ? '<div class="text-center text-xs font-medium text-emerald-400 bg-emerald-500/10 rounded-full px-3 py-1 mb-3 inline-block w-full">🏆 РЕКОМЕНДОВАН</div>' : ''}
               <div class="text-center mb-4">
                 <div class="text-3xl mb-1">${v.emoji}</div>
                 <div class="font-bold ${v.txt} text-lg">${k}: ${v.name}</div>
                 <div class="text-xs text-gray-500">${v.bestFor}</div>
               </div>
-              <div class="space-y-4">
+
+              <!-- Expert Verdict -->
+              <div class="mb-4 p-3 rounded-xl bg-white/5 border border-white/10">
+                <div class="text-xs text-yellow-400 font-medium mb-1">🧠 Экспертная оценка</div>
+                <div class="text-xs text-gray-300 leading-relaxed">${v.expertVerdict}</div>
+              </div>
+
+              <!-- Expert Advice -->
+              <div class="mb-4 p-3 rounded-xl bg-white/5 border border-white/10">
+                <div class="text-xs ${v.txt} font-medium mb-1">💡 Рекомендация</div>
+                <div class="text-xs text-gray-400 leading-relaxed">${v.expertAdvice}</div>
+              </div>
+
+              <!-- User Scoring (adjustable) -->
+              <div class="mb-3">
+                <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Ваша оценка (редактируемая)</div>
                 ${criteria.map(c => `
-                  <div>
-                    <div class="flex justify-between text-sm mb-1">
-                      <span class="text-gray-300">${c.label}</span>
+                  <div class="mb-2">
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-gray-400">${c.label}</span>
                       <span class="${v.txt} font-semibold">${state.scores[k][c.id]}/5</span>
                     </div>
                     <div class="flex gap-1">
                       ${[1,2,3,4,5].map(n => `
-                        <button data-score="${k}:${c.id}:${n}" class="flex-1 h-3 rounded-full transition-all
+                        <button data-score="${k}:${c.id}:${n}" class="flex-1 h-2.5 rounded-full transition-all
                           ${n <= state.scores[k][c.id] ? (k==='A'?'bg-blue-500':k==='B'?'bg-emerald-500':'bg-violet-500') : 'bg-white/10 hover:bg-white/20'}">
                         </button>
                       `).join('')}
                     </div>
-                    <div class="text-[10px] text-gray-600 mt-0.5">${c.desc}</div>
                   </div>
                 `).join('')}
               </div>
-              <div class="mt-4 pt-4 border-t border-white/10 text-center">
-                <div class="text-2xl font-bold ${v.txt}">${total}/15</div>
-                <div class="text-xs text-gray-500">Общий балл</div>
+
+              <div class="pt-3 border-t border-white/10 flex items-center justify-between">
+                <div>
+                  <span class="text-lg font-bold ${v.txt}">${total}/15</span>
+                  <span class="text-xs text-gray-500 ml-1">ваш балл</span>
+                </div>
+                <div>
+                  <span class="text-lg font-bold text-yellow-400">${v.expertScore.total}/25</span>
+                  <span class="text-xs text-gray-500 ml-1">эксперт</span>
+                </div>
               </div>
-              <button data-lock="${k}" class="mt-3 w-full py-2 rounded-lg border ${v.bdr} ${v.txt} text-sm font-medium hover:${v.bg} transition-all">
+              <button data-lock="${k}" class="mt-3 w-full py-2.5 rounded-lg border ${v.bdr} ${v.txt} text-sm font-medium hover:${v.bg} transition-all">
                 ✅ Выбрать ${k}
               </button>
             </div>
           `;
         }).join('')}
+      </div>
+
+      <!-- Strategy recommendation -->
+      <div class="rounded-2xl border border-yellow-500/20 bg-yellow-500/5 p-6">
+        <h3 class="text-lg font-bold text-yellow-400 mb-3">🎯 Рекомендуемая стратегия запуска</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="text-emerald-400 font-semibold mb-1">Phase 1: MVP (месяц 1-3)</div>
+            <div class="text-gray-300">🤖 <strong>B: AI-Продажник</strong> — core product. AI-генерация писем + базовый warmup + отправка через Yandex/Mail.ru</div>
+          </div>
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="text-blue-400 font-semibold mb-1">Phase 2: Growth (месяц 4-6)</div>
+            <div class="text-gray-300">🚀 <strong>+ A: Агентский режим</strong> — мульти-аккаунт, мульти-клиент дашборд, партнёрская программа</div>
+          </div>
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="text-violet-400 font-semibold mb-1">Phase 3: Scale (месяц 7-12)</div>
+            <div class="text-gray-300">🛡️ <strong>+ C: Enterprise</strong> — CRM-интеграции (AmoCRM/Bitrix24), compliance dashboard, team management</div>
+          </div>
+        </div>
       </div>
     </div>
   `;
