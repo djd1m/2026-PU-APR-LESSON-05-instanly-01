@@ -71,7 +71,7 @@
 | **Functional Job** | "Помоги мне найти клиентов без найма менеджера по продажам" | — |
 | **Emotional Job** | "Хочу чувствовать, что мой бизнес растёт автоматически" | — |
 | **Social Job** | "Хочу выглядеть как серьёзная компания, а не спамер" | — |
-| **Текущее решение** | AmoCRM email, ручной обзвон, Telegram-рассылки, нетворкинг | 4/5 |
+| **Текущее решение** | AmoCRM email, ручной обзвон, WhatsApp-рассылки, нетворкинг | 4/5 |
 | **Барьер перехода** | Страх спама, незнание email-инфраструктуры, "у нас B2B через звонки" | — |
 | **Триггер покупки** | Увидел кейс конкурента, revenue plateau, нужны лиды быстро | — |
 
@@ -217,18 +217,19 @@
 
 | Аспект | Описание | Confidence |
 |--------|----------|:----------:|
-| **Primary Loop** | Content-Led Growth (YouTube + Telegram + Habr/vc.ru) → Free Trial → Paid | 4/5 |
-| **Top Channels** | 1. Telegram-каналы (B2B-продажи) 2. YouTube 3. SEO (Yandex) 4. vc.ru/Habr | 4/5 |
+| **Primary Loop** | Content-Led Growth (YouTube + vc.ru/Habr + SEO Yandex) → Free Trial → Paid | 4/5 |
+| **Top Channels** | 1. SEO (Yandex) 2. YouTube 3. vc.ru/Habr 4. Контекстная реклама (Яндекс.Директ) | 4/5 |
 | **Moat** | РФ compliance (152-ФЗ), warmup для Yandex/Mail.ru, рублёвая оплата | 4/5 |
 | **Referral** | Партнёрская программа для digital-агентств | 3/5 |
 
 **Growth Strategy для РФ:**
-1. Telegram-каналы про B2B-продажи и лидогенерацию — основной канал
+1. SEO в Yandex: "холодная рассылка", "email аутрич", "массовая рассылка B2B" — основной канал
 2. YouTube: кейсы на русском, "как отправлять cold email без спама"
-3. SEO в Yandex: "холодная рассылка", "email аутрич", "массовая рассылка B2B"
-4. Статьи на vc.ru и Habr — thought leadership
+3. Статьи на vc.ru и Habr — thought leadership
+4. Яндекс.Директ — контекстная реклама по целевым запросам
 5. Партнёрства с AmoCRM/Bitrix24 интеграторами
 6. Выступления на b2b-конференциях (Sold Out, Callday, и т.д.)
+7. Email-рассылка по собственной базе (dogfooding)
 
 ---
 
@@ -243,7 +244,7 @@
 | 5 | **AI-персонализация на русском** | GPT/YandexGPT для русскоязычных писем | 🟡 High |
 | 6 | **Интеграции с AmoCRM/Bitrix24** | Основные CRM в РФ (не Salesforce/HubSpot) | 🟡 High |
 | 7 | **База контактов РФ-компаний** | Глобальные базы плохо покрывают РФ B2B | 🟢 Differentiator |
-| 8 | **Multichannel: email + Telegram** | В РФ Telegram = основной мессенджер B2B | 🟢 Differentiator |
+| 8 | **Multichannel: email + WhatsApp/VK** | Расширение каналов аутрича за пределы email | 🟢 Differentiator |
 
 ---
 
@@ -326,7 +327,7 @@
 
 - [ ] H1: Агентства в РФ готовы платить 5-10К ₽/мес за гарантированный inbox rate >90% для Yandex/Mail.ru
 - [ ] H2: All-in-one pricing (без отдельных модулей) конвертирует лучше в РФ-сегменте
-- [ ] H3: Multichannel (email + Telegram) — must-have для B2B в РФ
+- [ ] H3: Multichannel (email + WhatsApp/VK) — must-have для B2B в РФ
 - [ ] H4: AI-персонализация на русском (YandexGPT/GPT) даёт 2x reply rate vs шаблоны
 - [ ] H5: Интеграция с AmoCRM — #1 фактор выбора для SMB-сегмента
 - [ ] H6: SAM в РФ вырастет до 2-3 млрд ₽ к 2028 за счёт импортозамещения
