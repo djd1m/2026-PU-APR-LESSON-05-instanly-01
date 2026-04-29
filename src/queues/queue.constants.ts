@@ -1,11 +1,11 @@
 export const QUEUES = {
-  EMAIL_SEND: 'email:send',
-  EMAIL_SCHEDULE: 'email:schedule',
-  WARMUP_RUN: 'warmup:run',
-  WARMUP_SEND: 'warmup:send',
-  IMAP_CHECK: 'imap:check',
-  AI_GENERATE: 'ai:generate',
-  ANALYTICS_UPDATE: 'analytics:update',
+  EMAIL_SEND: 'email-send',
+  EMAIL_SCHEDULE: 'email-schedule',
+  WARMUP_RUN: 'warmup-run',
+  WARMUP_SEND: 'warmup-send',
+  IMAP_CHECK: 'imap-check',
+  AI_GENERATE: 'ai-generate',
+  ANALYTICS_UPDATE: 'analytics-update',
 } as const;
 
 export const CONCURRENCY = {
