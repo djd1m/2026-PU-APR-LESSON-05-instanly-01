@@ -89,6 +89,9 @@ model User {
   campaigns      Campaign[]
   leads          Lead[]
   unibox_messages UniboxMessage[]
+  amocrm_integration AmoCrmIntegration?
+  owned_workspaces   Workspace[]        @relation("owned_workspaces")
+  workspace_members  WorkspaceMember[]
 
   @@map("users")
 }
@@ -146,6 +149,7 @@ model Campaign {
   sequence        Sequence?
   email_messages  EmailMessage[]
   unibox_messages UniboxMessage[]
+  ab_tests        AbTest[]
 
   @@map("campaigns")
 }
@@ -272,4 +276,95 @@ model UniboxMessage {
 
   @@index([user_id, read, received_at])
   @@map("unibox_messages")
+}
+
+// ── F013: AmoCRM Integration ──
+
+enum AmoCrmConnectionStatus {
+  active
+  expired
+  disconnected
+}
+
+model AmoCrmIntegration {
+  id             String                @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id        String                @unique @db.Uuid
+  amocrm_domain  String
+  access_token   String
+  refresh_token  String
+  token_expires  DateTime
+  status         AmoCrmConnectionStatus @default(active)
+  created_at     DateTime              @default(now())
+  updated_at     DateTime              @updatedAt
+
+  user           User                  @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@map("amocrm_integrations")
+}
+
+// ── F014: A/B Testing ──
+
+model AbTest {
+  id           String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  campaign_id  String       @db.Uuid
+  test_type    String       @default("subject") // "subject" | "body"
+  status       String       @default("running")  // "running" | "completed"
+  winner_id    String?      @db.Uuid
+  min_sample   Int          @default(50)
+  created_at   DateTime     @default(now())
+  updated_at   DateTime     @updatedAt
+
+  campaign     Campaign     @relation(fields: [campaign_id], references: [id], onDelete: Cascade)
+  variants     AbTestVariant[]
+
+  @@map("ab_tests")
+}
+
+model AbTestVariant {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  test_id      String   @db.Uuid
+  name         String
+  subject      String
+  body         String
+  sent_count   Int      @default(0)
+  opened_count Int      @default(0)
+  replied_count Int     @default(0)
+  created_at   DateTime @default(now())
+
+  test         AbTest   @relation(fields: [test_id], references: [id], onDelete: Cascade)
+
+  @@map("ab_test_variants")
+}
+
+// ── F015: Agency Dashboard / Workspaces ──
+
+enum WorkspaceRole {
+  owner
+  member
+}
+
+model Workspace {
+  id          String            @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name        String
+  owner_id    String            @db.Uuid
+  created_at  DateTime          @default(now())
+  updated_at  DateTime          @updatedAt
+
+  owner       User              @relation("owned_workspaces", fields: [owner_id], references: [id], onDelete: Cascade)
+  members     WorkspaceMember[]
+
+  @@map("workspaces")
+}
+
+model WorkspaceMember {
+  workspace_id String        @db.Uuid
+  user_id      String        @db.Uuid
+  role         WorkspaceRole @default(member)
+  joined_at    DateTime      @default(now())
+
+  workspace    Workspace     @relation(fields: [workspace_id], references: [id], onDelete: Cascade)
+  user         User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  @@id([workspace_id, user_id])
+  @@map("workspace_members")
 }

@@ -15,6 +15,8 @@ import { AnalyticsModule } from './analytics/analytics.module';
 import { ComplianceModule } from './compliance/compliance.module';
 import { QueueModule } from './queues/queue.module';
 import { AppConfigModule } from './config/config.module';
+import { AmoCrmModule } from './integrations/amocrm/amocrm.module';
+import { WorkspacesModule } from './workspaces/workspaces.module';
 import { Controller, Get } from '@nestjs/common';
 
 @Controller('health')
@@ -50,6 +52,8 @@ class HealthController {
     AnalyticsModule,
     ComplianceModule,
     QueueModule,
+    AmoCrmModule,
+    WorkspacesModule,
   ],
   controllers: [HealthController],
 })
