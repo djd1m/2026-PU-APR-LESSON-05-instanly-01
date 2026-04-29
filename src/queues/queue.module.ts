@@ -14,14 +14,18 @@ import { AiGenerateProcessor } from '../workers/ai-generate.processor';
     BullModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        connection: {
-          host: configService.get<string>('REDIS_HOST', 'localhost'),
-          port: configService.get<number>('REDIS_PORT', 6379),
-          password: configService.get<string>('REDIS_PASSWORD', undefined),
-          db: configService.get<number>('REDIS_DB', 0),
-        },
-      }),
+      useFactory: (configService: ConfigService) => {
+        const redisUrl = configService.get<string>('REDIS_URL', 'redis://localhost:6379');
+        const url = new URL(redisUrl);
+        return {
+          connection: {
+            host: url.hostname,
+            port: parseInt(url.port || '6379', 10),
+            password: url.password || undefined,
+            db: parseInt(url.pathname?.slice(1) || '0', 10),
+          },
+        };
+      },
     }),
     BullModule.registerQueue(
       { name: QUEUES.EMAIL_SEND },

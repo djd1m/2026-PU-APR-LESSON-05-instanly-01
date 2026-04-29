@@ -22,7 +22,7 @@ export class AuthController {
   async register(@Body() dto: RegisterDto, @Res({ passthrough: true }) res: Response) {
     const result = await this.authService.register(dto);
     this.setTokenCookies(res, result.token, result.refresh_token);
-    return { user: result.user, token: result.token, refresh_token: result.refresh_token };
+    return { user: result.user };
   }
 
   @Post('login')
@@ -30,7 +30,7 @@ export class AuthController {
   async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
     const result = await this.authService.login(dto);
     this.setTokenCookies(res, result.token, result.refresh_token);
-    return { user: result.user, token: result.token, refresh_token: result.refresh_token };
+    return { user: result.user };
   }
 
   @Post('refresh')
@@ -38,7 +38,7 @@ export class AuthController {
   async refresh(@Body() dto: RefreshDto, @Res({ passthrough: true }) res: Response) {
     const result = await this.authService.refresh(dto.refresh_token);
     this.setTokenCookies(res, result.token, result.refresh_token);
-    return { token: result.token, refresh_token: result.refresh_token };
+    return { message: 'Token refreshed' };
   }
 
   @Post('logout')
@@ -47,12 +47,12 @@ export class AuthController {
     res.clearCookie('access_token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'strict',
     });
     res.clearCookie('refresh_token', {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'strict',
     });
     return { message: 'Logged out' };
   }
@@ -61,13 +61,13 @@ export class AuthController {
     res.cookie('access_token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'strict',
       maxAge: 15 * 60 * 1000, // 15 min
     });
     res.cookie('refresh_token', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
+      sameSite: 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     });
   }

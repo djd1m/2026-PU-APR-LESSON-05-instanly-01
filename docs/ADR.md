@@ -208,3 +208,33 @@
 - Cookies sent automatically (no manual header management)
 - Cross-origin requests need proper CORS configuration
 - Token refresh handled transparently by HTTP interceptor
+
+---
+
+## ADR-009: Resend as Alternative Email Provider
+
+**Status:** Accepted
+**Date:** 2026-04-29
+
+**Context:** SMTP (Yandex/Mail.ru) is the primary sending method, but some users prefer API-based sending for simpler setup. Resend.com offers a clean REST API for transactional email.
+
+**Decision:** Support both SMTP and Resend as email providers. User selects provider in Settings UI. Provider stored per-user in `UserSettings.email_provider` field.
+
+**Rationale:**
+- Resend is simpler to configure (API key only, no SMTP/IMAP setup)
+- Some users don't need warmup (Resend handles deliverability)
+- API-based sending is more reliable than SMTP (no connection drops)
+- Resend API is simple REST — no npm package needed (native fetch)
+- Provider selection is per-user, not system-wide
+
+**Alternatives Considered:**
+- SendGrid — more complex, heavier, enterprise-focused
+- Mailgun — good but payment issues in Russia
+- SMTP-only — limits flexibility for users without Yandex/Mail.ru
+
+**Consequences:**
+- Two code paths for email sending (SMTP vs Resend) — increased complexity
+- Warmup only works with SMTP accounts (Resend doesn't need warmup)
+- Resend API key stored encrypted in UserSettings
+- External API dependency (Resend availability)
+- No IMAP support for Resend — reply detection needs webhook or polling

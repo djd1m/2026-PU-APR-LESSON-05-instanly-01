@@ -45,7 +45,7 @@ class HealthController {
     UniboxModule,
     AnalyticsModule,
     ComplianceModule,
-    // QueueModule, // TODO: fix Redis connection config
+    QueueModule,
     AmoCrmModule,
     WorkspacesModule,
     SettingsModule,
