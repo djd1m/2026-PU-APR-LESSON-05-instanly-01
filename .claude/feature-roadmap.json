@@ -36,7 +36,7 @@
       "title": "Warmup Engine",
       "description": "Автоматический прогрев email-аккаунтов для Yandex/Mail.ru. Gradual volume increase, peer pool, health monitoring",
       "priority": "must",
-      "status": "planned",
+      "status": "next",
       "depends_on": [
         "F002"
       ],
@@ -66,7 +66,7 @@
       "title": "AI-генерация писем",
       "description": "OpenAI GPT-4o-mini интеграция, персонализация per-lead, tone selection, quality guardrails",
       "priority": "must",
-      "status": "planned",
+      "status": "done",
       "depends_on": [
         "F004"
       ],
@@ -81,7 +81,7 @@
       "title": "Email Sequences",
       "description": "Цепочки 3-5 шагов, delay настройки, авто-стоп при ответе, variable substitution",
       "priority": "must",
-      "status": "planned",
+      "status": "next",
       "depends_on": [
         "F004",
         "F005"
