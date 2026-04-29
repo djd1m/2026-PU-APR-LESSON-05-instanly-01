@@ -489,6 +489,276 @@ Rules:
 
 ---
 
+### ART-013: Multi-Provider Email Service Pattern (SMTP + Resend)
+**Category:** pattern
+**Maturity:** Alpha
+**Provenance:** coldmail-ru, `src/email/resend.service.ts`, `src/workers/email-send.processor.ts`
+**Description:** Provider selection stored in user settings; a factory pattern delegates to the correct email sending implementation (SMTP via Nodemailer or HTTP API via Resend). Each provider is an isolated injectable service with its own error handling and status code mapping (401 invalid key, 429 rate limit, 422 validation). Includes a `testApiKey()` method per provider for settings-page validation before saving credentials.
+**Reuse potential:** Any application that supports multiple delivery providers (email, SMS, push) where the user chooses and configures their preferred provider.
+**Code/Template:**
+```typescript
+// Provider interface — each implementation handles one delivery channel
+interface EmailProvider {
+  sendEmail(params: SendParams): Promise<SendResult>;
+  testCredentials(credentials: ProviderCredentials): Promise<{ success: boolean; message: string }>;
+}
+
+// Factory selects provider based on user settings
+function getProvider(settings: UserSettings): EmailProvider {
+  switch (settings.email_provider) {
+    case 'resend': return resendService;
+    case 'smtp':
+    default:       return smtpService;
+  }
+}
+
+// Resend implementation — HTTP API with structured error mapping
+async sendEmail(params: ResendSendParams): Promise<ResendSendResult> {
+  const response = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${params.apiKey}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ from: params.from, to: [params.to], subject: params.subject, html: params.html }),
+  });
+
+  if (!response.ok) {
+    // Map HTTP status to domain-specific errors
+    if (response.status === 401) throw new Error('Invalid API key');
+    if (response.status === 429) throw new Error('Rate limit exceeded');
+    if (response.status === 422) throw new Error(`Validation error: ${body.message}`);
+    throw new Error(`Provider error ${response.status}`);
+  }
+
+  return { id: body.id, from: params.from, to: params.to };
+}
+```
+
+---
+
+### ART-014: User-Level Settings with Encrypted Secrets
+**Category:** pattern
+**Maturity:** Alpha
+**Provenance:** coldmail-ru, `src/settings/settings.service.ts`
+**Description:** Per-user settings stored in the database with sensitive values (API keys, passwords) encrypted via AES-256-GCM before storage. API responses return masked values (first 5 + last 4 characters). On update, masked values are detected and skipped to avoid re-encrypting the mask. Empty strings clear the stored value. Includes test endpoints for each provider (SMTP socket connect, OpenAI /models, Resend /domains) to validate credentials before saving.
+**Reuse potential:** Any multi-tenant application where users bring their own API keys or credentials that must be stored securely.
+**Code/Template:**
+```typescript
+@Injectable()
+export class SettingsService {
+  constructor(
+    private readonly prisma: PrismaService,
+    private readonly encryption: EncryptionService,
+  ) {}
+
+  async getSettings(userId: string) {
+    const settings = await this.findOrCreate(userId);
+    return {
+      ...settings,
+      api_key: settings.api_key
+        ? this.maskApiKey(this.encryption.decrypt(settings.api_key))
+        : null,
+    };
+  }
+
+  async updateSettings(userId: string, dto: UpdateSettingsDto) {
+    const data: Record<string, unknown> = { ...dto };
+
+    if (dto.api_key !== undefined) {
+      if (dto.api_key === '') {
+        data.api_key = null;                                    // clear
+      } else if (!dto.api_key.startsWith('sk-***')) {
+        data.api_key = this.encryption.encrypt(dto.api_key);    // new value
+      } else {
+        delete data.api_key;                                    // masked — skip
+      }
+    }
+
+    return this.prisma.userSettings.upsert({ where: { user_id: userId }, create: { user_id: userId, ...data }, update: data });
+  }
+
+  // Test endpoint pattern: validate credentials before saving
+  async testProvider(apiKey: string): Promise<{ success: boolean; message: string }> {
+    const res = await fetch('https://api.provider.com/validate', {
+      headers: { 'Authorization': `Bearer ${apiKey}` },
+    });
+    return { success: res.ok, message: res.ok ? 'Valid' : 'Invalid key' };
+  }
+
+  private maskApiKey(key: string): string {
+    if (key.length <= 8) return '***';
+    return key.slice(0, 5) + '***' + key.slice(-4);
+  }
+}
+```
+
+**Key rules:**
+- Always encrypt before DB write, decrypt only on read
+- Detect masked values on update (prefix check) to avoid double-encryption
+- Empty string = explicit clear (set to null)
+- Provide test endpoint per provider so users validate before saving
+
+---
+
+### ART-015: Multi-Step Wizard Form (React)
+**Category:** template
+**Maturity:** Alpha
+**Provenance:** coldmail-ru, `frontend/src/app/campaigns/create/page.tsx`
+**Description:** A reusable multi-step wizard pattern for Next.js App Router pages. Uses integer step state with per-step validation via a `canProceed()` switch, a visual stepper bar showing completed/active/upcoming steps, a review step summarizing all inputs before submission, and POST with redirect on success. Each step conditionally renders its own form section.
+**Reuse potential:** Any React/Next.js form requiring sequential data entry -- onboarding flows, checkout processes, multi-page surveys, resource creation wizards.
+**Code/Template:**
+```tsx
+const STEPS = ['Name', 'Details', 'Schedule', 'Review'];
+
+export default function WizardPage() {
+  const router = useRouter();
+  const [step, setStep] = useState(0);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Per-step form state
+  const [name, setName] = useState('');
+  // ... additional fields per step
+
+  function canProceed(): boolean {
+    switch (step) {
+      case 0: return name.trim().length > 0;
+      case 1: return selectedItems.size > 0;
+      case 2: return scheduleIsValid;
+      case 3: return true; // review step always valid
+      default: return false;
+    }
+  }
+
+  async function handleSubmit() {
+    setSubmitting(true);
+    setError(null);
+    try {
+      const res = await fetch('/api/resource', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(await parseError(res));
+      router.push('/resource-list');  // redirect on success
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div>
+      {/* Stepper bar */}
+      <div className="flex items-center justify-between mb-8">
+        {STEPS.map((label, i) => (
+          <StepIndicator key={label} label={label} index={i}
+            status={i < step ? 'completed' : i === step ? 'active' : 'upcoming'} />
+        ))}
+      </div>
+
+      {/* Conditional step content */}
+      {step === 0 && <NameStep />}
+      {step === 1 && <DetailsStep />}
+      {step === 2 && <ScheduleStep />}
+      {step === 3 && <ReviewStep />}
+
+      {/* Navigation */}
+      <div className="flex justify-between mt-6">
+        <button onClick={() => step === 0 ? router.back() : setStep(step - 1)}>
+          {step === 0 ? 'Cancel' : 'Back'}
+        </button>
+        {step < STEPS.length - 1 ? (
+          <button onClick={() => setStep(step + 1)} disabled={!canProceed()}>Next</button>
+        ) : (
+          <button onClick={handleSubmit} disabled={submitting}>Create</button>
+        )}
+      </div>
+    </div>
+  );
+}
+```
+
+**Pattern rules:**
+- Step index as single source of truth for wizard position
+- `canProceed()` enforces per-step validation before advancing
+- Review step displays all collected data before final submission
+- Cancel/Back button on first step navigates away; on other steps goes back one
+
+---
+
+### ART-016: Auth Flow with JWT Cookies (React + NestJS)
+**Category:** pattern
+**Maturity:** Alpha
+**Provenance:** coldmail-ru, `frontend/src/app/login/page.tsx`, `src/auth/auth.service.ts`
+**Description:** Full-stack auth flow: a single React page toggles between login and register modes, sends credentials to NestJS backend with `credentials: 'include'`, receives JWT in httpOnly cookies (set by backend), and stores non-sensitive user info in localStorage for display purposes. On success, redirects to the main page. Protected pages check for the cookie via API calls and redirect to `/login` on 401. Structured error codes from backend are displayed inline.
+**Reuse potential:** Any React + NestJS application requiring cookie-based authentication with login/register on a single page.
+**Code/Template:**
+```tsx
+// Frontend: single page login/register toggle
+export default function LoginPage() {
+  const router = useRouter();
+  const [isRegister, setIsRegister] = useState(false);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const endpoint = isRegister ? '/api/v1/auth/register' : '/api/v1/auth/login';
+
+    const res = await fetch(`${API_URL}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',          // sends/receives httpOnly cookies
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      setError(data.message || 'Error');
+      return;
+    }
+
+    const data = await res.json();
+    localStorage.setItem('user', JSON.stringify(data.user));  // display-only info
+    router.push('/');
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* email + password fields */}
+      <button type="submit">{isRegister ? 'Register' : 'Login'}</button>
+      <button type="button" onClick={() => setIsRegister(!isRegister)}>
+        {isRegister ? 'Have an account? Login' : 'No account? Register'}
+      </button>
+    </form>
+  );
+}
+```
+
+```typescript
+// Backend: set httpOnly cookie in response
+@Post('login')
+async login(@Body() dto: LoginDto, @Res({ passthrough: true }) res: Response) {
+  const { user, token, refresh_token } = await this.authService.login(dto);
+  res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict', maxAge: 15 * 60 * 1000 });
+  res.cookie('refresh_token', refresh_token, { httpOnly: true, secure: true, sameSite: 'strict', maxAge: 7 * 24 * 60 * 60 * 1000 });
+  return { user };
+}
+```
+
+**Security rules:**
+- Never store JWT in localStorage -- use httpOnly cookies only
+- localStorage stores only non-sensitive display data (name, email)
+- `credentials: 'include'` on every fetch to send cookies cross-origin
+- On 401 response from any protected endpoint, redirect to `/login`
+
+---
+
 ## Summary
 
 | ID | Name | Category | Reuse Scope |
@@ -505,3 +775,7 @@ Rules:
 | ART-010 | Security Headers + Validation Checklist | rule | Any web application |
 | ART-011 | Email Send Worker with Encrypted Creds | pattern | Any bulk/transactional email |
 | ART-012 | Dark Theme Design Tokens | template | Any Tailwind CSS project |
+| ART-013 | Multi-Provider Email Service (SMTP + Resend) | pattern | Any multi-provider delivery system |
+| ART-014 | User-Level Settings with Encrypted Secrets | pattern | Any multi-tenant app with user-provided keys |
+| ART-015 | Multi-Step Wizard Form (React) | template | Any sequential form / onboarding flow |
+| ART-016 | Auth Flow with JWT Cookies (React + NestJS) | pattern | Any React + NestJS cookie-based auth |
