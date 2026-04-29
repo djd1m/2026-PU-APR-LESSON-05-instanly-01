@@ -1,9 +1,9 @@
-# Product Discovery Brief: Instantly.ai Clone
-**Режим:** QUICK | **Дата:** 2026-04-29
+# Product Discovery Brief: Instantly.ai Clone для РФ
+**Режим:** QUICK | **Дата:** 2026-04-29 | **География:** Россия
 
 ---
 
-## Company Profile
+## Company Profile (оригинал)
 
 | Параметр | Значение |
 |----------|----------|
@@ -21,195 +21,286 @@
 
 ## A. ONE-LINER
 
-> **Instantly.ai** — это Mailchimp для холодного аутрича + AI-автоматизация отправки с безлимитными email-аккаунтами и встроенным warmup.
+> **Наш продукт** — это Instantly.ai для России: AI-платформа холодного B2B-аутрича с безлимитными email-аккаунтами, warmup для Yandex/Mail.ru и хранением данных на серверах в РФ по 152-ФЗ.
 
 ---
 
-## B. PROBLEM STATEMENT (Before / After)
+## B. PROBLEM STATEMENT (Before / After) — контекст РФ
 
-| Измерение | ❌ Без Instantly | ✅ С Instantly | Улучшение | Confidence |
-|-----------|-----------------|----------------|-----------|:----------:|
+| Измерение | ❌ Без продукта | ✅ С продуктом | Улучшение | Confidence |
+|-----------|----------------|----------------|-----------|:----------:|
 | **Время настройки** | 2-3 дня на setup email инфраструктуры | 30 мин — подключил и отправил | 10x | 4/5 |
-| **Деньги** | $3,000-5,000/мес на SDR | $37-97/мес на софт | 30-50x экономии | 4/5 |
+| **Деньги** | 150-300К ₽/мес на SDR-менеджера | 3-10К ₽/мес на софт | 15-50x экономии | 4/5 |
 | **Email аккаунты** | 1-3 аккаунта, ручной warmup | Безлимит аккаунтов, авто-warmup | Безлимит | 5/5 |
-| **Deliverability** | 40-60% inbox rate без warmup | 88-94% inbox rate [H] | 1.5-2x | 3/5 |
-| **Масштаб** | 50-200 emails/день вручную | 5,000-125,000 emails/мес | 25-600x | 5/5 |
+| **Deliverability** | 40-60% inbox rate (Yandex/Mail.ru без warmup) | 85-95% inbox rate с warmup | 1.5-2x | 3/5 |
+| **Масштаб** | 50-200 emails/день вручную | 5,000-100,000 emails/мес | 25-500x | 5/5 |
+| **Оплата** | Иностранные сервисы не принимают РФ карты | Оплата в рублях, РФ юрлицо | ∞ | 5/5 |
+| **Compliance** | Данные за рубежом = штрафы по 152-ФЗ | Серверы в РФ, полный compliance | Legal safety | 5/5 |
 
 ---
 
 ## C. 10x IMPROVEMENT
 
-> Instantly позволяет одному человеку заменить целую SDR-команду: отправлять 100K+ холодных писем в месяц с множества аккаунтов, автоматическим warmup и AI-персонализацией — при стоимости одного ланча.
+> Один предприниматель с нашим инструментом заменяет SDR-отдел из 3-5 человек: отправляет 50K+ персонализированных B2B-писем в месяц через Yandex/Mail.ru с авто-warmup — при стоимости бизнес-ланча.
 
-**Ключевая метрика:** Стоимость лида снижается с $50-100 (manual outreach) до $1-5 (automated), ROI до 60x.
-
----
-
-## D. CUSTOMER SEGMENTS (Jobs-to-be-Done)
-
-### Сегмент 1: Lead Gen Agency — 40% рынка
-
-| Параметр | Описание | Confidence |
-|----------|----------|:----------:|
-| **Кто** | Агентства лидогенерации, 2-20 чел, $200-400/мес на Instantly | 5/5 |
-| **Размер сегмента** | ~50K агентств глобально | 3/5 |
-| **Functional Job** | "Помоги мне управлять аутричем для 10+ клиентов с одной платформы" | — |
-| **Emotional Job** | "Хочу чувствовать контроль над всеми кампаниями без хаоса" | — |
-| **Social Job** | "Хочу выглядеть как профессиональное агентство с результатами" | — |
-| **Текущее решение** | Lemlist ($69/user), Smartlead ($39/mo), ручные таблицы | 4/5 |
-| **Барьер перехода** | Миграция шаблонов и лидов, обучение команды | — |
-| **Триггер покупки** | Новый крупный клиент, рост числа аккаунтов, дорого per-seat | — |
-
-### Сегмент 2: Startup Founder / Solo SDR — 35% рынка
-
-| Параметр | Описание | Confidence |
-|----------|----------|:----------:|
-| **Кто** | Основатели стартапов, solo-предприниматели, $130+/мес реально | 5/5 |
-| **Размер сегмента** | ~2M стартапов с активным outbound | 3/5 |
-| **Functional Job** | "Помоги мне найти клиентов без найма SDR-команды" | — |
-| **Emotional Job** | "Хочу чувствовать, что мой pipeline растёт автоматически" | — |
-| **Social Job** | "Хочу выглядеть как компания с отделом продаж" | — |
-| **Текущее решение** | LinkedIn outreach вручную, Apollo free tier, referrals | 4/5 |
-| **Барьер перехода** | Страх спама, незнание email инфраструктуры | — |
-| **Триггер покупки** | Revenue plateau, нужны лиды, увидел кейс в YouTube/Twitter | — |
-
-### Сегмент 3: SMB Sales Team — 25% рынка
-
-| Параметр | Описание | Confidence |
-|----------|----------|:----------:|
-| **Кто** | SDR-команды 5-50 чел в SMB, B2B companies | 4/5 |
-| **Размер сегмента** | ~500K SMB с outbound sales teams | 3/5 |
-| **Functional Job** | "Помоги моей команде отправлять больше писем без потери качества" | — |
-| **Emotional Job** | "Хочу чувствовать уверенность в deliverability" | — |
-| **Social Job** | "Хочу показать руководству рост pipeline метрик" | — |
-| **Текущее решение** | Outreach.io ($100/user), Salesloft ($75-125/user), HubSpot | 4/5 |
-| **Барьер перехода** | Интеграция с CRM, compliance requirements, team adoption | — |
-| **Триггер покупки** | Рост расходов на per-seat pricing, необходимость масштабирования | — |
+**Ключевая метрика:** Стоимость лида снижается с 3,000-5,000 ₽ (ручной outreach) до 50-200 ₽ (automated).
 
 ---
 
-## E. WHY NOW? (4 фактора)
+## D. CUSTOMER SEGMENTS (Jobs-to-be-Done) — РФ рынок
+
+### Сегмент 1: Digital-агентства и агентства лидогенерации — 35% рынка
+
+| Параметр | Описание | Confidence |
+|----------|----------|:----------:|
+| **Кто** | Агентства в РФ, 2-20 чел, текущий бюджет 5-30К ₽/мес на email-инструменты | 4/5 |
+| **Размер сегмента** | ~15-20K агентств в РФ с активным outbound | 3/5 |
+| **Functional Job** | "Помоги мне управлять cold-рассылкой для 5+ клиентов с одной платформы" | — |
+| **Emotional Job** | "Хочу не бояться штрафов и блокировок за рассылки" | — |
+| **Social Job** | "Хочу выглядеть как технологичное агентство с data-driven подходом" | — |
+| **Текущее решение** | Coldy.ai (2,900 ₽/мес), Unisender, ручные таблицы + AmoCRM | 4/5 |
+| **Барьер перехода** | Привычка к текущим инструментам, интеграция с AmoCRM/Bitrix24 | — |
+| **Триггер покупки** | Новый клиент, Instantly/Lemlist перестал принимать РФ карты, рост объёмов | — |
+
+### Сегмент 2: B2B-стартапы и предприниматели — 40% рынка
+
+| Параметр | Описание | Confidence |
+|----------|----------|:----------:|
+| **Кто** | Основатели B2B-стартапов, solo-предприниматели, ИП/ООО | 5/5 |
+| **Размер сегмента** | ~500K активных B2B-компаний в РФ с outbound | 3/5 |
+| **Functional Job** | "Помоги мне найти клиентов без найма менеджера по продажам" | — |
+| **Emotional Job** | "Хочу чувствовать, что мой бизнес растёт автоматически" | — |
+| **Social Job** | "Хочу выглядеть как серьёзная компания, а не спамер" | — |
+| **Текущее решение** | AmoCRM email, ручной обзвон, Telegram-рассылки, нетворкинг | 4/5 |
+| **Барьер перехода** | Страх спама, незнание email-инфраструктуры, "у нас B2B через звонки" | — |
+| **Триггер покупки** | Увидел кейс конкурента, revenue plateau, нужны лиды быстро | — |
+
+### Сегмент 3: Отделы продаж SMB — 25% рынка
+
+| Параметр | Описание | Confidence |
+|----------|----------|:----------:|
+| **Кто** | SDR/BDR-команды 3-20 чел в B2B-компаниях, бюджет 20-100К ₽/мес | 4/5 |
+| **Размер сегмента** | ~100K компаний с выделенными отделами продаж | 3/5 |
+| **Functional Job** | "Помоги моей команде отправлять больше писем без потери deliverability" | — |
+| **Emotional Job** | "Хочу чувствовать уверенность, что письма доходят и мы не нарушаем закон" | — |
+| **Social Job** | "Хочу показать руководству рост pipeline в CRM" | — |
+| **Текущее решение** | Bitrix24 + Unisender, AmoCRM, ручная рассылка через Outlook | 4/5 |
+| **Барьер перехода** | Интеграция с CRM (AmoCRM/Bitrix24), security-требования, IT-одобрение | — |
+| **Триггер покупки** | Рост команды, KPI на лиды, конкуренты используют автоматизацию | — |
+
+---
+
+## E. WHY NOW? (4 фактора) — РФ контекст
 
 | Фактор | Что произошло | Влияние | Confidence |
 |--------|---------------|---------|:----------:|
-| 🔬 **Технологический** | AI (GPT-4+) позволяет персонализировать каждое письмо массово; ROI lift 20-25% | Ключевой enabler — AI делает cold email экономически эффективным | 5/5 |
-| 📈 **Рыночный** | Рынок sales engagement $9-11B (2025), CAGR 12-15%; консолидация (Salesloft+Clari) | Растущий рынок + M&A = окно для новых игроков | 4/5 |
-| 🧠 **Поведенческий** | 60% организаций внедрят AI sales engagement к 2026; shift от volume к quality | Спрос на AI-powered outreach растёт экспоненциально | 4/5 |
-| ⚖️ **Регуляторный** | Google/Yahoo/Microsoft требуют SPF+DKIM+DMARC; CAN-SPAM штраф $53K/email | Порог входа повышается → нужны специализированные инструменты | 5/5 |
+| 🔬 **Технологический** | AI (GPT-4+, YandexGPT) позволяет персонализировать каждое письмо; российские LLM доступны | AI делает cold email в 10x дешевле и эффективнее | 5/5 |
+| 📈 **Рыночный** | Email-маркетинг в РФ = 5.1 млрд ₽ (2026), рост ~10% CAGR. Западные SaaS ушли → окно для РФ-аналогов | Импортозамещение + растущий рынок = идеальный момент | 5/5 |
+| 🧠 **Поведенческий** | Санкции заблокировали оплату Instantly/Lemlist/Apollo для РФ. Бизнес ищет российские альтернативы | Принудительный спрос на отечественные инструменты | 5/5 |
+| ⚖️ **Регуляторный** | 152-ФЗ: с 01.07.2025 ВСЕ персданные в РФ. Штрафы до 15М ₽. Западные инструменты = риск | Compliance = конкурентное преимущество | 5/5 |
 
 ---
 
-## F. ГОЛОС КЛИЕНТА (реальные цитаты)
+## F. ГОЛОС КЛИЕНТА (реальные цитаты — Instantly.ai глобально)
 
 **Что любят:**
 
 | # | Цитата | Источник | Confidence |
 |---|--------|----------|:----------:|
-| 1 | "The unlimited email accounts at a flat rate is a game-changer for agencies" | G2 Reviews | 4/5 |
+| 1 | "Unlimited email accounts at a flat rate is a game-changer for agencies" | G2 Reviews | 4/5 |
 | 2 | "Setup is incredibly fast — I was sending campaigns within 30 minutes" | Reddit r/coldEmail | 4/5 |
-| 3 | "Unibox saves me hours — all replies in one place instead of checking 20 inboxes" | G2 Reviews | 4/5 |
-| 4 | "AI Reply Agent is like having a junior SDR handle initial responses 24/7" | Trustpilot | 3/5 |
+| 3 | "Unibox saves me hours — all replies in one place" | G2 Reviews | 4/5 |
+| 4 | "AI Reply Agent is like having a junior SDR 24/7" | Trustpilot | 3/5 |
 
 **Что ненавидят:**
 
 | # | Цитата | Источник | Confidence |
 |---|--------|----------|:----------:|
-| 1 | "Warmup shows green but my emails still land in spam, especially on Outlook" | Reddit r/coldEmail | 5/5 |
-| 2 | "Advertised at $30/mo but I actually spend $300+ with leads and CRM modules" | G2 Reviews | 4/5 |
-| 3 | "DFY domains — they own them. You can't take your domains when you leave" | Reddit | 4/5 |
-| 4 | "Support is fast for easy questions but goes silent when you have complex agency issues" | Trustpilot | 4/5 |
-| 5 | "Lead database quality is hit or miss — lots of outdated emails, high bounce rates" | G2 Reviews | 4/5 |
+| 1 | "Warmup shows green but emails still land in spam, especially Outlook" | Reddit r/coldEmail | 5/5 |
+| 2 | "Advertised at $30/mo but I actually spend $300+ with leads and CRM" | G2 Reviews | 4/5 |
+| 3 | "DFY domains — they own them, you can't take them when you leave" | Reddit | 4/5 |
+| 4 | "Support goes silent for complex agency issues" | Trustpilot | 4/5 |
+| 5 | "Lead database — lots of outdated emails, high bounce rates" | G2 Reviews | 4/5 |
 
 **Паттерны:**
-- 🟢 **Unlimited accounts + flat pricing** — #1 reason to choose Instantly over competitors
-- 🟢 **Speed to first campaign** — fastest onboarding in the category
-- 🔴 **Deliverability не соответствует обещаниям** — #1 complaint across all platforms
-- 🔴 **Hidden costs** — base price misleading, real spend 3-10x higher
-- 🔴 **Data quality** — lead database needs improvement
+- 🟢 **Unlimited accounts + flat pricing** — #1 причина выбора
+- 🟢 **Speed to first campaign** — быстрый старт
+- 🔴 **Deliverability не соответствует обещаниям** — #1 жалоба
+- 🔴 **Hidden costs** — реальная цена в 3-10x выше заявленной
+- 🔴 **Data quality** — база контактов требует улучшения
 
 ---
 
 ## G. COMPETITIVE LANDSCAPE
 
-| Компания | Revenue | Funding | Pricing | Сила | Слабость |
-|----------|---------|---------|---------|------|----------|
-| **Instantly.ai** | $20M ARR | Bootstrap | $37/mo | Безлимит аккаунтов, скорость | Deliverability, hidden costs |
-| **Lemlist** | $40M ARR | Bootstrap ($30M secondary) | $55-69/user | Multichannel, персонализация | Per-seat дорого для агентств |
-| **Smartlead** | $14M ARR | Bootstrap | $39/mo | API, deliverability infra | UI слабее, меньше фич |
-| **Apollo.io** | $150M ARR | $251M, $1.6B val | Free/$49/mo | Data + outreach all-in-one | Сложный, enterprise-focused |
-| **Reply.io** | $14.7M | N/A | $59/mo | Multichannel, AI SDR | Устаревший UI |
-| **Woodpecker** | $5M | Seed | $25/mo | Простота, надёжность | Мало фич, маленький |
-| **Mailshake** | ~$10M | Bootstrap | $25/mo | Простой и дешёвый | Лимиты на аккаунты |
-| **Snov.io** | $7.3M | ~$2M | $29/mo | Email finder + outreach | Слабый outreach |
+### Глобальные конкуренты (недоступны в РФ напрямую)
+
+| Компания | Revenue | Pricing | Статус в РФ |
+|----------|---------|---------|-------------|
+| **Instantly.ai** | $20M ARR | $37/mo | ❌ Не принимает РФ карты |
+| **Lemlist** | $40M ARR | $55-69/user | ❌ Не принимает РФ карты |
+| **Smartlead** | $14M ARR | $39/mo | ❌ Не принимает РФ карты |
+| **Apollo.io** | $150M ARR | Free/$49/mo | ❌ Не принимает РФ карты |
+
+### Российские конкуренты (прямые)
+
+| Компания | Pricing | Сила | Слабость |
+|----------|---------|------|----------|
+| **Coldy.ai** | от 2,900 ₽/мес | AI-персонализация, warmup Mail.ru/Yandex | Молодой, маленькая команда |
+| **Respondo** | от 1,990 ₽/мес | Автоматические цепочки, доступная цена | Лимит 2,000 контактов, мало фич |
+
+### Российские ESP (используются для B2B, но не cold outreach)
+
+| Компания | Pricing | Сила | Слабость |
+|----------|---------|------|----------|
+| **Unisender** | от 1,600 ₽/мес | Популярен, free tier | Не для cold outreach |
+| **DashaMail** | от 770 ₽/мес | Серверы в РФ, хорошая deliverability | Нет warmup, нет AI |
+| **Sendsay** | от 736 ₽/мес | Omnichannel | Не для холодных рассылок |
+| **Mailganer** | от 2,600 ₽/мес | Простой интерфейс | Ограниченный функционал |
+
+### CRM с email (косвенные конкуренты)
+
+| Компания | Pricing | Статус |
+|----------|---------|--------|
+| **AmoCRM** | от 499 ₽/user/мес | Email-интеграция, но не cold outreach tool |
+| **Bitrix24** | Free (до 12 чел) | Интегрируется с 7 ESP, но не для cold email |
+| **Mindbox** | от 150,000 ₽/мес | Enterprise CDP, другой сегмент |
+
+**Вывод:** В РФ всего 2 прямых конкурента (Coldy.ai, Respondo) — рынок пустой.
 
 ---
 
-## H. MARKET SIZE
+## H. MARKET SIZE — РФ
+
+### Top-Down
 
 | Уровень | Размер | Расчёт | Confidence |
 |---------|--------|--------|:----------:|
-| **TAM** | $15-20B | Sales Engagement Platform market global | 4/5 |
-| **SAM** | $2-5B | Cold email / email outreach tools specifically | 4/5 |
-| **SOM** | $50-100M | Реалистичная доля за 3 года для нового игрока | 3/5 |
+| **TAM** | 5.1 млрд ₽ ($54M) | Email-маркетинг в РФ (2026) | 4/5 |
+| **SAM** | 1-1.5 млрд ₽ ($11-16M) | Cold email / B2B outreach сегмент (~25% email-маркетинга) [H] | 3/5 |
+| **SOM** | 100-200 млн ₽ ($1-2M) | 10-15% SAM за 3 года [H] | 2/5 |
 
-**CAGR:** 12-15% (cold email segment), 25.8% (AI email assistant segment)
+### Bottom-Up
+
+| Параметр | Значение | Confidence |
+|----------|----------|:----------:|
+| B2B-компании с outbound в РФ | ~500K | 3/5 |
+| × Потенциальная конверсия в платящих (3 года) | 0.5-1% | 2/5 |
+| = Платящие клиенты | 2,500-5,000 | — |
+| × Средний чек (годовой) | 36-60К ₽ ($380-630) | 3/5 |
+| = **SOM (Bottom-Up)** | **90-300 млн ₽** ($0.9-3.2M) | — |
+
+**Convergence:** Top-Down SOM (100-200М ₽) vs Bottom-Up (90-300М ₽) — расхождение приемлемое.
+
+**CAGR:** ~10% (email-маркетинг РФ), ~25%+ (импортозамещение SaaS) [H]
 
 ---
 
-## I. UNIT ECONOMICS BENCHMARK
+## I. UNIT ECONOMICS — РФ план
 
-| Метрика | Instantly | Industry Avg | Confidence |
-|---------|-----------|-------------|:----------:|
-| **ARPU** | ~$575/мес [H] (revenue/customers) | $50-200/mo (SMB SaaS) | 3/5 |
-| **CAC** | Low (content + SEO driven) [H] | $200-1000 (B2B SMB) | 2/5 |
-| **Gross Margin** | 80-90% [H] | 72-82% (SaaS) | 3/5 |
-| **Monthly Churn** | 5-7% [H] | 5-7% (SMB SaaS) | 3/5 |
-| **LTV:CAC** | >5:1 [H] | 3:1 (median) | 2/5 |
+| Метрика | Instantly (глобально) | РФ план | Benchmark SaaS | Confidence |
+|---------|----------------------|---------|----------------|:----------:|
+| **ARPU** | ~$575/мес [H] | 3,000-5,000 ₽/мес | 2,000-10,000 ₽ (РФ SaaS SMB) | 3/5 |
+| **CAC** | Low (content-led) [H] | 3,000-8,000 ₽ | $200-1000 (B2B SMB) | 2/5 |
+| **Gross Margin** | 80-90% [H] | 80-85% | 72-82% (SaaS) | 3/5 |
+| **Monthly Churn** | 5-7% [H] | 5-8% | 5-7% (SMB SaaS) | 3/5 |
+| **LTV** | — | 37,500-100,000 ₽ | — | 2/5 |
+| **LTV:CAC** | >5:1 [H] | 5-12:1 [H] | 3:1 (median) | 2/5 |
+
+**Формулы:**
+- LTV = ARPU × (1 / Monthly Churn) × Gross Margin = 4,000 × (1/0.06) × 0.82 = ~54,700 ₽
+- Payback = CAC / (ARPU × Margin) = 5,500 / (4,000 × 0.82) = ~1.7 мес
 
 ---
 
-## J. GROWTH ENGINE
+## J. GROWTH ENGINE — РФ
 
 | Аспект | Описание | Confidence |
 |--------|----------|:----------:|
-| **Primary Loop** | Content-Led Growth (YouTube + Twitter + Blog) → Free Trial → Paid | 4/5 |
-| **Top Channels** | 1. SEO/Content 2. YouTube (founder-led) 3. Affiliate/Partner | 4/5 |
-| **Moat** | Data moat (450M contacts), unlimited accounts pricing model, brand | 3/5 |
-| **Referral** | Affiliate program active | 4/5 |
-| **Organic Traffic** | Significant SEO presence in "cold email" keywords | 4/5 |
+| **Primary Loop** | Content-Led Growth (YouTube + Telegram + Habr/vc.ru) → Free Trial → Paid | 4/5 |
+| **Top Channels** | 1. Telegram-каналы (B2B-продажи) 2. YouTube 3. SEO (Yandex) 4. vc.ru/Habr | 4/5 |
+| **Moat** | РФ compliance (152-ФЗ), warmup для Yandex/Mail.ru, рублёвая оплата | 4/5 |
+| **Referral** | Партнёрская программа для digital-агентств | 3/5 |
 
-**Growth Strategy Pattern:**
-1. Founders активны в Twitter/X — thought leadership
-2. YouTube контент: tutorials, case studies
-3. SEO blog с long-tail keywords
-4. Affiliate program для agencies
-5. Community building (Facebook groups, Reddit)
+**Growth Strategy для РФ:**
+1. Telegram-каналы про B2B-продажи и лидогенерацию — основной канал
+2. YouTube: кейсы на русском, "как отправлять cold email без спама"
+3. SEO в Yandex: "холодная рассылка", "email аутрич", "массовая рассылка B2B"
+4. Статьи на vc.ru и Habr — thought leadership
+5. Партнёрства с AmoCRM/Bitrix24 интеграторами
+6. Выступления на b2b-конференциях (Sold Out, Callday, и т.д.)
 
 ---
 
-## K. KEY OPPORTUNITIES FOR CLONE
+## K. KEY OPPORTUNITIES — РФ специфика
 
 | # | Opportunity | Основание | Impact |
 |---|------------|-----------|--------|
-| 1 | **Решить deliverability** — #1 боль клиентов | Повторяющаяся жалоба во всех обзорах | 🔴 Critical |
-| 2 | **Прозрачное ценообразование** — all-in-one pricing | Hidden costs = #2 complaint | 🔴 High |
-| 3 | **Качественная база контактов** | Outdated emails → bounce → reputation damage | 🟡 High |
-| 4 | **Ownership домейнов** | DFY lock-in вызывает отток | 🟡 Medium |
-| 5 | **Enterprise-grade support** | Support деградирует для крупных клентов | 🟡 Medium |
-| 6 | **AI-first подход** | AI personalization даёт 20-25% ROI lift | 🟢 Differentiator |
-| 7 | **Multichannel** (email + LinkedIn + SMS) | Instantly только email, Lemlist уже multichannel | 🟢 Differentiator |
+| 1 | **Warmup для Yandex/Mail.ru** — чего нет у западных | 70%+ бизнес-почты в РФ на Yandex/Mail.ru | 🔴 Critical |
+| 2 | **152-ФЗ compliance** — серверы в РФ | Штрафы до 15М ₽ с 2025; западные = нарушение | 🔴 Critical |
+| 3 | **Оплата в рублях** — РФ карты, юрлицо | Западные сервисы недоступны для прямой оплаты | 🔴 Critical |
+| 4 | **Прозрачное ценообразование** | Hidden costs у Instantly = #2 жалоба | 🟡 High |
+| 5 | **AI-персонализация на русском** | GPT/YandexGPT для русскоязычных писем | 🟡 High |
+| 6 | **Интеграции с AmoCRM/Bitrix24** | Основные CRM в РФ (не Salesforce/HubSpot) | 🟡 High |
+| 7 | **База контактов РФ-компаний** | Глобальные базы плохо покрывают РФ B2B | 🟢 Differentiator |
+| 8 | **Multichannel: email + Telegram** | В РФ Telegram = основной мессенджер B2B | 🟢 Differentiator |
 
 ---
 
-## L. RISKS
+## L. РЕГУЛЯТОРНАЯ СРЕДА — РФ
+
+| Регуляция | Статус | Влияние | Риск |
+|-----------|--------|---------|:----:|
+| **152-ФЗ** (персданные) | С 01.07.2025 — все данные в РФ | Серверы MUST be in Russia | 🔴 |
+| **38-ФЗ** (реклама) | Действует | Реклама = только с согласия; деловые предложения = ОК | 🟡 |
+| **Штрафы за спам** | До 1 млн ₽ за нарушение | Нужен opt-out и идентификация отправителя | 🟡 |
+| **B2B-исключение** | Действует (позиция Роскомнадзора) | Деловые предложения на корп. email = не реклама | 🟢 |
+| **SPF/DKIM/DMARC** | Требование Yandex/Mail.ru | Техническая необходимость для deliverability | 🟡 |
+
+**Ключевое:** Отправка деловых предложений на публично доступные корпоративные email (info@, sales@) юридически допустима. Это НЕ реклама по 38-ФЗ — это деловая переписка. Случаев наказания за адресные B2B-предложения компаниям не зафиксировано.
+
+---
+
+## M. ФИНАНСОВЫЕ ОРИЕНТИРЫ — РФ
+
+### Зарплаты разработчиков (2025-2026)
+
+| Уровень | Месяц (₽) | Год (₽) |
+|---------|-----------|---------|
+| Junior | 80-100K | 960K-1.2M |
+| Middle | 150-250K | 1.8-3.0M |
+| Senior | 300-500K | 3.6-6.0M |
+
+### MVP-команда (минимальная)
+
+| Роль | Кол-во | Зарплата | Итого/мес |
+|------|--------|----------|-----------|
+| Fullstack (Middle) | 2 | 200K ₽ | 400K ₽ |
+| DevOps (Middle) | 1 | 200K ₽ | 200K ₽ |
+| Product/Founder | 1 | 0 (founder) | 0 |
+| **ИТОГО** | **4** | — | **600K ₽ (~$6,300)** |
+
+### Инфраструктура
+
+| Статья | Стоимость/мес |
+|--------|---------------|
+| VPS (РФ, AdminVPS/HOSTKEY) | 5-15K ₽ |
+| Домены/SSL | 1-2K ₽ |
+| SMTP-инфраструктура | 5-20K ₽ |
+| Итого инфра | 15-40K ₽ |
+
+---
+
+## N. RISKS — РФ специфика
 
 | Риск | Вероятность | Impact | Митигация |
 |------|:-----------:|:------:|-----------|
-| Email deliverability — техническая сложность | Высокая | 🔴 | Инвестировать в IP reputation с Day 1 |
-| Регуляторные ужесточения (EU AI Act, CNIL) | Средняя | 🟡 | Compliance by design |
-| Ценовая война (рынок commoditizing) | Средняя | 🟡 | Дифференциация через AI quality |
-| Data sourcing (GDPR compliance) | Высокая | 🔴 | Transparent data practices |
-| Зависимость от Google/Microsoft email policies | Высокая | 🔴 | Multi-provider strategy |
+| Deliverability Yandex/Mail.ru — техническая сложность | Высокая | 🔴 | Investировать в warmup-инфраструктуру с Day 1 |
+| 152-ФЗ ужесточение — новые требования | Средняя | 🟡 | Compliance by design, серверы только в РФ |
+| Конкуренция: Coldy.ai растёт | Средняя | 🟡 | Дифференциация через AI quality + multichannel |
+| Блокировки email-провайдерами | Высокая | 🔴 | IP-ротация, постепенная отправка, warmup |
+| Маленький рынок (SAM ~1 млрд ₽) | Средняя | 🟡 | Расширение на СНГ (Казахстан, Беларусь, Узбекистан) |
+| Зависимость от Yandex/Mail.ru политик | Высокая | 🔴 | Multi-provider, собственная SMTP-инфраструктура |
 
 ---
 
@@ -217,23 +308,26 @@
 
 | Блок | Avg Confidence |
 |------|:--------------:|
-| Company Profile | 4.5/5 |
-| Problem Statement | 4/5 |
-| Customer Segments | 4/5 |
-| Why Now | 4.5/5 |
+| Company Profile (оригинал) | 4.5/5 |
+| Problem Statement (РФ) | 4.5/5 |
+| Customer Segments (РФ) | 4/5 |
+| Why Now (РФ) | 5/5 |
 | Voice of Customer | 4/5 |
-| Competitive Matrix | 4/5 |
-| Market Size | 3.5/5 |
-| Unit Economics | 2.5/5 |
-| Growth Engine | 4/5 |
-| **ИТОГО** | **3.9/5** |
+| Competitive Landscape (РФ) | 4/5 |
+| Market Size (РФ) | 3/5 |
+| Unit Economics (РФ) | 2.5/5 |
+| Growth Engine (РФ) | 4/5 |
+| Regulatory (РФ) | 4.5/5 |
+| **ИТОГО** | **4.0/5** |
 
 ---
 
 ## Гипотезы для валидации
 
-- [ ] H1: Основной сегмент (agencies) готов платить premium за гарантированную deliverability
-- [ ] H2: All-in-one pricing (без отдельных модулей) конвертирует лучше
-- [ ] H3: Multichannel (email + LinkedIn) — must-have для 2026
-- [ ] H4: AI-персонализация на уровне абзаца (не только merge tags) даёт 2x reply rate
-- [ ] H5: Русскоязычный рынок достаточно велик для отдельного продукта [H]
+- [ ] H1: Агентства в РФ готовы платить 5-10К ₽/мес за гарантированный inbox rate >90% для Yandex/Mail.ru
+- [ ] H2: All-in-one pricing (без отдельных модулей) конвертирует лучше в РФ-сегменте
+- [ ] H3: Multichannel (email + Telegram) — must-have для B2B в РФ
+- [ ] H4: AI-персонализация на русском (YandexGPT/GPT) даёт 2x reply rate vs шаблоны
+- [ ] H5: Интеграция с AmoCRM — #1 фактор выбора для SMB-сегмента
+- [ ] H6: SAM в РФ вырастет до 2-3 млрд ₽ к 2028 за счёт импортозамещения
+- [ ] H7: CНГ-рынок (Казахстан, Беларусь, Узбекистан) увеличит SOM на 30-50%

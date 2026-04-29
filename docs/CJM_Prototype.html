@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CJM Prototype — Instantly.ai Clone для РФ</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+  * { font-family: 'Inter', sans-serif; }
+  .glass { background: rgba(255,255,255,0.08); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.12); }
+  .glow-blue { box-shadow: 0 0 30px rgba(59,130,246,0.15); }
+  .glow-emerald { box-shadow: 0 0 30px rgba(16,185,129,0.15); }
+  .glow-violet { box-shadow: 0 0 30px rgba(139,92,246,0.15); }
+  .screen-card { transition: all 0.3s ease; }
+  .screen-card:hover { transform: translateY(-2px); }
+  .variant-tab { transition: all 0.2s ease; }
+  .variant-tab.active { transform: scale(1.02); }
+  .cjm-badge { animation: pulse-soft 2s infinite; }
+  @keyframes pulse-soft { 0%,100% { opacity:1; } 50% { opacity:0.7; } }
+  .fade-in { animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+  .score-bar { transition: width 0.6s ease; }
+  .builder-slot { min-height: 80px; border: 2px dashed rgba(255,255,255,0.2); transition: all 0.2s; }
+  .builder-slot:hover { border-color: rgba(59,130,246,0.5); background: rgba(59,130,246,0.05); }
+  .builder-slot.filled { border-style: solid; border-color: rgba(59,130,246,0.4); background: rgba(59,130,246,0.08); }
+</style>
+</head>
+<body class="bg-gray-950 text-white min-h-screen">
+
+<div id="app"></div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+// DATA: Generated from Product Discovery Brief (Instantly.ai clone for Russia)
+// ═══════════════════════════════════════════════════════════
+
+const VARIANTS = {
+  A: {
+    name: "Турбо-Агентство",
+    emoji: "🚀",
+    color: "blue",
+    bg: "bg-blue-500/10",
+    bdr: "border-blue-500/30",
+    txt: "text-blue-400",
+    ring: "ring-blue-500/40",
+    glow: "glow-blue",
+    hypothesis: "Агентства выберут за безлимит аккаунтов + warmup Yandex/Mail.ru",
+    risk: "Может быть слишком нишевым для массового рынка",
+    bestFor: "Сегмент 1: Digital-агентства",
+    landing: {
+      hl: "Безлимитный cold email для агентств",
+      sub: "Подключите 100+ email-аккаунтов за 1 цену. Warmup для Yandex и Mail.ru из коробки. Серверы в РФ.",
+      cta: "Попробовать бесплатно →"
+    },
+    onboarding: {
+      q1: "Сколько клиентов вы ведёте одновременно?",
+      q2: "Какие почтовые провайдеры используете?",
+      style: "Быстрый wizard — 3 шага за 2 минуты"
+    },
+    aha: {
+      title: "Все клиенты — один дашборд",
+      desc: "10 аккаунтов клиентов, 50 email-ящиков, единый Unibox — и все ответы в одном месте",
+      wow: "📊 Inbox rate: 94% через Yandex после warmup",
+      kpi: "Время от регистрации до первой кампании: 15 мин"
+    },
+    dash: {
+      hook: "Статистика по клиентам в реальном времени: opens, replies, bounces",
+      lesson: "AI-подсказки: «Клиент X — низкий reply rate, попробуйте шаблон B»",
+      stats: "Warmup Health Monitor — зелёный/жёлтый/красный по каждому ящику"
+    },
+    pay: {
+      when: "Сразу после Aha (день 1) — на эмоциях от единого дашборда",
+      frame: "«Вы управляете 10 клиентами с одного экрана. Продолжите за 4,900 ₽/мес — безлимит.»"
+    },
+    inv: {
+      hook: "Пригласите агентство-партнёра → скидка 20% обоим",
+      mech: "Реферальный код + партнёрская программа 20% от оплаты навсегда"
+    }
+  },
+
+  B: {
+    name: "AI-Продажник",
+    emoji: "🤖",
+    color: "emerald",
+    bg: "bg-emerald-500/10",
+    bdr: "border-emerald-500/30",
+    txt: "text-emerald-400",
+    ring: "ring-emerald-500/40",
+    glow: "glow-emerald",
+    hypothesis: "Предприниматели выберут за AI-персонализацию, заменяющую SDR",
+    risk: "AI-качество может разочаровать если русский текст слабый",
+    bestFor: "Сегмент 2: B2B-стартапы и предприниматели",
+    landing: {
+      hl: "AI заменит вашего менеджера по продажам",
+      sub: "Нейросеть пишет персональные письма каждому лиду. 50K писем/мес — без SDR-команды. Полный compliance 152-ФЗ.",
+      cta: "Запустить AI-продажника →"
+    },
+    onboarding: {
+      q1: "Опишите ваш продукт в 2 предложениях",
+      q2: "Кто ваш идеальный клиент?",
+      style: "AI-диалог — система сама задаёт вопросы"
+    },
+    aha: {
+      title: "AI написал 10 писем за 30 секунд",
+      desc: "Вы описали продукт → AI изучил сайты лидов → сгенерировал персональные письма для каждого",
+      wow: "✨ Каждое письмо уникально: упоминает компанию, боль, решение",
+      kpi: "Reply rate: 8-15% (vs 2-3% у шаблонов)"
+    },
+    dash: {
+      hook: "AI-рекомендации: «Этот лид открыл 3 раза, позвоните сейчас»",
+      lesson: "Обучение AI: анализ ответов → улучшение промптов → рост конверсии",
+      stats: "AI Score — оценка качества каждого письма до отправки"
+    },
+    pay: {
+      when: "После 7 дней — привычка + первые ответы",
+      frame: "«Ваш AI-продажник получил 23 ответа за неделю. Продолжите за 3,900 ₽/мес.»"
+    },
+    inv: {
+      hook: "Покажите коллеге-предпринимателю → бонусные AI-кредиты обоим",
+      mech: "Telegram invite link + бонус 1,000 AI-кредитов"
+    }
+  },
+
+  C: {
+    name: "Рост без спама",
+    emoji: "🛡️",
+    color: "violet",
+    bg: "bg-violet-500/10",
+    bdr: "border-violet-500/30",
+    txt: "text-violet-400",
+    ring: "ring-violet-500/40",
+    glow: "glow-violet",
+    hypothesis: "SMB-команды выберут за deliverability + compliance + интеграцию с CRM",
+    risk: "Enterprise-позиционирование может отпугнуть мелких клиентов",
+    bestFor: "Сегмент 3: Отделы продаж SMB",
+    landing: {
+      hl: "Cold email с гарантией доставки",
+      sub: "95% inbox rate для Yandex и Mail.ru. Интеграция с AmoCRM и Bitrix24. Ваши данные — на серверах в РФ.",
+      cta: "Гарантировать доставку →"
+    },
+    onboarding: {
+      q1: "Какую CRM используете?",
+      q2: "Сколько писем отправляете в месяц?",
+      style: "Интеграция с CRM — подключение в 1 клик"
+    },
+    aha: {
+      title: "Ваши письма теперь в inbox, а не в спаме",
+      desc: "Warmup 14 дней → тест deliverability → зелёный свет → первая кампания с 95% inbox rate",
+      wow: "🛡️ До: 45% в спаме → После: 95% в inbox (Yandex)",
+      kpi: "Deliverability Score виден до отправки каждой кампании"
+    },
+    dash: {
+      hook: "Pipeline в CRM обновляется автоматически: ответы → сделки в AmoCRM",
+      lesson: "Compliance-чекер: «Это письмо может нарушить 38-ФЗ — измените формулировку»",
+      stats: "Reputation Dashboard — здоровье доменов, IP, bounce rate в реальном времени"
+    },
+    pay: {
+      when: "После первого результата — proof of value (14 дней warmup + первая кампания)",
+      frame: "«Inbox rate вырос с 45% до 95%. 12 новых лидов в AmoCRM. Продолжите за 5,900 ₽/мес.»"
+    },
+    inv: {
+      hook: "Добавьте коллег из отдела продаж — групповая скидка",
+      mech: "Team plan: 3+ пользователя = скидка 30%. Invite через Bitrix24/AmoCRM"
+    }
+  }
+};
+
+const CJM_META = {
+  landing: { stage: "Awareness", aarrr: "Acquisition", q: "Как клиент узнаёт о продукте? Что цепляет?" },
+  onboarding: { stage: "Consideration", aarrr: "Activation", q: "Что спрашиваем? Как быстро до первого value?" },
+  aha: { stage: "Aha Moment", aarrr: "Activation", q: "Когда клиент говорит 'вау'? Что именно вызывает восторг?" },
+  dash: { stage: "Engagement", aarrr: "Retention", q: "Что возвращает клиента каждый день? Какой hook?" },
+  pay: { stage: "Monetization", aarrr: "Revenue", q: "Когда paywall? Как фреймим ценность?" },
+  inv: { stage: "Referral", aarrr: "Referral", q: "Как клиент приводит друзей? Какой incentive?" }
+};
+
+const SCREENS = ['landing','onboarding','aha','dash','pay','inv'];
+const SCREEN_LABELS = {
+  landing: '🏠 Landing',
+  onboarding: '📋 Onboarding',
+  aha: '✨ Aha Moment',
+  dash: '📊 Dashboard',
+  pay: '💳 Paywall',
+  inv: '🔗 Referral'
+};
+
+// ═══════════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════════
+
+let state = {
+  variant: 'A',
+  screen: 'landing',
+  showCJM: true,
+  view: 'explore', // explore | compare | builder | score | locked
+  builder: { landing:null, onboarding:null, aha:null, dash:null, pay:null, inv:null },
+  scores: { A:{impact:0,feasibility:0,speed:0}, B:{impact:0,feasibility:0,speed:0}, C:{impact:0,feasibility:0,speed:0} },
+  locked: null
+};
+
+function setState(updates) {
+  Object.assign(state, updates);
+  render();
+}
+
+// ═══════════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════════
+
+function render() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="max-w-6xl mx-auto px-4 py-6">
+      ${renderHeader()}
+      ${renderNav()}
+      ${state.view === 'explore' ? renderExplore() :
+        state.view === 'compare' ? renderCompare() :
+        state.view === 'builder' ? renderBuilder() :
+        state.view === 'score' ? renderScore() :
+        renderLocked()}
+    </div>
+  `;
+  attachEvents();
+}
+
+function renderHeader() {
+  return `
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-400 via-emerald-400 to-violet-400 bg-clip-text text-transparent">
+        CJM Prototype: Cold Email Platform для РФ
+      </h1>
+      <p class="text-gray-400 mt-2">3 варианта Customer Journey Map — исследуйте, сравнивайте, собирайте свой</p>
+      ${state.locked ? `<div class="mt-3 inline-flex items-center gap-2 px-4 py-2 bg-green-500/20 border border-green-500/40 rounded-full text-green-400 text-sm font-medium">✅ Зафиксирован: ${state.locked}</div>` : ''}
+    </div>
+  `;
+}
+
+function renderNav() {
+  const tabs = [
+    { id:'explore', icon:'👁', label:'Исследовать' },
+    { id:'compare', icon:'⚖️', label:'Сравнить' },
+    { id:'builder', icon:'🔧', label:'Собрать свой' },
+    { id:'score', icon:'🏆', label:'Оценить' }
+  ];
+  if (state.locked) tabs.push({ id:'locked', icon:'✅', label:'Результат' });
+
+  return `
+    <div class="flex flex-wrap gap-2 mb-6 justify-center">
+      ${tabs.map(t => `
+        <button data-nav="${t.id}" class="variant-tab px-4 py-2 rounded-lg text-sm font-medium transition-all
+          ${state.view === t.id ? 'bg-white/15 text-white ring-1 ring-white/20' : 'bg-white/5 text-gray-400 hover:bg-white/10 hover:text-gray-200'}">
+          ${t.icon} ${t.label}
+        </button>
+      `).join('')}
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+// EXPLORE VIEW
+// ═══════════════════════════════════════════════════════════
+
+function renderExplore() {
+  const v = VARIANTS[state.variant];
+  return `
+    <div class="fade-in">
+      <!-- Variant Tabs -->
+      <div class="flex gap-3 mb-6">
+        ${Object.entries(VARIANTS).map(([k, vt]) => `
+          <button data-variant="${k}" class="variant-tab flex-1 p-4 rounded-xl border ${state.variant === k ? `${vt.bg} ${vt.bdr} ${vt.glow} ring-1 ${vt.ring}` : 'bg-white/5 border-white/10 hover:bg-white/8'}">
+            <div class="text-2xl mb-1">${vt.emoji}</div>
+            <div class="font-semibold ${state.variant === k ? vt.txt : 'text-gray-300'}">${k}: ${vt.name}</div>
+            <div class="text-xs text-gray-500 mt-1">${vt.bestFor}</div>
+          </button>
+        `).join('')}
+      </div>
+
+      <!-- Screen Tabs -->
+      <div class="flex gap-1 mb-4 overflow-x-auto pb-2">
+        ${SCREENS.map(s => `
+          <button data-screen="${s}" class="whitespace-nowrap px-3 py-1.5 rounded-lg text-sm transition-all
+            ${state.screen === s ? `${v.bg} ${v.txt} ring-1 ${v.ring}` : 'text-gray-400 hover:text-gray-200 hover:bg-white/5'}">
+            ${SCREEN_LABELS[s]}
+          </button>
+        `).join('')}
+      </div>
+
+      <!-- Screen Content -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <!-- Main Screen -->
+        <div class="lg:col-span-2">
+          ${renderScreen(state.variant, state.screen)}
+        </div>
+        <!-- CJM Sidebar -->
+        <div>
+          ${renderCJMSidebar(state.screen)}
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderScreen(variantKey, screenKey) {
+  const v = VARIANTS[variantKey];
+  const data = v[screenKey] || v.landing;
+  const renderers = {
+    landing: () => `
+      <div class="rounded-2xl border ${v.bdr} ${v.bg} p-8 ${v.glow}">
+        <div class="text-xs ${v.txt} font-medium mb-4 uppercase tracking-wider">Landing Page</div>
+        <h2 class="text-3xl font-bold mb-4 leading-tight">${data.hl}</h2>
+        <p class="text-gray-300 text-lg mb-6 leading-relaxed">${data.sub}</p>
+        <button class="px-6 py-3 rounded-xl bg-gradient-to-r ${variantKey==='A'?'from-blue-500 to-blue-600':variantKey==='B'?'from-emerald-500 to-emerald-600':'from-violet-500 to-violet-600'} text-white font-semibold text-lg shadow-lg hover:shadow-xl transition-all">
+          ${data.cta}
+        </button>
+        <div class="mt-6 flex gap-4 text-sm text-gray-400">
+          <span>✓ Серверы в РФ</span>
+          <span>✓ 152-ФЗ</span>
+          <span>✓ Оплата в ₽</span>
+        </div>
+      </div>`,
+    onboarding: () => `
+      <div class="rounded-2xl border ${v.bdr} ${v.bg} p-8 ${v.glow}">
+        <div class="text-xs ${v.txt} font-medium mb-4 uppercase tracking-wider">Onboarding</div>
+        <div class="text-sm text-gray-400 mb-6">${data.style}</div>
+        <div class="space-y-4">
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="text-sm text-gray-400 mb-2">Шаг 1</div>
+            <div class="text-lg font-medium">${data.q1}</div>
+            <div class="mt-3 flex gap-2">
+              ${variantKey==='A' ? '<span class="px-3 py-1 rounded-lg bg-blue-500/20 text-blue-300 text-sm">1-3</span><span class="px-3 py-1 rounded-lg bg-blue-500/20 text-blue-300 text-sm">5-10</span><span class="px-3 py-1 rounded-lg bg-blue-500/20 text-blue-300 text-sm">10+</span>' :
+                variantKey==='B' ? '<input type="text" placeholder="Например: CRM для малого бизнеса" class="w-full bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm">' :
+                '<span class="px-3 py-1 rounded-lg bg-violet-500/20 text-violet-300 text-sm">AmoCRM</span><span class="px-3 py-1 rounded-lg bg-violet-500/20 text-violet-300 text-sm">Bitrix24</span><span class="px-3 py-1 rounded-lg bg-violet-500/20 text-violet-300 text-sm">Другая</span>'}
+            </div>
+          </div>
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="text-sm text-gray-400 mb-2">Шаг 2</div>
+            <div class="text-lg font-medium">${data.q2}</div>
+          </div>
+        </div>
+      </div>`,
+    aha: () => `
+      <div class="rounded-2xl border ${v.bdr} ${v.bg} p-8 ${v.glow}">
+        <div class="text-xs ${v.txt} font-medium mb-4 uppercase tracking-wider">✨ Aha Moment</div>
+        <h3 class="text-2xl font-bold mb-3">${data.title}</h3>
+        <p class="text-gray-300 mb-4">${data.desc}</p>
+        <div class="p-4 rounded-xl bg-gradient-to-r ${variantKey==='A'?'from-blue-500/20 to-blue-600/10':variantKey==='B'?'from-emerald-500/20 to-emerald-600/10':'from-violet-500/20 to-violet-600/10'} border ${v.bdr}">
+          <div class="text-2xl mb-2">${data.wow}</div>
+        </div>
+        <div class="mt-4 text-sm text-gray-400">
+          <span class="font-medium ${v.txt}">KPI:</span> ${data.kpi}
+        </div>
+      </div>`,
+    dash: () => `
+      <div class="rounded-2xl border ${v.bdr} ${v.bg} p-8 ${v.glow}">
+        <div class="text-xs ${v.txt} font-medium mb-4 uppercase tracking-wider">📊 Dashboard</div>
+        <div class="space-y-4">
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="text-sm ${v.txt} font-medium mb-1">Основной hook</div>
+            <div>${data.hook}</div>
+          </div>
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="text-sm ${v.txt} font-medium mb-1">AI-помощник</div>
+            <div>${data.lesson}</div>
+          </div>
+          <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+            <div class="text-sm ${v.txt} font-medium mb-1">Метрики</div>
+            <div>${data.stats}</div>
+          </div>
+        </div>
+      </div>`,
+    pay: () => `
+      <div class="rounded-2xl border ${v.bdr} ${v.bg} p-8 ${v.glow}">
+        <div class="text-xs ${v.txt} font-medium mb-4 uppercase tracking-wider">💳 Paywall</div>
+        <div class="p-4 rounded-xl bg-white/5 border border-white/10 mb-4">
+          <div class="text-sm text-gray-400 mb-1">Timing</div>
+          <div class="font-medium">${data.when}</div>
+        </div>
+        <div class="p-6 rounded-xl bg-gradient-to-br ${variantKey==='A'?'from-blue-500/20 to-blue-900/20':variantKey==='B'?'from-emerald-500/20 to-emerald-900/20':'from-violet-500/20 to-violet-900/20'} border ${v.bdr}">
+          <div class="text-lg font-medium mb-4">${data.frame}</div>
+          <div class="flex gap-3">
+            <button class="px-5 py-2.5 rounded-xl bg-gradient-to-r ${variantKey==='A'?'from-blue-500 to-blue-600':variantKey==='B'?'from-emerald-500 to-emerald-600':'from-violet-500 to-violet-600'} text-white font-semibold">Подключить</button>
+            <button class="px-5 py-2.5 rounded-xl bg-white/10 text-gray-300">Позже</button>
+          </div>
+        </div>
+      </div>`,
+    inv: () => `
+      <div class="rounded-2xl border ${v.bdr} ${v.bg} p-8 ${v.glow}">
+        <div class="text-xs ${v.txt} font-medium mb-4 uppercase tracking-wider">🔗 Referral</div>
+        <div class="p-4 rounded-xl bg-white/5 border border-white/10 mb-4">
+          <div class="text-sm ${v.txt} font-medium mb-1">Hook</div>
+          <div>${data.hook}</div>
+        </div>
+        <div class="p-4 rounded-xl bg-white/5 border border-white/10">
+          <div class="text-sm ${v.txt} font-medium mb-1">Механика</div>
+          <div>${data.mech}</div>
+        </div>
+        <div class="mt-4 p-4 rounded-xl bg-gradient-to-r ${variantKey==='A'?'from-blue-500/10 to-blue-600/5':variantKey==='B'?'from-emerald-500/10 to-emerald-600/5':'from-violet-500/10 to-violet-600/5'} border ${v.bdr}">
+          <div class="text-sm text-gray-400 mb-2">Ваша реферальная ссылка:</div>
+          <div class="flex gap-2">
+            <input type="text" value="https://app.coldmail.ru/ref/abc123" readonly class="flex-1 bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-sm text-gray-300">
+            <button class="px-4 py-2 rounded-lg ${variantKey==='A'?'bg-blue-500/20 text-blue-300':variantKey==='B'?'bg-emerald-500/20 text-emerald-300':'bg-violet-500/20 text-violet-300'} text-sm font-medium">Копировать</button>
+          </div>
+        </div>
+      </div>`
+  };
+  return (renderers[screenKey] || renderers.landing)();
+}
+
+function renderCJMSidebar(screenKey) {
+  const meta = CJM_META[screenKey];
+  if (!state.showCJM) return `
+    <button data-toggle-cjm class="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-gray-400 text-sm hover:bg-white/8">
+      📊 Показать CJM overlay
+    </button>`;
+
+  const stageColors = {
+    'Awareness':'text-yellow-400 bg-yellow-500/10 border-yellow-500/30',
+    'Consideration':'text-orange-400 bg-orange-500/10 border-orange-500/30',
+    'Aha Moment':'text-pink-400 bg-pink-500/10 border-pink-500/30',
+    'Engagement':'text-cyan-400 bg-cyan-500/10 border-cyan-500/30',
+    'Monetization':'text-green-400 bg-green-500/10 border-green-500/30',
+    'Referral':'text-purple-400 bg-purple-500/10 border-purple-500/30'
+  };
+  const sc = stageColors[meta.stage] || 'text-gray-400 bg-white/5 border-white/10';
+
+  return `
+    <div class="rounded-2xl border border-white/10 bg-white/5 p-5 fade-in">
+      <div class="flex items-center justify-between mb-4">
+        <span class="cjm-badge text-xs font-medium px-2 py-1 rounded-full ${sc} border">📊 CJM</span>
+        <button data-toggle-cjm class="text-gray-500 hover:text-gray-300 text-xs">Скрыть</button>
+      </div>
+      <div class="space-y-3">
+        <div>
+          <div class="text-xs text-gray-500 uppercase tracking-wider">Stage</div>
+          <div class="font-semibold ${sc.split(' ')[0]}">${meta.stage}</div>
+        </div>
+        <div>
+          <div class="text-xs text-gray-500 uppercase tracking-wider">AARRR</div>
+          <div class="font-medium text-gray-300">${meta.aarrr}</div>
+        </div>
+        <div class="pt-3 border-t border-white/10">
+          <div class="text-xs text-gray-500 uppercase tracking-wider mb-1">Вопрос для CustDev</div>
+          <div class="text-sm text-gray-300 italic">${meta.q}</div>
+        </div>
+      </div>
+
+      <!-- Mini journey -->
+      <div class="mt-4 pt-4 border-t border-white/10">
+        <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Journey</div>
+        <div class="flex gap-1">
+          ${SCREENS.map(s => `
+            <div class="flex-1 h-2 rounded-full ${s === screenKey ? (state.variant==='A'?'bg-blue-500':state.variant==='B'?'bg-emerald-500':'bg-violet-500') : 'bg-white/10'}"></div>
+          `).join('')}
+        </div>
+        <div class="flex justify-between text-[10px] text-gray-600 mt-1">
+          <span>Awareness</span>
+          <span>Referral</span>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+// COMPARE VIEW
+// ═══════════════════════════════════════════════════════════
+
+function renderCompare() {
+  return `
+    <div class="fade-in overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-white/10">
+            <th class="text-left py-3 px-4 text-gray-400 font-medium w-40">Параметр</th>
+            ${Object.entries(VARIANTS).map(([k,v]) => `
+              <th class="text-left py-3 px-4">
+                <span class="${v.txt} font-semibold">${v.emoji} ${k}: ${v.name}</span>
+                <div class="text-xs text-gray-500 font-normal mt-0.5">${v.bestFor}</div>
+              </th>
+            `).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          ${[
+            ['Aha Moment', v => v.aha.title],
+            ['Wow-фактор', v => v.aha.wow],
+            ['Entry Hook', v => v.landing.hl],
+            ['Onboarding', v => v.onboarding.style],
+            ['Core Hook', v => v.dash.hook],
+            ['Paywall Timing', v => v.pay.when],
+            ['Paywall Frame', v => v.pay.frame],
+            ['Referral', v => v.inv.hook],
+            ['Гипотеза', v => v.hypothesis],
+            ['Риск', v => v.risk]
+          ].map(([label, getter]) => `
+            <tr class="border-b border-white/5 hover:bg-white/3">
+              <td class="py-3 px-4 text-gray-400 font-medium">${label}</td>
+              ${Object.values(VARIANTS).map(v => `
+                <td class="py-3 px-4 text-gray-300">${getter(v)}</td>
+              `).join('')}
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+
+      <div class="mt-6 flex gap-3 justify-center">
+        ${Object.entries(VARIANTS).map(([k,v]) => `
+          <button data-lock="${k}" class="px-6 py-3 rounded-xl border ${v.bdr} ${v.bg} ${v.txt} font-semibold hover:ring-2 ${v.ring} transition-all">
+            ✅ Выбрать ${k}: ${v.name}
+          </button>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+// BUILDER VIEW
+// ═══════════════════════════════════════════════════════════
+
+function renderBuilder() {
+  return `
+    <div class="fade-in">
+      <p class="text-gray-400 text-sm mb-4">Выберите лучший экран из каждого варианта для создания идеального CJM</p>
+      <div class="grid gap-4">
+        ${SCREENS.map(s => {
+          const chosen = state.builder[s];
+          return `
+            <div class="rounded-xl border border-white/10 bg-white/5 p-4">
+              <div class="flex items-center justify-between mb-3">
+                <span class="font-medium text-gray-200">${SCREEN_LABELS[s]}</span>
+                ${chosen ? `<span class="text-xs px-2 py-1 rounded-full ${VARIANTS[chosen].bg} ${VARIANTS[chosen].txt}">${chosen}: ${VARIANTS[chosen].name}</span>` : '<span class="text-xs text-gray-500">Не выбран</span>'}
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                ${Object.entries(VARIANTS).map(([k,v]) => `
+                  <button data-builder-pick="${s}:${k}" class="p-3 rounded-lg border text-left text-sm transition-all
+                    ${chosen === k ? `${v.bg} ${v.bdr} ring-1 ${v.ring}` : 'bg-white/3 border-white/10 hover:bg-white/5'}">
+                    <div class="font-medium ${chosen === k ? v.txt : 'text-gray-300'} mb-1">${v.emoji} ${k}</div>
+                    <div class="text-xs text-gray-400">${getScreenPreview(v, s)}</div>
+                  </button>
+                `).join('')}
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+
+      ${Object.values(state.builder).some(v => v) ? `
+        <div class="mt-6 flex justify-center">
+          <button data-lock-builder class="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 via-emerald-500 to-violet-500 text-white font-semibold hover:shadow-lg transition-all">
+            ✅ Зафиксировать кастомный CJM
+          </button>
+        </div>
+      ` : ''}
+    </div>
+  `;
+}
+
+function getScreenPreview(v, s) {
+  const previews = {
+    landing: v.landing.hl,
+    onboarding: v.onboarding.q1,
+    aha: v.aha.title,
+    dash: v.dash.hook.substring(0,60)+'...',
+    pay: v.pay.when.substring(0,60)+'...',
+    inv: v.inv.hook.substring(0,60)+'...'
+  };
+  return (previews[s] || '').substring(0, 80);
+}
+
+// ═══════════════════════════════════════════════════════════
+// SCORE VIEW
+// ═══════════════════════════════════════════════════════════
+
+function renderScore() {
+  const criteria = [
+    { id:'impact', label:'💥 Impact', desc:'Насколько сильно зацепит целевой сегмент?' },
+    { id:'feasibility', label:'⚙️ Feasibility', desc:'Насколько реалистично реализовать за 3 мес?' },
+    { id:'speed', label:'⚡ Speed to Value', desc:'Как быстро клиент получит первый результат?' }
+  ];
+
+  return `
+    <div class="fade-in">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        ${Object.entries(VARIANTS).map(([k,v]) => {
+          const total = criteria.reduce((sum, c) => sum + (state.scores[k][c.id] || 0), 0);
+          return `
+            <div class="rounded-2xl border ${v.bdr} ${v.bg} p-6 ${v.glow}">
+              <div class="text-center mb-4">
+                <div class="text-3xl mb-1">${v.emoji}</div>
+                <div class="font-bold ${v.txt} text-lg">${k}: ${v.name}</div>
+                <div class="text-xs text-gray-500">${v.bestFor}</div>
+              </div>
+              <div class="space-y-4">
+                ${criteria.map(c => `
+                  <div>
+                    <div class="flex justify-between text-sm mb-1">
+                      <span class="text-gray-300">${c.label}</span>
+                      <span class="${v.txt} font-semibold">${state.scores[k][c.id]}/5</span>
+                    </div>
+                    <div class="flex gap-1">
+                      ${[1,2,3,4,5].map(n => `
+                        <button data-score="${k}:${c.id}:${n}" class="flex-1 h-3 rounded-full transition-all
+                          ${n <= state.scores[k][c.id] ? (k==='A'?'bg-blue-500':k==='B'?'bg-emerald-500':'bg-violet-500') : 'bg-white/10 hover:bg-white/20'}">
+                        </button>
+                      `).join('')}
+                    </div>
+                    <div class="text-[10px] text-gray-600 mt-0.5">${c.desc}</div>
+                  </div>
+                `).join('')}
+              </div>
+              <div class="mt-4 pt-4 border-t border-white/10 text-center">
+                <div class="text-2xl font-bold ${v.txt}">${total}/15</div>
+                <div class="text-xs text-gray-500">Общий балл</div>
+              </div>
+              <button data-lock="${k}" class="mt-3 w-full py-2 rounded-lg border ${v.bdr} ${v.txt} text-sm font-medium hover:${v.bg} transition-all">
+                ✅ Выбрать ${k}
+              </button>
+            </div>
+          `;
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+// LOCKED VIEW
+// ═══════════════════════════════════════════════════════════
+
+function renderLocked() {
+  const isCustom = state.locked === 'Custom';
+  let summary;
+
+  if (isCustom) {
+    summary = SCREENS.map(s => {
+      const vk = state.builder[s] || 'A';
+      const v = VARIANTS[vk];
+      return { screen: SCREEN_LABELS[s], variant: `${vk}: ${v.name}`, data: getScreenPreview(v, s) };
+    });
+  } else {
+    const v = VARIANTS[state.locked];
+    summary = SCREENS.map(s => ({
+      screen: SCREEN_LABELS[s], variant: `${state.locked}: ${v.name}`, data: getScreenPreview(v, s)
+    }));
+  }
+
+  const chosenV = isCustom ? null : VARIANTS[state.locked];
+
+  return `
+    <div class="fade-in">
+      <div class="rounded-2xl border ${isCustom?'border-white/20 bg-white/5':'border-'+chosenV.color+'-500/30 bg-'+chosenV.color+'-500/10'} p-8 mb-6">
+        <div class="text-center mb-6">
+          <div class="text-4xl mb-2">${isCustom ? '🔧' : chosenV.emoji}</div>
+          <h2 class="text-2xl font-bold">${isCustom ? 'Кастомный CJM' : `${state.locked}: ${chosenV.name}`}</h2>
+          ${!isCustom ? `<p class="text-gray-400 mt-1">${chosenV.hypothesis}</p>` : ''}
+        </div>
+
+        <div class="grid gap-3">
+          ${summary.map(s => `
+            <div class="flex items-center gap-4 p-3 rounded-xl bg-white/5 border border-white/10">
+              <span class="text-sm font-medium text-gray-300 w-32">${s.screen}</span>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-white/10 text-gray-400">${s.variant}</span>
+              <span class="text-sm text-gray-400 flex-1">${s.data}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+
+      <div class="text-center">
+        <p class="text-gray-400 text-sm mb-4">Этот CJM будет использован в Modules 3-6 pipeline</p>
+        <div class="inline-flex gap-3">
+          <button data-unlock class="px-5 py-2 rounded-lg bg-white/10 text-gray-300 text-sm hover:bg-white/15">← Вернуться к выбору</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════════════
+// EVENTS
+// ═══════════════════════════════════════════════════════════
+
+function attachEvents() {
+  // Navigation
+  document.querySelectorAll('[data-nav]').forEach(el =>
+    el.addEventListener('click', () => setState({ view: el.dataset.nav })));
+
+  // Variant tabs
+  document.querySelectorAll('[data-variant]').forEach(el =>
+    el.addEventListener('click', () => setState({ variant: el.dataset.variant })));
+
+  // Screen tabs
+  document.querySelectorAll('[data-screen]').forEach(el =>
+    el.addEventListener('click', () => setState({ screen: el.dataset.screen })));
+
+  // CJM toggle
+  document.querySelectorAll('[data-toggle-cjm]').forEach(el =>
+    el.addEventListener('click', () => setState({ showCJM: !state.showCJM })));
+
+  // Lock variant
+  document.querySelectorAll('[data-lock]').forEach(el =>
+    el.addEventListener('click', () => setState({ locked: el.dataset.lock, view: 'locked' })));
+
+  // Builder picks
+  document.querySelectorAll('[data-builder-pick]').forEach(el =>
+    el.addEventListener('click', () => {
+      const [screen, variant] = el.dataset.builderPick.split(':');
+      state.builder[screen] = state.builder[screen] === variant ? null : variant;
+      render();
+    }));
+
+  // Lock builder
+  document.querySelectorAll('[data-lock-builder]').forEach(el =>
+    el.addEventListener('click', () => setState({ locked: 'Custom', view: 'locked' })));
+
+  // Scores
+  document.querySelectorAll('[data-score]').forEach(el =>
+    el.addEventListener('click', () => {
+      const [variant, criterion, value] = el.dataset.score.split(':');
+      state.scores[variant][criterion] = parseInt(value);
+      render();
+    }));
+
+  // Unlock
+  document.querySelectorAll('[data-unlock]').forEach(el =>
+    el.addEventListener('click', () => setState({ locked: null, view: 'explore' })));
+}
+
+// ═══════════════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════════════
+
+render();
+</script>
+</body>
+</html>
