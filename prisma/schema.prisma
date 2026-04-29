@@ -1,0 +1,275 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Plan {
+  free
+  growth
+  pro
+  agency
+}
+
+enum EmailProvider {
+  yandex
+  mailru
+  custom
+}
+
+enum AccountStatus {
+  connected
+  error
+  disconnected
+}
+
+enum WarmupStatus {
+  not_started
+  in_progress
+  ready
+  paused
+}
+
+enum CampaignStatus {
+  draft
+  active
+  paused
+  completed
+}
+
+enum LeadStatus {
+  new
+  contacted
+  replied
+  interested
+  meeting_booked
+  won
+  not_interested
+  bounced
+}
+
+enum EmailMessageStatus {
+  queued
+  sent
+  delivered
+  opened
+  replied
+  bounced
+  spam
+}
+
+enum WarmupJobType {
+  send
+  receive
+  reply
+  mark_not_spam
+}
+
+enum WarmupJobStatus {
+  pending
+  completed
+  failed
+}
+
+model User {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email         String   @unique
+  password_hash String
+  first_name    String
+  last_name     String
+  company_name  String?
+  plan          Plan     @default(free)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+
+  accounts       EmailAccount[]
+  campaigns      Campaign[]
+  leads          Lead[]
+  unibox_messages UniboxMessage[]
+
+  @@map("users")
+}
+
+model EmailAccount {
+  id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id         String        @db.Uuid
+  email           String
+  provider        EmailProvider
+  smtp_host       String
+  smtp_port       Int
+  smtp_username   String
+  smtp_password   String
+  imap_host       String
+  imap_port       Int
+  status          AccountStatus @default(connected)
+  warmup_status   WarmupStatus  @default(not_started)
+  warmup_started_at DateTime?
+  health_score    Int           @default(0)
+  daily_send_limit Int          @default(50)
+  sent_today      Int           @default(0)
+  created_at      DateTime      @default(now())
+  updated_at      DateTime      @updatedAt
+
+  user            User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  campaign_accounts CampaignAccount[]
+  email_messages  EmailMessage[]
+  warmup_jobs     WarmupJob[]
+  unibox_messages UniboxMessage[]
+
+  @@index([user_id, warmup_status])
+  @@map("email_accounts")
+}
+
+model Campaign {
+  id              String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id         String         @db.Uuid
+  name            String
+  status          CampaignStatus @default(draft)
+  daily_limit     Int            @default(50)
+  total_leads     Int            @default(0)
+  sent_count      Int            @default(0)
+  opened_count    Int            @default(0)
+  replied_count   Int            @default(0)
+  bounced_count   Int            @default(0)
+  schedule        Json
+  started_at      DateTime?
+  completed_at    DateTime?
+  created_at      DateTime       @default(now())
+  updated_at      DateTime       @updatedAt
+
+  user            User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  campaign_accounts CampaignAccount[]
+  leads           Lead[]
+  sequence        Sequence?
+  email_messages  EmailMessage[]
+  unibox_messages UniboxMessage[]
+
+  @@map("campaigns")
+}
+
+model CampaignAccount {
+  campaign_id String @db.Uuid
+  account_id  String @db.Uuid
+
+  campaign    Campaign     @relation(fields: [campaign_id], references: [id], onDelete: Cascade)
+  account     EmailAccount @relation(fields: [account_id], references: [id], onDelete: Cascade)
+
+  @@id([campaign_id, account_id])
+  @@map("campaign_accounts")
+}
+
+model Lead {
+  id            String     @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id       String     @db.Uuid
+  campaign_id   String?    @db.Uuid
+  email         String
+  first_name    String?
+  last_name     String?
+  company       String?
+  title         String?
+  industry      String?
+  custom_fields Json       @default("{}")
+  status        LeadStatus @default(new)
+  current_step  Int        @default(0)
+  next_send_at  DateTime?
+  created_at    DateTime   @default(now())
+  updated_at    DateTime   @updatedAt
+
+  user            User           @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  campaign        Campaign?      @relation(fields: [campaign_id], references: [id], onDelete: SetNull)
+  email_messages  EmailMessage[]
+  unibox_messages UniboxMessage[]
+
+  @@index([campaign_id, status, next_send_at])
+  @@map("leads")
+}
+
+model Sequence {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  campaign_id String   @unique @db.Uuid
+
+  campaign    Campaign       @relation(fields: [campaign_id], references: [id], onDelete: Cascade)
+  steps       SequenceStep[]
+
+  @@map("sequences")
+}
+
+model SequenceStep {
+  id             String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sequence_id    String  @db.Uuid
+  order          Int
+  subject        String
+  body           String
+  delay_days     Int     @default(0)
+  ai_personalize Boolean @default(false)
+
+  sequence       Sequence @relation(fields: [sequence_id], references: [id], onDelete: Cascade)
+
+  @@unique([sequence_id, order])
+  @@map("sequence_steps")
+}
+
+model EmailMessage {
+  id          String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  campaign_id String             @db.Uuid
+  lead_id     String             @db.Uuid
+  account_id  String             @db.Uuid
+  step_order  Int
+  subject     String
+  body        String
+  status      EmailMessageStatus @default(queued)
+  sent_at     DateTime?
+  opened_at   DateTime?
+  replied_at  DateTime?
+  message_id  String?
+  created_at  DateTime           @default(now())
+  updated_at  DateTime           @updatedAt
+
+  campaign    Campaign     @relation(fields: [campaign_id], references: [id], onDelete: Cascade)
+  lead        Lead         @relation(fields: [lead_id], references: [id], onDelete: Cascade)
+  account     EmailAccount @relation(fields: [account_id], references: [id], onDelete: Cascade)
+
+  @@index([campaign_id, status])
+  @@map("email_messages")
+}
+
+model WarmupJob {
+  id           String          @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  account_id   String          @db.Uuid
+  type         WarmupJobType
+  target_email String
+  status       WarmupJobStatus @default(pending)
+  scheduled_at DateTime
+  completed_at DateTime?
+
+  account      EmailAccount @relation(fields: [account_id], references: [id], onDelete: Cascade)
+
+  @@map("warmup_jobs")
+}
+
+model UniboxMessage {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id     String   @db.Uuid
+  lead_id     String   @db.Uuid
+  campaign_id String   @db.Uuid
+  account_id  String   @db.Uuid
+  from_email  String
+  subject     String
+  body        String
+  read        Boolean  @default(false)
+  status      String   @default("new")
+  received_at DateTime
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
+
+  user        User         @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  lead        Lead         @relation(fields: [lead_id], references: [id], onDelete: Cascade)
+  campaign    Campaign     @relation(fields: [campaign_id], references: [id], onDelete: Cascade)
+  account     EmailAccount @relation(fields: [account_id], references: [id], onDelete: Cascade)
+
+  @@index([user_id, read, received_at])
+  @@map("unibox_messages")
+}
