@@ -11,7 +11,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { SettingsService } from './settings.service';
 import { UpdateSettingsDto, TestSmtpDto, TestOpenaiDto } from './dto';
 
-@Controller('api/v1/settings')
+@Controller('settings')
 @UseGuards(JwtAuthGuard)
 export class SettingsController {
   constructor(private readonly settingsService: SettingsService) {}
