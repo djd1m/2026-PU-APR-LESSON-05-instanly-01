@@ -51,6 +51,14 @@ AI-платформа для автоматизации B2B cold email outreach 
 | `/deploy <env>` | Deploy |
 | `/docs` | Generate documentation |
 
+## Next Steps
+
+See [nextsteps.md](nextsteps.md) for the full roadmap:
+- **v1.1** — Production readiness (CI/CD, tests, SSL, monitoring)
+- **v1.2** — Product enhancement (AI improvements, deliverability, UX)
+- **v2.0** — Growth features (lead database, multichannel, enterprise)
+- **v3.0** — Scale (Kubernetes, ML, CIS expansion)
+
 ## License
 
 Private / Proprietary

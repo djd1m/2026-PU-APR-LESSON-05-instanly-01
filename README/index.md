@@ -36,3 +36,5 @@ AI-платформа для B2B cold email outreach в России / AI platfo
 | Feature Roadmap | `.claude/feature-roadmap.json` |
 | Knowledge Base | `myinsights/` |
 | API Contracts | `docs/Pseudocode.md` |
+| **Next Steps** | [`nextsteps.md`](../nextsteps.md) |
+| Toolkit Harvest | `TOOLKIT_HARVEST.md` |
