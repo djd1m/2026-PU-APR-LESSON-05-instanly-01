@@ -1,0 +1,25 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "command": "bash -c 'cd \"$(git rev-parse --show-toplevel)\" && if git diff --name-only | grep -q myinsights/; then git add myinsights/ && git commit -m \"docs(insights): auto-commit knowledge base updates\" 2>/dev/null; fi'"
+      },
+      {
+        "matcher": "",
+        "command": "bash -c 'cd \"$(git rev-parse --show-toplevel)\" && if git diff --name-only | grep -q .claude/feature-roadmap.json; then git add .claude/feature-roadmap.json && git commit -m \"docs(roadmap): auto-commit feature status updates\" 2>/dev/null; fi'"
+      },
+      {
+        "matcher": "",
+        "command": "bash -c 'cd \"$(git rev-parse --show-toplevel)\" && if git diff --name-only | grep -q docs/plans/; then git add docs/plans/ && git commit -m \"docs(plans): auto-commit plan updates\" 2>/dev/null; fi'"
+      }
+    ],
+    "SessionStart": [
+      {
+        "matcher": "",
+        "command": "python3 .claude/hooks/feature-context.py",
+        "timeout": 10000
+      }
+    ]
+  }
+}
