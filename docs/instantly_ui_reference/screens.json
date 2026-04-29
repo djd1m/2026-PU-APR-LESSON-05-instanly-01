@@ -1,0 +1,1387 @@
+{
+  "metadata": {
+    "product": "instantly.ai",
+    "source": "Видео-скринкаст, предоставленный пользователем",
+    "generated_at": "2026-04-29T11:57:31",
+    "video_duration_seconds": 315.3,
+    "video_resolution": "2848x1626",
+    "screens_count": 23,
+    "privacy": "Все видимые ФИО, email-адреса и клиентские названия в отчёте и чувствительных скриншотах заменены вымышленными данными.",
+    "deliverables": [
+      "instantly_ui_analysis.html",
+      "screens.json",
+      "screenshots/"
+    ]
+  },
+  "screens": [
+    {
+      "id": "01",
+      "timecode": "00:00.5",
+      "screenshot": "screenshots/01_copilot_memory.png",
+      "title": "Instantly Copilot — Memory",
+      "route": "/app/copilot/memory",
+      "purpose": "Просмотр и управление сохранённой памятью AI‑ассистента, которая используется для персонализации работы Copilot.",
+      "navigation": "Левый вертикальный sidebar → значок Copilot → внутренний пункт Memory. Возможные переходы: Tasks, New Chat, Settings, Get CRM, профиль.",
+      "layout": "Тёмная тема; узкий глобальный sidebar с иконками слева; второй sidebar Copilot с пунктами New Chat, Tasks, Memory, Settings; верхняя строка с балансом/кнопкой Get CRM/organization dropdown; центральная область с empty state.",
+      "components": [
+        "GlobalIconSidebar active Copilot",
+        "CopilotSubSidebar",
+        "PageHeader Memory",
+        "EmptyState with two cards",
+        "SecondaryLink/Card CTA",
+        "TopBar credits, Get CRM, organization selector"
+      ],
+      "colors": [
+        "background #0f1014",
+        "#15171c panels",
+        "#2563eb primary blue",
+        "#facc15 coin/yellow accent",
+        "#e5e7eb text",
+        "#8b949e muted text"
+      ],
+      "typography": "Системный sans-serif; заголовки около 24–28 px, sidebar 14–16 px, body/empty-state 13–15 px; активные пункты полужирные.",
+      "texts": [
+        "Instantly Copilot",
+        "New Chat",
+        "Tasks",
+        "Memory",
+        "Settings",
+        "Ready my website",
+        "Read my PDF or text file",
+        "Get CRM",
+        "My Organization..."
+      ],
+      "states": [
+        "Пустое состояние Memory: пользователь видит два варианта добавления/чтения контекста для Copilot."
+      ]
+    },
+    {
+      "id": "02",
+      "timecode": "00:09",
+      "screenshot": "screenshots/02_copilot_tasks_empty.png",
+      "title": "Instantly Copilot — Tasks",
+      "route": "/app/copilot/tasks",
+      "purpose": "Просмотр задач, созданных AI‑ассистентом, и запуск новой задачи через чат.",
+      "navigation": "Внутри Copilot пользователь выбирает Tasks; может перейти в New Chat или Settings.",
+      "layout": "Та же двухуровневая навигация Copilot; центральная область с заголовком Tasks и пустым состоянием; CTA расположен по центру.",
+      "components": [
+        "CopilotSubSidebar",
+        "PageTitle Tasks",
+        "EmptyState illustration",
+        "PrimaryButton/CTA Start a new chat",
+        "TopBar"
+      ],
+      "colors": [
+        "background #0f1014",
+        "panel #17191f",
+        "primary #2563eb",
+        "text #e5e7eb",
+        "muted #9ca3af"
+      ],
+      "typography": "Заголовок страницы крупный полужирный; сообщение empty state компактное, центрированное.",
+      "texts": [
+        "Tasks",
+        "You have no Tasks",
+        "Start a new chat",
+        "Get CRM"
+      ],
+      "states": [
+        "Пустое состояние списка задач."
+      ]
+    },
+    {
+      "id": "03",
+      "timecode": "00:11",
+      "screenshot": "screenshots/03_copilot_new_chat.png",
+      "title": "Instantly Copilot — New Chat",
+      "route": "/app/copilot",
+      "purpose": "Старт новой AI‑сессии для генерации кампаний, поиска лидов и получения подсказок.",
+      "navigation": "Copilot → New Chat; подсказки ведут к сценариям AI‑помощника.",
+      "layout": "Слева два уровня навигации; по центру чатовая область; внизу/центре расположен prompt input с отправкой и набором prompt chips.",
+      "components": [
+        "ChatPromptInput",
+        "SendButton icon arrow",
+        "PromptChips",
+        "Mic/attachment icons if available",
+        "EmptyChatState"
+      ],
+      "colors": [
+        "background #0f1014",
+        "input #16181d",
+        "border #2a2d34",
+        "primary #2563eb",
+        "text #e5e7eb"
+      ],
+      "typography": "Ввод и чипсы 13–15 px; заголовок/подсказка центрированы; кнопка отправки иконографическая.",
+      "texts": [
+        "New Chat",
+        "Ask Instantly AI or type / to see prompts",
+        "Find Ideal Prospects",
+        "Generate a Full Campaign",
+        "Write a Sequence",
+        "Get CRM"
+      ],
+      "states": [
+        "Начальное состояние пустого чата без сообщений."
+      ]
+    },
+    {
+      "id": "04",
+      "timecode": "00:21",
+      "screenshot": "screenshots/04_copilot_settings.png",
+      "title": "Instantly Copilot — Settings",
+      "route": "/app/copilot/settings",
+      "purpose": "Настройка поведения Copilot, включая персонализацию, память/контекст и дополнительные возможности.",
+      "navigation": "Copilot → Settings; пользователь может переключаться назад к New Chat/Tasks/Memory.",
+      "layout": "Форма настроек в центральной области; строки настроек с описанием, контролами и action-кнопками справа.",
+      "components": [
+        "SettingsForm",
+        "TextInput/PreferenceRow",
+        "ToggleSwitch",
+        "SaveButton",
+        "SubSidebar"
+      ],
+      "colors": [
+        "background #0f1014",
+        "card #17191f",
+        "success #22c55e",
+        "primary #2563eb",
+        "border #2a2d34"
+      ],
+      "typography": "Лейблы 14–16 px полужирные, описания 12–13 px muted, кнопки 13–14 px.",
+      "texts": [
+        "Instantly Copilot Settings",
+        "Personalization",
+        "Save",
+        "Get CRM"
+      ],
+      "states": [
+        "Состояние формы настроек; видны поля/переключатели и сохранение."
+      ]
+    },
+    {
+      "id": "05",
+      "timecode": "00:26",
+      "screenshot": "screenshots/05_upgrade_hyper_crm_modal.png",
+      "title": "Upgrade to Hyper CRM — modal",
+      "route": "/app/* + modal=upgrade-hyper-crm",
+      "purpose": "Upsell платного тарифа Hyper CRM после клика по Get CRM.",
+      "navigation": "Нажатие Get CRM в верхней панели поверх текущего экрана; закрытие через Maybe later или крестик.",
+      "layout": "Фон затемняется; модальное окно по центру с двухколоночной структурой: слева брендовый градиент, справа тариф, список возможностей и CTA.",
+      "components": [
+        "ModalOverlay",
+        "UpgradePlanCard",
+        "FeatureList checkmarks",
+        "PrimaryButton Upgrade Plan",
+        "SecondaryButton Maybe Later",
+        "CloseIcon"
+      ],
+      "colors": [
+        "overlay rgba(0,0,0,.55)",
+        "modal #111318",
+        "gradient blue/purple",
+        "#2563eb primary",
+        "#facc15 price badge",
+        "#e5e7eb text"
+      ],
+      "typography": "Заголовок 22–26 px; цена/план полужирные; список 13–15 px; CTA 14–15 px.",
+      "texts": [
+        "Your CRM in Instantly",
+        "Upgrade to Hyper CRM",
+        "97$/month",
+        "Upgrade Plan",
+        "Maybe later"
+      ],
+      "states": [
+        "Модальное состояние paywall/upgrade."
+      ]
+    },
+    {
+      "id": "06",
+      "timecode": "00:36",
+      "screenshot": "screenshots/06_ai_agents_list.png",
+      "title": "AI Agents — list",
+      "route": "/app/ai-agents",
+      "purpose": "Управление AI‑агентами: просмотр существующих агентов, статуса и быстрые действия.",
+      "navigation": "Глобальный sidebar → AI Agents; кнопка Add New переводит к выбору типа агента.",
+      "layout": "Глобальный sidebar, верхняя панель, контент‑зона с заголовком AI Agents, поиском/фильтрами и таблицей.",
+      "components": [
+        "PageHeader AI Agents",
+        "SearchInput",
+        "PrimaryButton + Add New",
+        "DataTable",
+        "StatusBadge Active",
+        "RowActions menu",
+        "Empty/table rows"
+      ],
+      "colors": [
+        "background #0f1014",
+        "table #14161b",
+        "border #2a2d34",
+        "primary #2563eb",
+        "success #22c55e",
+        "muted #8b949e"
+      ],
+      "typography": "Заголовок 24 px; table headers uppercase 11–12 px; строки 13–14 px.",
+      "texts": [
+        "AI Agents",
+        "Default Inbox Manager Agent",
+        "Active",
+        "+ Add New",
+        "Name",
+        "Type",
+        "Status",
+        "Reach",
+        "Outcome"
+      ],
+      "states": [
+        "Заполненная таблица с одним/несколькими агентами."
+      ]
+    },
+    {
+      "id": "07",
+      "timecode": "00:44",
+      "screenshot": "screenshots/07_ai_agents_select_type.png",
+      "title": "Select AI Agent",
+      "route": "/app/ai-agents/new",
+      "purpose": "Выбор типа AI‑агента перед созданием: Sales Agent или Reply Agent.",
+      "navigation": "AI Agents → + Add New; возврат через Back.",
+      "layout": "Страница выбора с крупным заголовком и двумя карточками вариантов в сетке 2 колонки.",
+      "components": [
+        "BackButton",
+        "ChoiceCard",
+        "FeatureList",
+        "PrimaryButton Select AI Sales Agent",
+        "PrimaryButton Select AI Reply Agent",
+        "TopBar"
+      ],
+      "colors": [
+        "background #0f1014",
+        "card #17191f",
+        "border #2a2d34",
+        "primary #2563eb",
+        "text #e5e7eb"
+      ],
+      "typography": "Заголовок 24–28 px; названия карточек 18–20 px; фичи 13–14 px.",
+      "texts": [
+        "Select AI Agent",
+        "AI Sales Agent",
+        "AI Reply Agent",
+        "Select AI Sales Agent",
+        "Select AI Reply Agent",
+        "Get CRM"
+      ],
+      "states": [
+        "Состояние выбора типа сущности."
+      ]
+    },
+    {
+      "id": "08",
+      "timecode": "00:59",
+      "screenshot": "screenshots/08_supersearch_prompt.png",
+      "title": "SuperSearch — AI search prompt",
+      "route": "/app/lead-finder",
+      "purpose": "Запуск поиска лидов через AI‑prompt и настройка фильтров.",
+      "navigation": "Глобальный sidebar → SuperSearch; внутренние табы SuperSearch и Lead Lists.",
+      "layout": "Узкий глобальный sidebar; вторичный sidebar с фильтрами; верхние табы; центральный prompt input и вспомогательные карточки.",
+      "components": [
+        "Tabs SuperSearch/Lead Lists",
+        "FilterAccordion",
+        "LargePromptInput",
+        "PrimaryButton AI Search",
+        "Saved/Recent cards",
+        "TopBar"
+      ],
+      "colors": [
+        "background #0f1014",
+        "input/card #17191f",
+        "border #2a2d34",
+        "primary gradient #2563eb→#7c3aed",
+        "text #e5e7eb"
+      ],
+      "typography": "Заголовки табов 15–16 px; prompt placeholder 14–16 px; filter labels 13–14 px.",
+      "texts": [
+        "SuperSearch",
+        "Lead Lists",
+        "Filters",
+        "Start your search with AI",
+        "AI Search",
+        "Saved Searches",
+        "Recent Searches"
+      ],
+      "states": [
+        "Prompt заполнен/готов к поиску; результаты поиска не показаны в видео."
+      ]
+    },
+    {
+      "id": "09",
+      "timecode": "01:28",
+      "screenshot": "screenshots/09_lead_lists_table.png",
+      "title": "SuperSearch — Lead Lists table",
+      "route": "/app/lead-finder/leads?campaignId=:id",
+      "purpose": "Просмотр лидов внутри выбранного списка, массовые действия, фильтрация, сортировка и enrich через AI.",
+      "navigation": "SuperSearch → Lead Lists → выбор списка в левом подменю; возможные переходы в Campaigns и AI Sales Agents.",
+      "layout": "Слева вторичный sidebar со списками/кампаниями; сверху вкладки; над таблицей controls: search, people icon, refresh, filters, sort, Enrich & AI, Actions; таблица занимает основную область.",
+      "components": [
+        "SearchInput",
+        "FiltersDropdown",
+        "SortDropdown No sort",
+        "GradientButton Enrich & AI",
+        "ActionsDropdown",
+        "DataTable checkbox column",
+        "Table columns FIRST NAME/LAST NAME/EMAIL/TITLE",
+        "Horizontal scroll"
+      ],
+      "colors": [
+        "background #0f1014",
+        "table #14161b",
+        "border #2a2d34",
+        "primary/gradient #2563eb #7c3aed",
+        "text #e5e7eb",
+        "muted #8b949e"
+      ],
+      "typography": "Table headers uppercase 11–12 px; row values 14 px; buttons 14 px.",
+      "texts": [
+        "SuperSearch",
+        "Lead Lists",
+        "Lists",
+        "Campaigns",
+        "AI Sales Agents",
+        "Search...",
+        "Filters",
+        "No sort",
+        "Enrich & AI",
+        "Actions",
+        "FIRST NAME",
+        "LAST NAME",
+        "EMAIL",
+        "TITLE"
+      ],
+      "states": [
+        "Заполненная таблица лидов. Все персональные данные в кадре заменены вымышленными."
+      ]
+    },
+    {
+      "id": "10",
+      "timecode": "01:32",
+      "screenshot": "screenshots/10_email_accounts.png",
+      "title": "Email Accounts",
+      "route": "/app/accounts",
+      "purpose": "Управление отправляющими почтовыми аккаунтами, статусом прогрева и health score.",
+      "navigation": "Глобальный sidebar → Email Accounts; + Add New открывает выбор провайдера.",
+      "layout": "Заголовок страницы, toolbar с Search, status filter, view toggle, Add New; ниже карточки/строки аккаунтов.",
+      "components": [
+        "SearchInput",
+        "StatusFilter dropdown All statuses",
+        "ViewToggle grid/list",
+        "PrimaryButton + Add New",
+        "AccountRow",
+        "WarmupIcon flame",
+        "RowActions ellipsis",
+        "Checkbox"
+      ],
+      "colors": [
+        "background #0f1014",
+        "row #15171c",
+        "border #2a2d34",
+        "primary #2563eb",
+        "green #22c55e",
+        "muted #8b949e"
+      ],
+      "typography": "Title 24 px; row email 16–18 px bold; headers uppercase 11–12 px.",
+      "texts": [
+        "Email Accounts",
+        "Search...",
+        "All statuses",
+        "+ Add New",
+        "EMAIL",
+        "EMAILS SENT",
+        "WARMUP EMAILS",
+        "HEALTH SCORE",
+        "0 of 30",
+        "100%"
+      ],
+      "states": [
+        "Список аккаунтов; реальные адреса заменены вымышленными."
+      ]
+    },
+    {
+      "id": "11",
+      "timecode": "01:40",
+      "screenshot": "screenshots/11_add_email_account_provider.png",
+      "title": "Add Email Account — provider selection",
+      "route": "/app/accounts/new",
+      "purpose": "Выбор способа подключения нового почтового аккаунта.",
+      "navigation": "Email Accounts → + Add New; Back возвращает к списку.",
+      "layout": "Страница/мастер с тремя колонками: recommended accounts, done-for-you setup, connect existing account.",
+      "components": [
+        "BackButton",
+        "ProviderCard",
+        "PrimaryButton/CTA",
+        "Google/Gmail option",
+        "Microsoft/Outlook option",
+        "FeatureList",
+        "Plan/label badges"
+      ],
+      "colors": [
+        "background #0f1014",
+        "card #17191f",
+        "border #2a2d34",
+        "primary #2563eb",
+        "warning #facc15",
+        "text #e5e7eb"
+      ],
+      "typography": "Карточки 16–18 px заголовки; описания 12–14 px; CTA 14 px.",
+      "texts": [
+        "Back",
+        "Buy recommended accounts",
+        "Done-for-you Email Setup",
+        "Connect existing account",
+        "Google / Gmail",
+        "Microsoft / Outlook",
+        "Continue",
+        "Get CRM"
+      ],
+      "states": [
+        "Выбор провайдера/сценария подключения."
+      ]
+    },
+    {
+      "id": "12",
+      "timecode": "01:47",
+      "screenshot": "screenshots/12_campaigns_list.png",
+      "title": "Campaigns — list",
+      "route": "/app/campaigns",
+      "purpose": "Просмотр кампаний, статусов, метрик отправки и запуск/пауза кампании.",
+      "navigation": "Глобальный sidebar → Campaigns; + Add New открывает мастер создания кампании.",
+      "layout": "Header Campaigns; toolbar Search, All statuses, sort Newest first, + Add New; большая таблица/карточки кампаний.",
+      "components": [
+        "SearchInput",
+        "StatusFilter",
+        "SortDropdown Newest first",
+        "PrimaryButton + Add New",
+        "CampaignRow",
+        "StatusBadge Completed/Draft/Paused",
+        "PlayButton",
+        "RowActions ellipsis",
+        "Checkbox"
+      ],
+      "colors": [
+        "background #0f1014",
+        "row #15171c",
+        "border #2a2d34",
+        "primary #2563eb",
+        "success #22c55e",
+        "muted #8b949e"
+      ],
+      "typography": "Title 24 px; campaign name 16 px bold; metric headers uppercase 11–12 px.",
+      "texts": [
+        "Campaigns",
+        "Search...",
+        "All statuses",
+        "Newest first",
+        "+ Add New",
+        "NAME",
+        "STATUS",
+        "PROGRESS",
+        "SENT",
+        "CLICK",
+        "REPLIED",
+        "OPPORTUNITIES",
+        "Completed",
+        "Draft",
+        "Paused"
+      ],
+      "states": [
+        "Заполненный список кампаний; реальные названия заменены нейтральными."
+      ]
+    },
+    {
+      "id": "13",
+      "timecode": "01:50",
+      "screenshot": "screenshots/13_create_campaign_modal.png",
+      "title": "Create Campaign — first step",
+      "route": "/app/campaigns/new",
+      "purpose": "Создание новой кампании: ввод названия и переход к следующему шагу.",
+      "navigation": "Campaigns → + Add New; Cancel возвращает к списку, Continue ведёт дальше в мастер.",
+      "layout": "Полноэкранный/центральный мастер с Back, заголовком, input Campaign Name и действиями Cancel/Continue.",
+      "components": [
+        "BackLink",
+        "TextInput Campaign Name",
+        "PrimaryButton Continue",
+        "SecondaryButton Cancel",
+        "Form validation placeholder"
+      ],
+      "colors": [
+        "background #0f1014",
+        "input #15171c",
+        "border #2a2d34",
+        "primary #2563eb",
+        "text #e5e7eb"
+      ],
+      "typography": "Заголовок 20–24 px; label 13 px; input 14–15 px; кнопки 14 px.",
+      "texts": [
+        "Back",
+        "Let’s create a new campaign",
+        "What’s your campaign name?",
+        "Campaign Name",
+        "My Campaign",
+        "Cancel",
+        "Continue"
+      ],
+      "states": [
+        "Первый шаг формы с заполненным примерным названием кампании."
+      ]
+    },
+    {
+      "id": "14",
+      "timecode": "01:55",
+      "screenshot": "screenshots/14_unibox_empty.png",
+      "title": "Unibox — inbox list and mobile QR state",
+      "route": "/app/unibox",
+      "purpose": "Работа с входящими ответами лидов, фильтрация по статусам и просмотр сообщений.",
+      "navigation": "Глобальный sidebar → Unibox; слева фильтры статусов и кампаний, справа область чтения письма.",
+      "layout": "Трёхколоночный layout: статусные фильтры слева, список писем в центре, область чтения справа. В правой зоне показан QR‑код для мобильного приложения.",
+      "components": [
+        "StatusFilterList",
+        "SearchMailInput",
+        "Tabs Primary/Others",
+        "MessageListItem",
+        "Checkbox",
+        "StatusIcon lightning",
+        "QRCodeBlock",
+        "CampaignFilter groups"
+      ],
+      "colors": [
+        "background #0f1014",
+        "panel #15171c",
+        "border #2a2d34",
+        "primary #2563eb",
+        "status colors green/purple/yellow",
+        "#e5e7eb text"
+      ],
+      "typography": "Sidebar labels 15–16 px bold; message sender 14 px bold; subject 13–14 px.",
+      "texts": [
+        "Unibox",
+        "Status",
+        "Search",
+        "Lead",
+        "Interested",
+        "Meeting booked",
+        "Meeting completed",
+        "Won",
+        "More",
+        "All Campaigns",
+        "AI Sales Agent",
+        "All Inboxes",
+        "Primary",
+        "Others",
+        "Search mail",
+        "Stay connected. Take Unibox with you anywhere.",
+        "Scan the QR code with your phone to download the Unibox mobile app."
+      ],
+      "states": [
+        "Список писем с обезличенными отправителями и фрагментами; правое состояние без выбранного письма с QR‑кодом."
+      ]
+    },
+    {
+      "id": "15",
+      "timecode": "02:22",
+      "screenshot": "screenshots/15_analytics_charts.png",
+      "title": "Analytics — charts",
+      "route": "/app/analytics",
+      "purpose": "Аналитика кампаний: отправки, ответы, клики, возможности и графики динамики.",
+      "navigation": "Глобальный sidebar → Analytics; фильтры периода/кампаний сверху.",
+      "layout": "Header Analytics, KPI‑карточки сверху, график area/line chart в центре, легенда справа.",
+      "components": [
+        "DateRangeDropdown",
+        "CampaignFilterDropdown",
+        "KpiCards",
+        "AreaChart",
+        "Legend",
+        "MetricTabs/Selectors",
+        "TopBar"
+      ],
+      "colors": [
+        "background #0f1014",
+        "chart blue #0ea5e9",
+        "#facc15 line/accent",
+        "#22c55e status",
+        "#e5e7eb text",
+        "#2a2d34 grid"
+      ],
+      "typography": "KPI numbers 28–36 px; labels uppercase/muted 11–12 px; chart labels 11 px.",
+      "texts": [
+        "Analytics",
+        "121",
+        "0%",
+        "Sent",
+        "Opened",
+        "Clicked",
+        "Replied",
+        "Opportunities",
+        "Campaign Analytics"
+      ],
+      "states": [
+        "Заполненное состояние аналитики с графиками и KPI."
+      ]
+    },
+    {
+      "id": "16",
+      "timecode": "02:51",
+      "screenshot": "screenshots/16_crm_tasks_empty.png",
+      "title": "CRM — Tasks empty",
+      "route": "/app/crm/tasks",
+      "purpose": "Просмотр задач CRM; показ пустого состояния при отсутствии задач.",
+      "navigation": "Глобальный sidebar → CRM → Tasks/Inbox submenu.",
+      "layout": "Глобальный sidebar + CRM subsidebar; верхние табы/фильтры CRM; центральный empty state с иллюстрацией.",
+      "components": [
+        "CRMSubSidebar",
+        "TopTabs Everything/Emails/Calls/SMS/Tasks",
+        "EmptyState illustration",
+        "Section links Inbox/Done/Upcoming",
+        "TopBar Get CRM"
+      ],
+      "colors": [
+        "background #0f1014",
+        "subsidebar #15171c",
+        "border #2a2d34",
+        "primary #2563eb",
+        "muted #8b949e"
+      ],
+      "typography": "CRM title 26 px; submenu 15–16 px; empty title 16–18 px.",
+      "texts": [
+        "CRM",
+        "Inbox",
+        "Done",
+        "Upcoming",
+        "Opportunities",
+        "All Leads",
+        "Lists",
+        "Campaigns",
+        "AI Sales Agents",
+        "Salesflows",
+        "Website Visitors",
+        "Reports",
+        "All done for now!"
+      ],
+      "states": [
+        "Пустое состояние задач CRM."
+      ]
+    },
+    {
+      "id": "17",
+      "timecode": "03:20",
+      "screenshot": "screenshots/17_crm_all_leads_table.png",
+      "title": "CRM — All Leads table",
+      "route": "/app/crm/leads",
+      "purpose": "Просмотр всей CRM‑базы лидов, поиск и массовые actions.",
+      "navigation": "CRM → All Leads; из таблицы возможны Actions, поиск, переход в Lists/Campaigns.",
+      "layout": "CRM subsidebar слева; над таблицей Search и Actions; большая таблица с горизонтальной прокруткой и пагинацией.",
+      "components": [
+        "CRMSubSidebar",
+        "SearchInput",
+        "ActionsDropdown",
+        "DataTable",
+        "Checkbox",
+        "Pagination rows per page",
+        "Column headers FIRST NAME/LAST NAME/EMAIL/TITLE"
+      ],
+      "colors": [
+        "background #0f1014",
+        "table #14161b",
+        "border #2a2d34",
+        "primary #2563eb",
+        "text #e5e7eb",
+        "muted #8b949e"
+      ],
+      "typography": "Table headers uppercase 11–12 px; row text 13–14 px; sidebar 15–16 px.",
+      "texts": [
+        "CRM",
+        "0 results",
+        "Search...",
+        "Actions",
+        "FIRST NAME",
+        "LAST NAME",
+        "EMAIL",
+        "TITLE",
+        "Rows per page",
+        "Page 1"
+      ],
+      "states": [
+        "Таблица CRM; видимые строки визуально скрыты/маскированы, персональные данные не раскрываются."
+      ]
+    },
+    {
+      "id": "18",
+      "timecode": "03:59",
+      "screenshot": "screenshots/18_website_visitors_empty.png",
+      "title": "Website Visitors — setup/empty state",
+      "route": "/app/website-visitors",
+      "purpose": "Настройка отслеживания посетителей сайта и показ empty state до подключения.",
+      "navigation": "Глобальный sidebar → Website Visitors; вкладки Website Visitors, Setup, Billing.",
+      "layout": "Страница с вторичным меню слева и центральным illustrated empty state; справа вверху действия Create New.",
+      "components": [
+        "Subnav Website Visitors/Setup/Billing",
+        "PrimaryButton Create New",
+        "Illustration",
+        "EmptyState CTA",
+        "TopBar"
+      ],
+      "colors": [
+        "background #0f1014",
+        "panel #15171c",
+        "primary #2563eb",
+        "illustration blue",
+        "#e5e7eb text",
+        "#8b949e muted"
+      ],
+      "typography": "Title 24 px; empty heading 18–20 px; CTA 14 px.",
+      "texts": [
+        "Website Visitors",
+        "Website Visitors",
+        "Setup",
+        "Billing",
+        "Create New",
+        "Get more leads",
+        "Get Started"
+      ],
+      "states": [
+        "Пустое состояние/онбординг для настройки Website Visitors."
+      ]
+    },
+    {
+      "id": "19",
+      "timecode": "04:02",
+      "screenshot": "screenshots/19_inbox_placement_empty.png",
+      "title": "Inbox Placement — empty state",
+      "route": "/app/inbox-placement",
+      "purpose": "Управление тестами попадания писем во входящие; экран без seed list.",
+      "navigation": "Глобальный sidebar → Inbox Placement; + Add New создаёт seed list.",
+      "layout": "Header Inbox Placement; toolbar with Add New; таблица/пустое состояние по центру.",
+      "components": [
+        "PageHeader",
+        "PrimaryButton + Add New",
+        "EmptyState icon",
+        "CTA Add a seed list",
+        "Filter/toolbar controls"
+      ],
+      "colors": [
+        "background #0f1014",
+        "panel #15171c",
+        "primary #2563eb",
+        "warning #facc15 icon",
+        "text #e5e7eb"
+      ],
+      "typography": "Title 24 px; empty text 14–16 px; CTA 14 px.",
+      "texts": [
+        "Inbox Placement",
+        "+ Add New",
+        "Add a seed list to get started",
+        "Add Now"
+      ],
+      "states": [
+        "Empty state без seed list."
+      ]
+    },
+    {
+      "id": "20",
+      "timecode": "04:14",
+      "screenshot": "screenshots/20_automations_empty_error.png",
+      "title": "Automations — empty table with network error",
+      "route": "/app/automations",
+      "purpose": "Просмотр и создание автоматизаций; показ ошибки загрузки.",
+      "navigation": "Глобальный sidebar → Automations; + Add new для создания автоматизации.",
+      "layout": "Header Automations; toolbar Search, All statuses, Recently Modified, + Add new; таблица ниже пустая/не загрузилась; сверху виден toast ошибки.",
+      "components": [
+        "SearchInput",
+        "StatusFilter All statuses",
+        "SortDropdown Recently Modified",
+        "PrimaryButton + Add new",
+        "DataTable headers",
+        "ErrorToast red",
+        "RowActions/checkbox placeholders"
+      ],
+      "colors": [
+        "background #0f1014",
+        "table #14161b",
+        "border #2a2d34",
+        "primary #2563eb",
+        "error #ef4444",
+        "text #e5e7eb"
+      ],
+      "typography": "Title 24 px; toolbar 14 px; toast 13–14 px.",
+      "texts": [
+        "Automations",
+        "Search...",
+        "All statuses",
+        "Recently Modified",
+        "+ Add new",
+        "STATUS",
+        "APPS",
+        "LAST MODIFIED",
+        "RUNS",
+        "Network Error: Failed to load automations"
+      ],
+      "states": [
+        "Пустая таблица/ошибка загрузки; важный edge case для обработки ошибок."
+      ]
+    },
+    {
+      "id": "21",
+      "timecode": "04:34",
+      "screenshot": "screenshots/21_profile_menu.png",
+      "title": "Profile menu",
+      "route": "/app/* + profile-dropdown",
+      "purpose": "Доступ к настройкам, справке, уведомлениям, теме и выходу.",
+      "navigation": "Клик по аватару в нижней части глобального sidebar; пункт Settings открывает настройки.",
+      "layout": "Выпадающее меню поверх текущей страницы Automations; сверху карточка пользователя, ниже группы пунктов меню, переключатель темы, Settings и Logout.",
+      "components": [
+        "Avatar/UserSummary",
+        "MenuItem icon + label",
+        "NestedMenu chevron",
+        "SegmentedControl Theme Light/Dark/System",
+        "SettingsMenuItem",
+        "LogoutMenuItem"
+      ],
+      "colors": [
+        "menu #15171c",
+        "hover #20232a",
+        "border #2a2d34",
+        "text #e5e7eb",
+        "muted #8b949e"
+      ],
+      "typography": "Имя 15–16 px bold; email 13 px muted; menu items 14–15 px.",
+      "texts": [
+        "Alex Johnson",
+        "alex.johnson@example.com",
+        "Invite a Friend & Earn",
+        "See what’s new",
+        "Notifications",
+        "Help Center",
+        "Language",
+        "Theme",
+        "Light",
+        "Dark",
+        "System",
+        "Settings",
+        "Logout"
+      ],
+      "states": [
+        "Открытое выпадающее меню профиля; персональные данные заменены вымышленными."
+      ]
+    },
+    {
+      "id": "22",
+      "timecode": "04:44",
+      "screenshot": "screenshots/22_settings_account.png",
+      "title": "Settings — Account & Settings / Profile",
+      "route": "/app/settings/account",
+      "purpose": "Редактирование профиля пользователя, email, пароля и security settings.",
+      "navigation": "Profile menu → Settings → вкладка Account & Settings → Profile.",
+      "layout": "Settings top tabs; слева вертикальное подменю Account & Settings; справа форма профиля с полями First, Last, Email, Password и Security.",
+      "components": [
+        "TopTabs settings",
+        "SettingsSubnav",
+        "TextInput First/Last/Email",
+        "PasswordField masked",
+        "LinkButton Update Password",
+        "SecuritySection",
+        "TopBar"
+      ],
+      "colors": [
+        "background #0f1014",
+        "form #15171c",
+        "input #111318",
+        "border #2a2d34",
+        "primary #2563eb",
+        "text #e5e7eb"
+      ],
+      "typography": "Settings title 24 px; tab 15–16 px; form section titles 17–18 px; inputs 15 px.",
+      "texts": [
+        "Settings",
+        "Billing & Usage",
+        "Account & Settings",
+        "Preferences",
+        "Integrations",
+        "Blocklist",
+        "Advanced Deliverability",
+        "Profile",
+        "Workspace & members",
+        "Workspace Group",
+        "Lead Labels",
+        "Custom Tags",
+        "Website Visitors",
+        "Agency",
+        "Audit Logs",
+        "Name",
+        "First",
+        "Last",
+        "Alex",
+        "Johnson",
+        "Email",
+        "alex.johnson@example.com",
+        "Password",
+        "Update Password",
+        "Security"
+      ],
+      "states": [
+        "Форма профиля с обезличенными значениями."
+      ]
+    },
+    {
+      "id": "23",
+      "timecode": "04:54",
+      "screenshot": "screenshots/23_settings_integrations.png",
+      "title": "Settings — Integrations",
+      "route": "/app/settings/integrations",
+      "purpose": "Просмотр и подключение интеграций: календарь, webhooks, Zapier/HubSpot и другие сервисы.",
+      "navigation": "Settings → top tab Integrations; возможны Add New/Connect для отдельных карточек.",
+      "layout": "Top tabs Settings; content grid из карточек интеграций с логотипом, описанием и кнопками.",
+      "components": [
+        "TopTabs settings active Integrations",
+        "IntegrationCard",
+        "PrimaryButton Add New",
+        "SecondaryButton/Connect",
+        "Grid layout",
+        "TopBar"
+      ],
+      "colors": [
+        "background #0f1014",
+        "card #15171c",
+        "border #2a2d34",
+        "primary #2563eb",
+        "text #e5e7eb",
+        "muted #8b949e"
+      ],
+      "typography": "Card title 16–18 px; description 13 px; buttons 13–14 px.",
+      "texts": [
+        "Settings",
+        "Integrations",
+        "Add New",
+        "Google Calendar",
+        "Keychains",
+        "HubSpot",
+        "Webhook",
+        "Connect",
+        "Add new"
+      ],
+      "states": [
+        "Сетка интеграций с кнопками подключения."
+      ]
+    }
+  ],
+  "customer_journey_map": [
+    {
+      "step": 1,
+      "time": "00:00–00:25",
+      "screen_ids": [
+        "01",
+        "02",
+        "03",
+        "04"
+      ],
+      "goal": "Понять возможности Copilot и доступные состояния ассистента.",
+      "actions": "Пользователь переключается между Memory, Tasks, New Chat и Settings во внутреннем меню Copilot.",
+      "components": "CopilotSubSidebar, tab/sidebar items, empty states, settings form.",
+      "transition": "Контент центральной области меняется без заметной полной перезагрузки.",
+      "result": "Показаны память, пустой список задач, стартовый чат и настройки Copilot.",
+      "edge_cases": "Не показаны реальные результаты выполнения prompt и сохранение настроек."
+    },
+    {
+      "step": 2,
+      "time": "00:26–00:35",
+      "screen_ids": [
+        "05"
+      ],
+      "goal": "Проверить доступ к CRM/платному тарифу.",
+      "actions": "Нажимает Get CRM в верхней панели, затем закрывает модальное окно.",
+      "components": "TopBar Get CRM, upgrade modal, Maybe later, close icon.",
+      "transition": "Появляется modal overlay; после закрытия пользователь возвращается к текущему экрану.",
+      "result": "Пользователь видит условия Hyper CRM и список функций.",
+      "edge_cases": "Не показан платежный сценарий, валидация оплаты и состояние после успешного апгрейда."
+    },
+    {
+      "step": 3,
+      "time": "00:36–00:50",
+      "screen_ids": [
+        "06",
+        "07"
+      ],
+      "goal": "Посмотреть AI‑агентов и начать создание нового агента.",
+      "actions": "Переходит в AI Agents, нажимает + Add New, видит выбор типа AI‑агента.",
+      "components": "DataTable AI Agents, PrimaryButton, ChoiceCard.",
+      "transition": "Открывается отдельная страница Select AI Agent.",
+      "result": "Доступны варианты AI Sales Agent и AI Reply Agent.",
+      "edge_cases": "Не показаны следующие шаги настройки агента."
+    },
+    {
+      "step": 4,
+      "time": "00:59–01:28",
+      "screen_ids": [
+        "08",
+        "09"
+      ],
+      "goal": "Запустить поиск лидов и затем посмотреть найденные/сохранённые лиды.",
+      "actions": "Открывает SuperSearch, вводит prompt в AI Search, затем переходит к Lead Lists.",
+      "components": "PromptInput, AI Search button, tab Lead Lists, table controls.",
+      "transition": "Смена вкладки/раздела; в таблице доступны filters/sort/actions.",
+      "result": "Показан список лидов с колонками и массовыми действиями.",
+      "edge_cases": "Не показан процесс загрузки результатов, состояние нулевых результатов и ошибки enrich."
+    },
+    {
+      "step": 5,
+      "time": "01:32–01:45",
+      "screen_ids": [
+        "10",
+        "11"
+      ],
+      "goal": "Проверить почтовые аккаунты и сценарий подключения нового отправителя.",
+      "actions": "Открывает Email Accounts, нажимает Add New, просматривает варианты подключения.",
+      "components": "Account list, Add New, provider cards.",
+      "transition": "Переход из списка к экрану выбора провайдера.",
+      "result": "Виден мастер подключения рекомендованных, done-for-you или существующих аккаунтов.",
+      "edge_cases": "Не показана авторизация Gmail/Outlook и возможные ошибки OAuth."
+    },
+    {
+      "step": 6,
+      "time": "01:47–01:53",
+      "screen_ids": [
+        "12",
+        "13"
+      ],
+      "goal": "Посмотреть кампании и начать создание новой кампании.",
+      "actions": "Открывает Campaigns, нажимает + Add New, вводит/видит название My Campaign, затем отменяет/не продолжает.",
+      "components": "Campaign table, status badges, create campaign form, Continue/Cancel.",
+      "transition": "Открывается мастер создания кампании.",
+      "result": "Показан первый шаг создания кампании.",
+      "edge_cases": "Не показаны дальнейшие шаги: аудитория, sequence, schedule, review."
+    },
+    {
+      "step": 7,
+      "time": "01:55–02:32",
+      "screen_ids": [
+        "14",
+        "15"
+      ],
+      "goal": "Оценить обработку ответов и аналитику.",
+      "actions": "Переходит в Unibox, просматривает фильтры статусов и список писем; затем открывает Analytics.",
+      "components": "Unibox filters/message list/QR state, KPI cards, area chart.",
+      "transition": "Навигационный переход между модулями.",
+      "result": "Виден inbox‑workflow и dashboard аналитики.",
+      "edge_cases": "Не показано открытие конкретного письма, reply composer, изменение статуса лида."
+    },
+    {
+      "step": 8,
+      "time": "02:51–03:41",
+      "screen_ids": [
+        "16",
+        "17",
+        "18"
+      ],
+      "goal": "Проверить CRM‑разделы, задачи, лиды и Website Visitors.",
+      "actions": "Открывает CRM, переключается по подпунктам и таблице All Leads, затем Website Visitors.",
+      "components": "CRM subsidebar, top tabs, empty states, table, website visitor setup.",
+      "transition": "Смена подпунктов CRM; таблица/empty state обновляются в main area.",
+      "result": "Показана структура CRM и ограничения/пустые состояния.",
+      "edge_cases": "Не показана карточка лида, редактирование сделки, permissions, импорт CRM."
+    },
+    {
+      "step": 9,
+      "time": "04:02–04:20",
+      "screen_ids": [
+        "19",
+        "20"
+      ],
+      "goal": "Проверить доставляемость и автоматизации.",
+      "actions": "Открывает Inbox Placement и Automations.",
+      "components": "Empty state, Add New, automation toolbar, error toast.",
+      "transition": "Inbox Placement показывает empty state; Automations показывает ошибку загрузки.",
+      "result": "Фиксируется critical edge case Network Error.",
+      "edge_cases": "Не показаны создание automation, конструктор flows, повторная загрузка после ошибки."
+    },
+    {
+      "step": 10,
+      "time": "04:34–05:14",
+      "screen_ids": [
+        "21",
+        "22",
+        "23"
+      ],
+      "goal": "Открыть профиль и проверить настройки аккаунта/интеграций.",
+      "actions": "Кликает аватар, выбирает Settings, просматривает Account & Settings и Integrations.",
+      "components": "Profile dropdown, settings tabs, profile form, integration cards.",
+      "transition": "Dropdown → Settings page → переключение tabs.",
+      "result": "Показаны профиль пользователя, поля аккаунта и сетка интеграций.",
+      "edge_cases": "Не показано сохранение профиля, изменение пароля, подключение конкретной интеграции."
+    }
+  ],
+  "component_map": [
+    {
+      "component": "GlobalIconSidebar",
+      "description": "Узкая вертикальная панель с иконками модулей и бейджами уведомлений.",
+      "screens": "01–23",
+      "props": "items, activeItem, badges, collapsed, onNavigate",
+      "tailwind": "fixed left-0 top-0 h-screen w-16 bg-[#0f1014] border-r border-[#2a2d34] flex flex-col items-center"
+    },
+    {
+      "component": "SecondarySidebar",
+      "description": "Контекстное меню внутри Copilot, CRM, SuperSearch, Unibox и Settings.",
+      "screens": "01–04, 08–09, 14, 16–18, 22",
+      "props": "title, sections, activeKey, searchable, collapsed",
+      "tailwind": "w-72 bg-[#111318] border-r border-[#2a2d34] px-6 py-8"
+    },
+    {
+      "component": "TopBar",
+      "description": "Верхняя строка с балансом, Get CRM и выбором организации.",
+      "screens": "01–23",
+      "props": "credits, showCrmCta, organizationName, actions",
+      "tailwind": "h-20 border-b border-[#2a2d34] flex items-center justify-end gap-4 px-8"
+    },
+    {
+      "component": "Button",
+      "description": "Primary, secondary, ghost, gradient и icon variants.",
+      "screens": "01–23",
+      "props": "variant, size, iconLeft, iconRight, disabled, loading",
+      "tailwind": "rounded-xl px-4 py-2 font-semibold transition bg-blue-600 hover:bg-blue-500 text-white"
+    },
+    {
+      "component": "SearchInput",
+      "description": "Поле поиска с иконкой и placeholder Search/Search mail.",
+      "screens": "06, 09–10, 12, 14, 17, 20",
+      "props": "value, placeholder, onChange, width, debounceMs",
+      "tailwind": "bg-[#111318] border border-[#2a2d34] rounded-xl h-12 px-4 text-sm text-slate-100"
+    },
+    {
+      "component": "DataTable",
+      "description": "Компактная таблица с checkbox, uppercase headers, горизонтальной прокруткой и actions.",
+      "screens": "06, 09, 12, 17, 20",
+      "props": "columns, rows, selectable, sortable, actions, pagination",
+      "tailwind": "w-full border-separate border-spacing-0 text-sm [&_th]:uppercase [&_th]:text-xs"
+    },
+    {
+      "component": "StatusBadge",
+      "description": "Малые badges для статусов Active, Completed, Draft, Paused, error.",
+      "screens": "06, 10, 12, 20",
+      "props": "status, tone, icon",
+      "tailwind": "inline-flex items-center rounded-md px-2 py-1 text-xs font-semibold bg-emerald-500/20 text-emerald-300"
+    },
+    {
+      "component": "EmptyState",
+      "description": "Иллюстрация, заголовок, пояснение и CTA для пустых разделов.",
+      "screens": "01, 02, 16, 18, 19",
+      "props": "illustration, title, description, ctaLabel, onCta",
+      "tailwind": "flex min-h-[420px] flex-col items-center justify-center text-center text-slate-400"
+    },
+    {
+      "component": "Modal",
+      "description": "Centered overlay с затемнением, close icon, CTA и secondary action.",
+      "screens": "05",
+      "props": "open, title, size, onClose, primaryAction, secondaryAction",
+      "tailwind": "fixed inset-0 bg-black/60 grid place-items-center p-6"
+    },
+    {
+      "component": "ChoiceCard",
+      "description": "Карточка выбора типа агента/провайдера с feature list и CTA.",
+      "screens": "07, 11",
+      "props": "title, description, features, icon, ctaLabel, selected",
+      "tailwind": "rounded-2xl border border-[#2a2d34] bg-[#15171c] p-6 hover:border-blue-500"
+    },
+    {
+      "component": "PromptInput",
+      "description": "Большое AI‑поле ввода с action button внутри.",
+      "screens": "03, 08",
+      "props": "value, placeholder, chips, onSubmit, suggestions",
+      "tailwind": "relative rounded-2xl bg-[#15171c] border border-[#2a2d34] p-4"
+    },
+    {
+      "component": "Dropdown",
+      "description": "Фильтры статусов, сортировка, actions и organization selector.",
+      "screens": "09, 10, 12, 17, 20, 21",
+      "props": "label, items, selected, align, searchable",
+      "tailwind": "rounded-xl border border-[#2a2d34] bg-[#111318] px-4 py-2 text-sm"
+    },
+    {
+      "component": "SettingsTabs",
+      "description": "Горизонтальные вкладки Settings.",
+      "screens": "22, 23",
+      "props": "tabs, activeTab, onChange",
+      "tailwind": "flex gap-10 border-b border-[#2a2d34] text-slate-400 [&_.active]:text-white [&_.active]:border-blue-500"
+    },
+    {
+      "component": "IntegrationCard",
+      "description": "Карточка интеграции с логотипом, описанием и кнопкой подключения.",
+      "screens": "23",
+      "props": "provider, description, status, actions",
+      "tailwind": "rounded-2xl border border-[#2a2d34] bg-[#15171c] p-5 flex flex-col gap-3"
+    },
+    {
+      "component": "ErrorToast",
+      "description": "Верхнее уведомление об ошибке загрузки.",
+      "screens": "20",
+      "props": "message, tone, dismissible, duration",
+      "tailwind": "fixed top-4 left-1/2 -translate-x-1/2 rounded-lg bg-red-500 px-4 py-2 text-white shadow-lg"
+    }
+  ],
+  "information_architecture": [
+    {
+      "level": "Global",
+      "item": "Instantly Copilot",
+      "children": "New Chat, Tasks, Memory, Settings",
+      "screens": "01–04",
+      "notes": "Активный модуль раскрывает вторичный sidebar."
+    },
+    {
+      "level": "Global",
+      "item": "AI Agents",
+      "children": "List, Select AI Agent",
+      "screens": "06–07",
+      "notes": "Создание начинается с выбора типа агента."
+    },
+    {
+      "level": "Global",
+      "item": "SuperSearch",
+      "children": "SuperSearch, Lead Lists; Lists, Campaigns, AI Sales Agents",
+      "screens": "08–09",
+      "notes": "Сочетает табы и левое подменю."
+    },
+    {
+      "level": "Global",
+      "item": "Email Accounts",
+      "children": "Accounts list, Add account provider selection",
+      "screens": "10–11",
+      "notes": "Подключение аккаунтов через отдельный мастер."
+    },
+    {
+      "level": "Global",
+      "item": "Campaigns",
+      "children": "Campaign list, Create campaign wizard",
+      "screens": "12–13",
+      "notes": "Основная сущность outreach‑workflow."
+    },
+    {
+      "level": "Global",
+      "item": "Unibox",
+      "children": "Status filters, All Campaigns, AI Sales Agent, All Inboxes",
+      "screens": "14",
+      "notes": "Трёхколоночный inbox‑workflow."
+    },
+    {
+      "level": "Global",
+      "item": "Analytics",
+      "children": "Campaign analytics, filters, charts",
+      "screens": "15",
+      "notes": "KPI + графики."
+    },
+    {
+      "level": "Global",
+      "item": "CRM",
+      "children": "Inbox, Done, Upcoming, Opportunities, All Leads, Lists, Campaigns, AI Sales Agents, Salesflows, Website Visitors, Reports",
+      "screens": "16–18",
+      "notes": "Глубокая вторичная навигация."
+    },
+    {
+      "level": "Global",
+      "item": "Inbox Placement",
+      "children": "Seed lists / Add New",
+      "screens": "19",
+      "notes": "Пустое состояние до создания seed list."
+    },
+    {
+      "level": "Global",
+      "item": "Automations",
+      "children": "Automation list, status filter, sort",
+      "screens": "20",
+      "notes": "Показан error state."
+    },
+    {
+      "level": "Profile",
+      "item": "Profile dropdown",
+      "children": "Invite, What’s new, Notifications, Help Center, Language, Theme, Settings, Logout",
+      "screens": "21",
+      "notes": "Открывает Settings."
+    },
+    {
+      "level": "Settings",
+      "item": "Settings",
+      "children": "Billing & Usage, Account & Settings, Preferences, Integrations, Blocklist, Advanced Deliverability",
+      "screens": "22–23",
+      "notes": "Top tabs + левое подменю внутри Account & Settings."
+    }
+  ],
+  "interaction_patterns": [
+    {
+      "pattern": "Тёмная тема по умолчанию",
+      "description": "Все экраны используют почти чёрный фон, низкоконтрастные border, белый/серый текст и синий primary accent.",
+      "implementation": "Задать CSS tokens для bg, panel, border, text, muted, primary; избегать hardcoded цветов."
+    },
+    {
+      "pattern": "Двухуровневая навигация",
+      "description": "Глобальный sidebar с иконками дополняется контекстным sidebar внутри сложных модулей.",
+      "implementation": "Компоненты GlobalIconSidebar и SecondarySidebar должны быть независимыми и управляться роутом."
+    },
+    {
+      "pattern": "Табличные списки как базовый паттерн",
+      "description": "AI Agents, Lead Lists, Campaigns, CRM Leads и Automations строятся на похожей таблице: checkbox, headers, actions, filters.",
+      "implementation": "Создать универсальный DataTable с toolbar slots, sticky headers и горизонтальным scroll."
+    },
+    {
+      "pattern": "Создание сущности через + Add New",
+      "description": "Кнопка справа сверху открывает страницу выбора, модалку или первый шаг мастера.",
+      "implementation": "Единый CreateEntityButton + роутер/модальный controller."
+    },
+    {
+      "pattern": "Поиск и фильтрация рядом с таблицей",
+      "description": "Search, All statuses/Filters, sort dropdown и Actions повторяются на страницах списков.",
+      "implementation": "TableToolbar с configurable controls."
+    },
+    {
+      "pattern": "Empty states и paywall states",
+      "description": "Пустые разделы имеют иллюстрации и CTA; платные функции доступны визуально, но блокируются upgrade modal/заглушкой.",
+      "implementation": "EmptyState и UpgradeModal должны покрывать onboarding, no data и locked feature states."
+    },
+    {
+      "pattern": "Inline error feedback",
+      "description": "В Automations виден toast Network Error, а таблица остаётся в пустом/неполном состоянии.",
+      "implementation": "Глобальный toast manager + retry/loading skeletons для fetch errors."
+    },
+    {
+      "pattern": "Профиль и настройки",
+      "description": "Аватар открывает dropdown; Settings используют top tabs и внутреннюю форму.",
+      "implementation": "ProfileMenu должен поддерживать theme segmented control и nested menu items."
+    }
+  ],
+  "analysis_and_recommendations": {
+    "strengths": [
+      "Единая дизайн‑система: тёмная тема, повторяющиеся controls и одинаковая плотность данных упрощают воспроизведение.",
+      "Хорошая discoverability: платные/пустые функции не скрыты, а объясняются через модальные окна и empty states.",
+      "Таблицы компактны и пригодны для B2B SaaS: массовые действия, чекбоксы, фильтры и сортировка видны в одном месте.",
+      "AI‑сценарии имеют понятные entry points: Copilot prompt, SuperSearch AI Search, AI Agents."
+    ],
+    "weaknesses": [
+      "Некоторые состояния выглядят перегруженными из-за большого числа меню и двух сайдбаров; при воспроизведении важно контролировать spacing.",
+      "Сценарий Campaign creation показан только первым шагом, поэтому полный wizard требует уточнения.",
+      "Automations демонстрирует network error; при разработке лучше добавить skeleton/retry, чтобы ошибка не воспринималась как пустой продукт.",
+      "Cancel/Continue в мастере кампании могут быть визуально слишком разнесены; лучше унифицировать placement действий формы."
+    ],
+    "do_not_miss": [
+      "Get CRM в topbar доступен почти везде и вызывает upgrade modal.",
+      "Состояния hover/active в сайдбаре важны: активный пункт имеет более яркий текст и подсвеченный фон.",
+      "У таблиц есть горизонтальная прокрутка и фиксированная плотность row height.",
+      "Unibox использует статусные цветные иконки, а не только текстовые labels.",
+      "Settings — это не отдельная простая форма, а комбинация top tabs и внутреннего left subnav."
+    ]
+  },
+  "questions_for_clarification": [
+    "Как выглядит полный wizard создания кампании после первого шага Campaign Name: аудитория, sequence, schedule, review?",
+    "Какие точные states и validation rules у формы подключения Gmail/Outlook и OAuth‑ошибок?",
+    "Как работает SuperSearch после запуска AI Search: loader, progress, result ranking, credit consumption, empty/error states?",
+    "Какая структура карточки лида в CRM и какие действия доступны из строки таблицы?",
+    "Какие permissions/roles существуют для Settings, Workspace & members и интеграций?",
+    "Как выглядят mobile/tablet адаптации: скрывается ли global sidebar, появляется ли burger navigation?",
+    "Как именно реализованы paywall states для Calls, SMS и Hyper CRM: modal, locked screen или inline banner?",
+    "Какие состояния у Automations builder после успешной загрузки, создания и ошибки запуска automation?",
+    "Есть ли drag & drop в sequence/campaign builder или automation flows? В видео не показано.",
+    "Какой точный набор интеграций должен быть доступен и какие формы появляются после Add New/Connect?"
+  ]
+}
